@@ -37,7 +37,7 @@
     <paper-input always-float-label id="version" label="Version" value="{{sentData.version}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
     <paper-tooltip for="version" offset="-7" position="bottom">ex : 1.0.0</paper-tooltip>
 
-    <h6>Commands</h6>
+    <h5>Commands</h5>
     <template is="dom-repeat" items="{{sentData.commands}}">
       <paper-input always-float-label id="name" label="Name" value="{{item.name}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
       <paper-tooltip for="name" offset="-7" position="bottom">ex : SetRGB</paper-tooltip>
@@ -58,7 +58,7 @@
       <paper-tooltip for="command" offset="-7" position="bottom">ex : 2702</paper-tooltip>
 
       <h6>Data</h6>
-      <template is="dom-repeat" items="{{item.sentData}}">
+      <template is="dom-repeat" items="{{item.data}}">
         <paper-input always-float-label id="defaultValue" label="Default Value" value="{{item.defaultValue}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
         <paper-tooltip for="defaultValue" offset="-7" position="bottom">ex : 0</paper-tooltip>
         <div class="container">
@@ -71,7 +71,7 @@
     </template>
 
     <h4>Receiving Data</h4>
-  	<h6>Data</h6>
+  	<h5>Data</h5>
   	<template is="dom-repeat" items="{{receivedData.data}}">
   		<paper-input always-float-label id="name" label="Name" value="{{item.name}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
       <paper-tooltip for="name" offset="-7" position="bottom">ex : SensorValue</paper-tooltip>
@@ -81,7 +81,7 @@
       <paper-tooltip for="description" offset="-7" position="bottom">ex : Value from Temperature and Humidity sensor</paper-tooltip>
       <paper-input always-float-label id="source" label="Source" value="{{item.source}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
       <paper-tooltip for="source" offset="-7" position="bottom">ex : 2800</paper-tooltip>
-      <h8>Variables</h8>
+      <h6>Variables</h6>
       <template is="dom-repeat" items="{{item.variables}}">
 	      <paper-input always-float-label id="name" label="Name" value="{{item.name}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
 	      <paper-tooltip for="name" offset="-7" position="bottom">ex : humidity</paper-tooltip>
@@ -91,7 +91,7 @@
 	      <paper-tooltip for="description" offset="-7" position="bottom">ex : Ambient humidity detected by module</paper-tooltip>
 	      <paper-input always-float-label id="data" label="Data" value="{{item.data}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
 	      <paper-tooltip for="source" offset="-7" position="bottom">ex : 0, 1</paper-tooltip>
-	      <h8>State</h8>
+	      <h6>State</h6>
       	<template is="dom-repeat" items="{{item.state}}">
       		<div class=container>
 			      <paper-input always-float-label id="key" label="Key" value="{{item.key}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
@@ -105,7 +105,7 @@
 	      <paper-input always-float-label id="source" label="Source" value="{{item.source}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
 	      <paper-tooltip for="source" offset="-7" position="bottom">ex : data</paper-tooltip>
 	    </template>
-	  </template> 
+	  </template>
   </template>
   <script>
 
@@ -120,14 +120,25 @@
             type: Object,
             notify: true,
             value: function() {
-              return {};
+              return {
+                commands: [{
+                  arguments: [{}],
+                  data: [{}]
+                }]
+              };
             }
           },
           receivedData: {
             type: Object,
             notify: true,
             value: function() {
-              return {};
+              return {
+                data: [{
+                  variables: [{
+                    state: [{}]
+                  }]
+                }]
+              };
             }
           },
           valid: {
@@ -142,12 +153,13 @@
 
       ready() {
         super.ready();
+
       }
-    
+
       /**
-       * Validates the form by checking each 
+       * Validates the form by checking each
        * paper input field.
-       * @param {object} 
+       * @param {object}
        */
       validateForm() {
         var paperInputs = Polymer.dom(this.root).querySelectorAll("paper-input");
@@ -157,20 +169,20 @@
             return;
           }
         }
-        this.valid = true; 
+        this.valid = true;
         return;
       }
-      
+
       /**
        * Checks if the field is valid and required
        * field is filled.
-       * @param {object} 
+       * @param {object}
        */
       validateField(field) {
         if(field.invalid) return false;
         if(field.required) {
           if (field.value == null || field.value == "") return false;
-        }  
+        }
         return true;
       }
     }
