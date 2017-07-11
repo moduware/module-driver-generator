@@ -2,3 +2,81 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="nexpaq-driver-form.html">
+<link rel="import" href="nexpaq-driver-view.html">
+<link rel="import" href="nexpaq-driver-actions.html">
+<dom-module id="nexpaq-driver-interface">
+  <template>
+
+    <style>
+
+      :host {
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      nexpaq-driver-form {
+        min-width: 320px;
+        flex-grow: 1;
+        width: 47%;
+        margin-bottom:60px;
+      }
+
+      .column-container {
+        display: flex;
+        flex-grow: 1;
+        flex-direction: column;
+        width: 47%;
+        min-width: 320px;
+      }
+
+      nexpaq-driver-view{
+        order: 1;
+        flex-grow: 0.1;
+        margin-left: auto;
+        width: 100%;
+      }
+
+      nexpaq-driver-actions {
+        flex-grow: 1;
+        order: 2;
+        max-width: 400px;
+        margin: auto;
+        width: 100%;
+      }
+
+    </style>
+    <nexpaq-driver-form id="userForm" data="{{formData}}"  valid="{{valid}}" language="[[language]]"></nexpaq-driver-form>
+    <div class="column-container">
+      <nexpaq-driver-view data="[[formData]]" json="{{json}}" max-lines="18"></nexpaq-driver-view>
+      <nexpaq-driver-actions data="{{formData}}" json="[[json]]" valid="[[valid]]" on-driver-uploaded="driverUploadedHandler" language="[[language]]"></nexpaq-driver-actions>
+    </div>
+  </template>
+  <script>
+    class NexpaqDriverInterface extends Polymer.Element {
+      static get is() { return 'nexpaq-driver-interface' }
+
+      static get properties() {
+        return {
+          formData: Object
+        }
+      }
+
+      static get observers() {
+        return [
+        ]
+      }
+
+     /**
+     * Handles driver uploaded event and validates form
+     *after successful upload.
+     */
+      driverUploadedHandler() {
+        this.$.userForm.validateForm();
+      }
+    }
+    // Register custom element definition using standard platform API
+    customElements.define(NexpaqDriverInterface.is, NexpaqDriverInterface);
+  </script
+</dom-module>
