@@ -1,0 +1,107 @@
+
+<!-- Load the Polymer.Element base class -->
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+
+<dom-module id="nexpaq-driver-view">
+  <template>
+    <style>
+
+      :host {
+        display: inline-block;
+        box-sizing: border-box;
+        position: relative;
+        font-size: 14px;
+        padding: 10px;
+        color: #606060;
+      }
+
+      h4 {
+        font-size: 18px;
+        font-weight: bold;
+        margin: 0;
+        text-align: center;
+        width: 100%;
+      }
+
+      .resultOutput {
+        white-space: pre;
+        overflow: scroll;
+        background: white;
+        line-height: 18px;
+      }
+    </style>
+
+    <div>
+      <h4> driver.json </h4>
+      <div class="resultOutput" style$="max-height: [[calculatePixelsInLines(maxLines)]]px;">
+[[renderData(sentData.*)]]
+      </div>
+
+    </div>
+  </template>
+
+  <script>
+
+    // Extend Polymer.Element base class
+    class DriverView extends Polymer.Element {
+
+      static get is() { return 'nexpaq-driver-view' }
+
+      static get observers() {
+        return [
+          'driverDataObserver(sentData)'
+        ]
+      }
+
+      static get properties() {
+        return {
+          receivedData: {
+            type: Object,
+            value: function() {
+              return {};
+            }
+          },
+          sentData: {
+            type: Object,
+            value: function() {
+              return {};
+            }
+          },
+          json: {
+            type: String,
+            notify: true
+          },
+          maxLines: Number
+        }
+      }
+      driverDataObserver(sentData) {
+        console.log(sentData);
+      }
+      /**
+       * Renders the input data
+       * @param {object}
+       */
+      renderData(sentData) {
+      console.log("I got called");
+
+        // //Converts modules string to an Array
+        // if (this.input.data !== undefined && !Array.isArray(this.input.data)) {
+        //   this.input.data = this.input.data.split(",");
+        // }
+        //Stringifies the data
+        var json = JSON.stringify(this.sentData, null, "\t");
+        this.json = json;
+        return json;
+      }
+
+      calculatePixelsInLines (maxLines) {
+        return maxLines * 18;
+      }
+    }
+
+    // Register custom element definition using standard platform API
+    customElements.define(DriverView.is, DriverView);
+
+  </script>
+</dom-module>

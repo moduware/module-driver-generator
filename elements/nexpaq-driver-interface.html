@@ -48,7 +48,7 @@
     </style>
     <nexpaq-driver-form id="userForm" sentData="{{sentData}}"  receivedData="{{receivedData}}" valid="{{valid}}" language="[[language]]"></nexpaq-driver-form>
     <div class="column-container">
-      <nexpaq-driver-view sentData="{{sentData}}"  receivedData="{{receivedData}}" json="{{json}}" max-lines="18"></nexpaq-driver-view>
+      <nexpaq-driver-view sentData="[[sentData]]"  receivedData="[[receivedData]]" json="{{json}}" max-lines="18"></nexpaq-driver-view>
       <nexpaq-driver-actions json="[[json]]" valid="[[valid]]" on-driver-uploaded="driverUploadedHandler" language="[[language]]"></nexpaq-driver-actions>
     </div>
   </template>
@@ -62,12 +62,6 @@
           receivedData: Object
         }
       }
-
-      static get observers() {
-        return [
-        ]
-      }
-
      /**
      * Handles driver uploaded event and validates form
      *after successful upload.
