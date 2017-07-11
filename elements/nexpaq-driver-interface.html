@@ -1,7 +1,6 @@
 <!-- Load the Polymer.Element base class -->
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
-<link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
 <link rel="import" href="nexpaq-driver-form.html">
 <link rel="import" href="nexpaq-driver-view.html">
 <link rel="import" href="nexpaq-driver-actions.html">
@@ -47,10 +46,10 @@
       }
 
     </style>
-    <nexpaq-driver-form id="userForm" data="{{formData}}"  valid="{{valid}}" language="[[language]]"></nexpaq-driver-form>
+    <nexpaq-driver-form id="userForm" sentData="{{sentData}}"  receivedData="{{receivedData}}" valid="{{valid}}" language="[[language]]"></nexpaq-driver-form>
     <div class="column-container">
-      <nexpaq-driver-view data="[[formData]]" json="{{json}}" max-lines="18"></nexpaq-driver-view>
-      <nexpaq-driver-actions data="{{formData}}" json="[[json]]" valid="[[valid]]" on-driver-uploaded="driverUploadedHandler" language="[[language]]"></nexpaq-driver-actions>
+      <nexpaq-driver-view sentData="{{sentData}}"  receivedData="{{receivedData}}" json="{{json}}" max-lines="18"></nexpaq-driver-view>
+      <nexpaq-driver-actions json="[[json]]" valid="[[valid]]" on-driver-uploaded="driverUploadedHandler" language="[[language]]"></nexpaq-driver-actions>
     </div>
   </template>
   <script>
@@ -59,7 +58,8 @@
 
       static get properties() {
         return {
-          formData: Object
+          sentData: Object,
+          receivedData: Object
         }
       }
 

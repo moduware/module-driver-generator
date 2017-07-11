@@ -31,14 +31,14 @@
 
     <h4>Sending Data</h4>
 
-    <paper-input always-float-label id="type" label="Type" value="{{data.type}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+    <paper-input always-float-label id="type" label="Type" value="{{sentData.type}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
     <paper-tooltip for="type" offset="-7" position="bottom">ex : nexpaq.module.led</paper-tooltip>
 
-    <paper-input always-float-label id="version" label="Version" value="{{data.version}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+    <paper-input always-float-label id="version" label="Version" value="{{sentData.version}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
     <paper-tooltip for="version" offset="-7" position="bottom">ex : 1.0.0</paper-tooltip>
 
     <h6>Commands</h6>
-    <template is="dom-repeat" items="{{data.commands}}">
+    <template is="dom-repeat" items="{{sentData.commands}}">
       <paper-input always-float-label id="name" label="Name" value="{{item.name}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
       <paper-tooltip for="name" offset="-7" position="bottom">ex : SetRGB</paper-tooltip>
       <paper-input always-float-label id="title" label="Title" value="{{item.title}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
@@ -58,7 +58,7 @@
       <paper-tooltip for="command" offset="-7" position="bottom">ex : 2702</paper-tooltip>
 
       <h6>Data</h6>
-      <template is="dom-repeat" items="{{item.data}}">
+      <template is="dom-repeat" items="{{item.sentData}}">
         <paper-input always-float-label id="defaultValue" label="Default Value" value="{{item.defaultValue}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
         <paper-tooltip for="defaultValue" offset="-7" position="bottom">ex : 0</paper-tooltip>
         <div class="container">
@@ -68,7 +68,114 @@
           <paper-tooltip for="format" offset="-7" position="bottom">ex : ({0} >> 8) & 0xFF</paper-tooltip>
         </div>
       </template>
-      
     </template>
+
+    <h4>Receiving Data</h4>
+  	<h6>Data</h6>
+  	<template is="dom-repeat" items="{{receivedData.data}}">
+  		<paper-input always-float-label id="name" label="Name" value="{{item.name}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+      <paper-tooltip for="name" offset="-7" position="bottom">ex : SensorValue</paper-tooltip>
+      <paper-input always-float-label id="title" label="Title" value="{{item.title}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+      <paper-tooltip for="title" offset="-7" position="bottom">ex : Sensor value</paper-tooltip>
+      <paper-input always-float-label id="description" label="Description" value="{{item.description}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+      <paper-tooltip for="description" offset="-7" position="bottom">ex : Value from Temperature and Humidity sensor</paper-tooltip>
+      <paper-input always-float-label id="source" label="Source" value="{{item.source}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+      <paper-tooltip for="source" offset="-7" position="bottom">ex : 2800</paper-tooltip>
+      <h8>Variables</h8>
+      <template is="dom-repeat" items="{{item.variables}}">
+	      <paper-input always-float-label id="name" label="Name" value="{{item.name}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+	      <paper-tooltip for="name" offset="-7" position="bottom">ex : humidity</paper-tooltip>
+	      <paper-input always-float-label id="title" label="Title" value="{{item.title}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+	      <paper-tooltip for="title" offset="-7" position="bottom">ex : Humidity</paper-tooltip>
+	      <paper-input always-float-label id="description" label="Description" value="{{item.description}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+	      <paper-tooltip for="description" offset="-7" position="bottom">ex : Ambient humidity detected by module</paper-tooltip>
+	      <paper-input always-float-label id="data" label="Data" value="{{item.data}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+	      <paper-tooltip for="source" offset="-7" position="bottom">ex : 0, 1</paper-tooltip>
+	      <h8>State</h8>
+      	<template is="dom-repeat" items="{{item.state}}">
+      		<div class=container>
+			      <paper-input always-float-label id="key" label="Key" value="{{item.key}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+			      <paper-tooltip for="key" offset="-7" position="bottom">ex : 00</paper-tooltip>
+			      <paper-input always-float-label id="value" label="Value" value="{{item.value}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+			      <paper-tooltip for="value" offset="-7" position="bottom">ex : success</paper-tooltip>
+			    </div>
+	      </template>
+	      <paper-input always-float-label id="format" label="Format" value="{{item.format}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+	      <paper-tooltip for="format" offset="-7" position="bottom">ex : 175.75 * ({0} * 256 + {1} / 4 * 4) / 65536 - 46.85</paper-tooltip>
+	      <paper-input always-float-label id="source" label="Source" value="{{item.source}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+	      <paper-tooltip for="source" offset="-7" position="bottom">ex : data</paper-tooltip>
+	    </template>
+	  </template> 
   </template>
+  <script>
+
+    // Extend Polymer.Element base class
+    class DriverForm extends Polymer.Element {
+
+      static get is() { return 'nexpaq-driver-form' }
+
+      static get properties() {
+        return {
+        	sentData: {
+            type: Object,
+            notify: true,
+            value: function() {
+              return {};
+            }
+          },
+          receivedData: {
+            type: Object,
+            notify: true,
+            value: function() {
+              return {};
+            }
+          },
+          valid: {
+            type: Boolean,
+            notify: true,
+            value: function() {
+              return false;
+            }
+          }
+        }
+      }
+
+      ready() {
+        super.ready();
+      }
+    
+      /**
+       * Validates the form by checking each 
+       * paper input field.
+       * @param {object} 
+       */
+      validateForm() {
+        var paperInputs = Polymer.dom(this.root).querySelectorAll("paper-input");
+        for (var i=0; i<paperInputs.length; i++) {
+          if (!this.validateField(paperInputs[i])) {
+            this.valid = false;
+            return;
+          }
+        }
+        this.valid = true; 
+        return;
+      }
+      
+      /**
+       * Checks if the field is valid and required
+       * field is filled.
+       * @param {object} 
+       */
+      validateField(field) {
+        if(field.invalid) return false;
+        if(field.required) {
+          if (field.value == null || field.value == "") return false;
+        }  
+        return true;
+      }
+    }
+
+    // Register custom element definition using standard platform API
+    customElements.define(DriverForm.is, DriverForm);
+  </script>
 </dom-module>
