@@ -35,7 +35,7 @@
     <div>
       <h4> driver.json </h4>
       <div class="resultOutput" style$="max-height: [[calculatePixelsInLines(maxLines)]]px;">
-[[renderData(sentData.*)]]
+[[renderData(data.*)]]
       </div>
 
     </div>
@@ -50,7 +50,7 @@
 
       static get observers() {
         return [
-          'driverDataObserver(sentData)'
+          'driverDataObserver(data)'
         ]
       }
 
@@ -62,7 +62,7 @@
               return {};
             }
           },
-          sentData: {
+          data: {
             type: Object,
             value: function() {
               return {};
@@ -75,22 +75,24 @@
           maxLines: Number
         }
       }
-      driverDataObserver(sentData) {
-        console.log(sentData);
+
+      driverDataObserver(data) {
+        console.log(data);
       }
       /**
        * Renders the input data
        * @param {object}
        */
-      renderData(sentData) {
-      console.log("I got called");
+      renderData(data) {
+    
+
 
         // //Converts modules string to an Array
         // if (this.input.data !== undefined && !Array.isArray(this.input.data)) {
         //   this.input.data = this.input.data.split(",");
         // }
         //Stringifies the data
-        var json = JSON.stringify(this.sentData, null, "\t");
+        var json = JSON.stringify(this.data, null, "\t");
         this.json = json;
         return json;
       }
