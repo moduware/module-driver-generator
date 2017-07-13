@@ -35,7 +35,7 @@
     <div>
       <h4> driver.json </h4>
       <div class="resultOutput" style$="max-height: [[calculatePixelsInLines(maxLines)]]px;">
-[[renderData(data.*)]]
+[[renderData(sentData.*, receivedData.*)]]
       </div>
 
     </div>
@@ -62,7 +62,7 @@
               return {};
             }
           },
-          data: {
+          sentData: {
             type: Object,
             value: function() {
               return {};
@@ -83,16 +83,15 @@
        * Renders the input data
        * @param {object}
        */
-      renderData(data) {
-    
-
+      renderData(data1,data2) {
 
         // //Converts modules string to an Array
         // if (this.input.data !== undefined && !Array.isArray(this.input.data)) {
         //   this.input.data = this.input.data.split(",");
         // }
         //Stringifies the data
-        var json = JSON.stringify(this.data, null, "\t");
+        var combinedData = Object.assign(this.sentData, this.receivedData);
+        var json = JSON.stringify(combinedData, null, "\t");
         this.json = json;
         return json;
       }
