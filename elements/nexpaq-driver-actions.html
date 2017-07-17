@@ -1,0 +1,196 @@
+//Should we create data object and have received and sent data in it?
+//organized the setting data part and  check allowed and required fields.
+<!-- Load the Polymer.Element base class -->
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+
+
+<dom-module id="nexpaq-driver-actions">
+  <template>
+    <style>
+      paper-button.indigo {
+        color: white;
+        background-color: #606060;
+        position: relative;
+        margin-top: 2vw;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+      }
+
+      input[type="file"]{
+        -webkit-appearance:none;
+        position:absolute;
+        top:0; left:0;
+        opacity:0;
+        width: 100%;
+        height: 100%;
+      }
+
+    </style>
+
+    <paper-button raised class="indigo" id="download">Download</paper-button>
+    <paper-button raised class="indigo">
+      <span>Upload</span>
+      <input id="upload" name="Select File" type="file" />
+    </paper-button>
+
+    <paper-dialog id="modal" modal>
+      <p>Please fill out <strong>{{requiredFields}}</strong> fields before downloading the driver file!</p>
+      <div class="buttons">
+        <paper-button dialog-confirm autofocus>OK, Got it!</paper-button>
+      </div>
+    </paper-dialog>
+    <paper-dialog id="confirm" modal="true" on-iron-overlay-closed="dismissDialog">
+      <p> You have unfamiliar fields on your file. Would you like the keep them?</p>
+      <div class="buttons">
+        <paper-button dialog-confirm>Yes</paper-button>
+        <paper-button dialog-dismiss>No</paper-button>
+      </div>
+    </paper-dialog>
+
+  </template>
+
+  <script>
+
+    // Extend Polymer.Element base class
+    class UserAction extends Polymer.Element {
+
+      static get is() { return 'nexpaq-driver-actions' }
+
+      static get properties() {
+        return {
+          data: {
+            type: Object,
+            notify: true,
+          },
+          valid: {
+            type: Boolean,
+            notify: true
+          },
+          json: {
+            type: String,
+            notify: true
+          },
+          requiredFields: {
+            type: String
+          },
+          allowedFields: {
+            type: String
+          }
+        }
+      }
+
+      ready() {
+        super.ready();
+        this.driver={};
+        this.$.download.addEventListener('click',  e => {this.downloadHandler(this.json)});
+        this.$.upload.addEventListener("change", e => {this.uploadHandler()});
+      }
+
+      connectedCallback() {
+        super.connectedCallback();
+      }
+
+      /**
+       * Downloads the driver file
+       * @param {object}
+       */
+      downloadHandler(json) {
+        if(this.valid == true) {
+          var a = document.createElement('a');
+          var blob = new Blob([json], {'type':'application/octet-stream'});
+          a.href = window.URL.createObjectURL(blob);
+          a.download = 'driver.json';
+          a.click();
+        } else {
+
+          this.requiredFields = "name, id, version, modules";
+          this.$.modal.open();
+        }
+      }
+
+      /**
+       * Uploads the selected json file
+       */
+      uploadHandler() {
+        var self = this;
+        var file = this.$.upload.files[0];
+
+        if (file) {
+          //Instantiates File Reader
+          var reader = new FileReader();
+          reader.readAsText(file, "UTF-8");
+
+          //Parses the content of uploaded file and triggers
+          //driver-uploaded event
+          reader.onload = function (evt) {
+            var uploadedFileContent = evt.target.result;
+            self.parseManifest(uploadedFileContent);
+            self.dispatchEvent(new CustomEvent('driver-uploaded', {}));
+          }
+
+         //Alerts if error occurs on reading file
+          reader.onerror = function (evt) {
+            alert("error reading file");
+          }
+        }
+      }
+
+      /**
+       * Parses uploaded file content and binds to data
+       * @param {object} type json
+       */
+      parseManifest (driverJSON) {
+        this.driver = JSON.parse(driverJSON);
+
+        this.setAllowedFields();
+
+        //Checks if there is unfamiliar field in uploaded content.
+        for (var key in this.driver) {
+          if (this.allowedFields.indexOf(key) === -1) {
+            this.$.confirm.open();
+            return;
+          }
+        }
+        //if all familiar content, sets uploaded data to driver.
+        this.set("data", this.driver);
+        this.notifyPath("data");
+      }
+
+      /**
+      * Specifies the allowed fields in data object
+      * based on driver type
+      */
+      setAllowedFields() {
+        this.allowedFields = ["type", "version","commands", "data"];
+      }
+
+      /**
+      * Modifies the data object based on the user's decision to
+      * keep unfamiliar data or not
+      */
+      dismissDialog() {
+        var renderedData = {};
+        if (this.$.confirm.closingReason.confirmed) {
+          this.set("data", this.driver);
+        } else {
+        //Filters driver object based on allowed
+        //fields in the form.
+          for (var key in this.driver) {
+            if (this.allowedFields.indexOf(key) !== -1) {
+              renderedData[key] = this.driver[key]
+            }
+          }
+          this.set("data", renderedData);
+        }
+        this.notifyPath("data");
+      }
+    }
+    // Register custom element definition using standard platform API
+    customElements.define(UserAction.is, UserAction);
+
+  </script>
+</dom-module>
