@@ -49,7 +49,7 @@
     <nexpaq-driver-form id="userForm" sent-data="{{sentData}}"  received-data="{{receivedData}}" valid="{{valid}}" language="[[language]]"></nexpaq-driver-form>
     <div class="column-container">
       <nexpaq-driver-view sent-data="[[sentData]]"  received-data="[[receivedData]]" json="{{json}}" max-lines="30"></nexpaq-driver-view>
-      <nexpaq-driver-actions json="[[json]]" valid="[[valid]]" on-driver-uploaded="driverUploadedHandler" language="[[language]]"></nexpaq-driver-actions>
+      <nexpaq-driver-actions sent-data="{{sentData}}"  received-data="{{receivedData}}" json="[[json]]" valid="[[valid]]" on-driver-uploaded="driverUploadedHandler" language="[[language]]"></nexpaq-driver-actions>
     </div>
   </template>
   <script>

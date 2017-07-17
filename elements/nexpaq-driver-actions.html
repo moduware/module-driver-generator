@@ -62,7 +62,11 @@
 
       static get properties() {
         return {
-          data: {
+          receivedData: {
+            type: Object,
+            notify: true,
+          },
+          sentData: {
             type: Object,
             notify: true,
           },
@@ -77,7 +81,10 @@
           requiredFields: {
             type: String
           },
-          allowedFields: {
+          sentAllowedFields: {
+            type: String
+          },
+          receivedAllowedFields: {
             type: String
           }
         }
@@ -106,8 +113,7 @@
           a.download = 'driver.json';
           a.click();
         } else {
-
-          this.requiredFields = "name, id, version, modules";
+          this.requiredFields = "type, version,commands, data";
           this.$.modal.open();
         }
       }
@@ -145,27 +151,55 @@
        */
       parseManifest (driverJSON) {
         this.driver = JSON.parse(driverJSON);
+        console.log(this.driver);
 
         this.setAllowedFields();
 
         //Checks if there is unfamiliar field in uploaded content.
         for (var key in this.driver) {
-          if (this.allowedFields.indexOf(key) === -1) {
+          if (this.sentAllowedFields.indexOf(key) === -1 && this.receivedAllowedFields.indexOf(key) === -1 ) {
             this.$.confirm.open();
             return;
           }
         }
+
         //if all familiar content, sets uploaded data to driver.
-        this.set("data", this.driver);
-        this.notifyPath("data");
+        var dataSent = {};
+        var dataReceived = {};
+        for (var key in this.driver) {
+          if (this.sentAllowedFields.indexOf(key) !== -1) {
+            dataSent[key] = this.driver[key];
+          }
+
+          if (this.receivedAllowedFields.indexOf(key) !== -1) {
+            console.log("inside variables");
+
+            if (this.driver[key].variables !== undefined) {
+              for ( var i=0; i < this.driver[key].variables.length; i++) {
+                if (this.driver[key].variables[i].state !== undefined) {
+                  for (var state in this.driver[key].variables[i].state) {
+                    dataReceived[key].variables[i].state.stateKey = state;
+                    dataReceived[key].variables[i].state.value = this.driver[key].variables[i].state[state];
+                  }
+                }
+              }
+            }
+            dataReceived[key] = this.driver[key];
+          }
+        }
+        this.set("sentData", dataSent);
+        this.notifyPath("sentData");
+        this.set("receivedData", dataReceived);
+        this.notifyPath("receivedData");
       }
 
       /**
-      * Specifies the allowed fields in data object
-      * based on driver type
+      * Specifies the allowed fields for sentData and
+      * receivedData objects.
       */
       setAllowedFields() {
-        this.allowedFields = ["type", "version","commands", "data"];
+        this.sentAllowedFields = ["type", "version","commands"];
+        this.receivedAllowedFields = ["data"];
       }
 
       /**
