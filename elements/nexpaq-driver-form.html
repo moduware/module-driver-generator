@@ -92,11 +92,11 @@
 	      <span>Arguments</span>
 	      <div class="subfield-container">
 		      <template is="dom-repeat" items="{{item.arguments}}">
-	          <paper-input class= "container-left" always-float-label id="name" label="Name" value="{{item.name}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+	          <paper-input class= "container-left" always-float-label id="name" label="Name" value="{{item.name}}" auto-validate maxlength="50" on-change="validateForm"></paper-input>
 	          <paper-tooltip for="name" offset="-7" position="bottom">ex : Red</paper-tooltip>
-	          <paper-input class= "container-right" always-float-label id="validation" label="Validation" value="{{item.validation}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+	          <paper-input class= "container-right" always-float-label id="validation" label="Validation" value="{{item.validation}}" auto-validate maxlength="50" on-change="validateForm"></paper-input>
 	          <paper-tooltip for="validation" offset="-7" position="bottom">ex : ({0} >= 0) and ({0} <= 255)</paper-tooltip>
-            <paper-button raised class="indigo"> + Add More Fields</paper-button>
+            <paper-button raised class="indigo"  on-click="addMoreFields"> + Add More Fields</paper-button>
 		      </template>
 	      </div>
 	      <paper-input class="clearfix" always-float-label id="command" label="Command" value="{{item.command}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
@@ -173,6 +173,7 @@
         	sentData: {
             type: Object,
             notify: true,
+            reflectToAttribute: true,
             value: function() {
               return {
                 commands: [{
@@ -201,7 +202,7 @@
             value: function() {
               return false;
             }
-          }
+          },
         }
       }
 
@@ -247,6 +248,12 @@
                    value: obj[key]
                };
            });
+       }
+
+       addMoreFields(e) {
+        //console.log(e.model);
+        //this.push('sentData.commands[0].arguments', {});
+
        }
     }
 
