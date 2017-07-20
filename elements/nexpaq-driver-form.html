@@ -4,6 +4,8 @@
 <link rel="import" href="../bower_components/paper-tooltip/paper-tooltip.html">
 <link rel="import" href="../bower_components/neon-animation/web-animations.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/app-localize-behavior/app-localize-behavior.html">
+
 
 <dom-module id="nexpaq-driver-form">
   <template>
@@ -73,98 +75,98 @@
 
     </style>
 
-    <h4>Sending Data</h4>
-    <paper-input always-float-label id="type" label="Type" value="{{sentData.type}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+    <h4>{{localize('sendingData')}}</h4>
+    <paper-input always-float-label id="type" label="{{localize('type')}}" value="{{sentData.type}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
     <paper-tooltip for="type" offset="-7" position="bottom">ex : nexpaq.module.led</paper-tooltip>
 
-    <paper-input always-float-label id="version" label="Version" value="{{sentData.version}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+    <paper-input always-float-label id="version" label="{{localize('version')}}" value="{{sentData.version}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
     <paper-tooltip for="version" offset="-7" position="bottom">ex : 1.0.0</paper-tooltip>
 
-    <span>Commands</span>
+    <span>{{localize('commands')}}</span>
     <div class="subfield-container">
 	    <template is="dom-repeat" items="{{sentData.commands}}">
-	      <paper-input always-float-label id="name" label="Name" value="{{item.name}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+	      <paper-input always-float-label id="name" label="{{localize('name')}}" value="{{item.name}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
 	      <paper-tooltip for="name" offset="-7" position="bottom">ex : SetRGB</paper-tooltip>
-	      <paper-input always-float-label id="title" label="Title" value="{{item.title}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+	      <paper-input always-float-label id="title" label="{{localize('title')}}" value="{{item.title}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
 	      <paper-tooltip for="title" offset="-7" position="bottom">ex : Set color in RGB</paper-tooltip>
-	      <paper-input always-float-label id="description" label="Description" value="{{item.description}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+	      <paper-input always-float-label id="description" label="{{localize('description')}}" value="{{item.description}}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
 	      <paper-tooltip for="description" offset="-7" position="bottom">ex : Changes color of module to specified RGB color</paper-tooltip>
-	      <span>Arguments</span>
+	      <span>{{localize('arguments')}}</span>
 	      <div class="subfield-container">
 		      <template is="dom-repeat" items="{{item.arguments}}">
-	          <paper-input class= "container-left" always-float-label id="name" label="Name" value="{{item.name}}" auto-validate maxlength="50" on-change="validateForm"></paper-input>
+	          <paper-input class= "container-left" always-float-label id="name" label="{{localize('argumentName')}}" value="{{item.name}}" auto-validate maxlength="50" on-change="validateForm"></paper-input>
 	          <paper-tooltip for="name" offset="-7" position="bottom">ex : Red</paper-tooltip>
-	          <paper-input class= "container-right" always-float-label id="validation" label="Validation" value="{{item.validation}}" auto-validate maxlength="50" on-change="validateForm"></paper-input>
+	          <paper-input class= "container-right" always-float-label id="validation" label="{{localize('validation')}}" value="{{item.validation}}" auto-validate maxlength="50" on-change="validateForm"></paper-input>
 	          <paper-tooltip for="validation" offset="-7" position="bottom">ex : ({0} >= 0) and ({0} <= 255)</paper-tooltip>
-            <paper-button raised class="indigo"  on-click="addMoreFields"> + Add More Fields</paper-button>
+            <paper-button raised class="indigo"  on-click="addMoreFields"> + {{localize('addMore')}} {{localize('fields')}}</paper-button>
 		      </template>
 	      </div>
-	      <paper-input class="clearfix" always-float-label id="command" label="Command" value="{{item.command}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+	      <paper-input class="clearfix" always-float-label id="command" label="{{localize('command')}}" value="{{item.command}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
 	      <paper-tooltip for="command" offset="-7" position="bottom">ex : 2702</paper-tooltip>
 
-	      <span>Data</span>
+	      <span>{{localize('data')}}</span>
 	      <div class="subfield-container">
 		      <template is="dom-repeat" items="{{item.data}}">
-		        <paper-input class="clearfix" always-float-label id="defaultValue" label="Default Value" value="{{item.defaultValue}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+		        <paper-input class="clearfix" always-float-label id="defaultValue" label="{{localize('defaultValue')}}" value="{{item.defaultValue}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
 		        <paper-tooltip for="defaultValue" offset="-7" position="bottom">ex : 0</paper-tooltip>
-	          <paper-input class= "container-left" always-float-label id="convert" label="Convert" value="{{item.convert}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+	          <paper-input class= "container-left" always-float-label id="convert" label="{{localize('convert')}}" value="{{item.convert}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
 	          <paper-tooltip for="convert" offset="-7" position="bottom">ex : true</paper-tooltip>
-	          <paper-input class= "container-right" always-float-label id="format" label="Format" value="{{item.format}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+	          <paper-input class= "container-right" always-float-label id="format" label="{{localize('format')}}" value="{{item.format}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
 	          <paper-tooltip for="format" offset="-7" position="bottom">ex : ({0} >> 8) & 0xFF</paper-tooltip>
-            <paper-button raised class="indigo"> + Add More Fields</paper-button>
+            <paper-button raised class="indigo"> + {{localize('addMore')}} {{localize('fields')}}</paper-button>
 		      </template>
 		    </div>
 	    </template>
-      <paper-button raised class="indigo outer"> + Add More Commands</paper-button>
+      <paper-button raised class="indigo outer"> + {{localize('addMore')}} {{localize('commands')}}</paper-button>
     </div>
-    <h4 class="clearfix">Receiving Data</h4>
-  	<span>Data</span>
+    <h4 class="clearfix">{{localize('receivingData')}}</h4>
+  	<span>{{localize('data')}}</span>
   	<div class="subfield-container">
 	  	<template is="dom-repeat" items="{{receivedData.data}}">
-	  		<paper-input always-float-label id="name" label="Name" value="{{item.name}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+	  		<paper-input always-float-label id="name" label="{{localize('name')}}" value="{{item.name}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
 	      <paper-tooltip for="name" offset="-7" position="bottom">ex : SensorValue</paper-tooltip>
-	      <paper-input always-float-label id="title" label="Title" value="{{item.title}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+	      <paper-input always-float-label id="title" label="{{localize('title')}}" value="{{item.title}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
 	      <paper-tooltip for="title" offset="-7" position="bottom">ex : Sensor value</paper-tooltip>
-	      <paper-input always-float-label id="description" label="Description" value="{{item.description}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+	      <paper-input always-float-label id="description" label="{{localize('decsription')}}" value="{{item.description}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
 	      <paper-tooltip for="description" offset="-7" position="bottom">ex : Value from Temperature and Humidity sensor</paper-tooltip>
-	      <paper-input always-float-label id="source" label="Source" value="{{item.source}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+	      <paper-input always-float-label id="source" label="{{localize('source')}}" value="{{item.source}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
 	      <paper-tooltip for="source" offset="-7" position="bottom">ex : 2800</paper-tooltip>
-	      <span>Variables</span>
+	      <span>{{localize('variables')}}</span>
 	      <div class="subfield-container">
 		      <template is="dom-repeat" items="{{item.variables}}">
-			      <paper-input always-float-label id="name" label="Name" value="{{item.name}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+			      <paper-input always-float-label id="name" label="{{localize('name')}}" value="{{item.name}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
 			      <paper-tooltip for="name" offset="-7" position="bottom">ex : humidity</paper-tooltip>
-			      <paper-input always-float-label id="title" label="Title" value="{{item.title}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+			      <paper-input always-float-label id="title" label="{{localize('title')}}" value="{{item.title}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
 			      <paper-tooltip for="title" offset="-7" position="bottom">ex : Humidity</paper-tooltip>
-			      <paper-input always-float-label id="description" label="Description" value="{{item.description}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+			      <paper-input always-float-label id="description" label="{{localize('description')}}" value="{{item.description}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
 			      <paper-tooltip for="description" offset="-7" position="bottom">ex : Ambient humidity detected by module</paper-tooltip>
-			      <paper-input always-float-label id="data" label="Data" value="{{item.data}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+			      <paper-input always-float-label id="data" label="{{localize('data')}}" value="{{item.data}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
 			      <paper-tooltip for="source" offset="-7" position="bottom">ex : 0, 1</paper-tooltip>
-			      <span>State</span>
+			      <span>{{localize('state')}}</span>
 			      <div class="subfield-container">
 			      	<template is="dom-repeat" items="{{toArray(item.state)}}">
-					      <paper-input class= "container-left" always-float-label id="key" label="Key" value="{{item.stateKey}}" auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+					      <paper-input class= "container-left" always-float-label id="key" label="{{localize('key')}}" value="{{item.stateKey}}" auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
 					      <paper-tooltip for="key" offset="-7" position="bottom">ex : 00</paper-tooltip>
-					      <paper-input class= "container-right" always-float-label id="value" label="Value" value="{{item.value}}" auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+					      <paper-input class= "container-right" always-float-label id="value" label="{{localize('value')}}" value="{{item.value}}" auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
 					      <paper-tooltip for="value" offset="-7" position="bottom">ex : success</paper-tooltip>
-                <paper-button raised class="indigo"> + Add More Fields</paper-button>
+                <paper-button raised class="indigo"> + {{localize('addMore')}} {{localize('fields')}}</paper-button>
 				      </template>
 			      </div>
-			      <paper-input class="clearfix" always-float-label id="format" label="Format" value="{{item.format}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+			      <paper-input class="clearfix" always-float-label id="format" label="{{localize('format')}}" value="{{item.format}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
 			      <paper-tooltip for="format" offset="-7" position="bottom">ex : 175.75 * ({0} * 256 + {1} / 4 * 4) / 65536 - 46.85</paper-tooltip>
-			      <paper-input always-float-label id="source" label="Source" value="{{item.source}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+			      <paper-input always-float-label id="source" label="{{localize('source')}}" value="{{item.source}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
 			      <paper-tooltip for="source" offset="-7" position="bottom">ex : data</paper-tooltip>
 			    </template>
-          <paper-button raised class="indigo outer"> + Add More Variables</paper-button>
+          <paper-button raised class="indigo outer"> + {{localize('addMore')}} {{localize('variables')}}</paper-button>
 		    </div>
 		  </template>
-      <paper-button raised class="indigo outer"> + Add More Data</paper-button>
+      <paper-button raised class="indigo outer"> + {{localize('addMore')}} {{localize('data')}}</paper-button>
 	  </div>
   </template>
   <script>
 
     // Extend Polymer.Element base class
-    class DriverForm extends Polymer.Element {
+    class DriverForm extends Polymer.mixinBehaviors([Polymer.AppLocalizeBehavior], Polymer.Element) {
 
       static get is() { return 'nexpaq-driver-form' }
 

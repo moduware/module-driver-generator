@@ -31,23 +31,23 @@
 
     </style>
 
-    <paper-button raised class="indigo" id="download">Download</paper-button>
+    <paper-button raised class="indigo" id="download">{{localize('buttonDownload')}}</paper-button>
     <paper-button raised class="indigo">
-      <span>Upload</span>
+      <span>{{localize('buttonUpload')}}</span>
       <input id="upload" name="Select File" type="file" />
     </paper-button>
 
     <paper-dialog id="modal" modal>
-      <p>Please fill out <strong>{{requiredFields}}</strong> fields before downloading the driver file!</p>
+      <p>{{localize('dialogRequiredField')}} <strong>{{requiredFields}}</strong> fields before downloading the driver file!</p>
       <div class="buttons">
-        <paper-button dialog-confirm autofocus>OK, Got it!</paper-button>
+        <paper-button dialog-confirm autofocus>{{localize('dialogButtonRequired')}}</paper-button>
       </div>
     </paper-dialog>
     <paper-dialog id="confirm" modal="true" on-iron-overlay-closed="dismissDialog">
-      <p> You have unfamiliar fields on your file. Would you like the keep them?</p>
+      <p> {{localize('dialogUnfamiliarData')}}</p>
       <div class="buttons">
-        <paper-button dialog-confirm>Yes</paper-button>
-        <paper-button dialog-dismiss>No</paper-button>
+        <paper-button dialog-confirm>{{localize('dialogButtonConfirm')}}</paper-button>
+        <paper-button dialog-dismiss>{{localize('dialogButtonDismiss')}}</paper-button>
       </div>
     </paper-dialog>
 
@@ -56,7 +56,7 @@
   <script>
 
     // Extend Polymer.Element base class
-    class UserAction extends Polymer.Element {
+    class UserAction extends Polymer.mixinBehaviors([Polymer.AppLocalizeBehavior], Polymer.Element) {
 
       static get is() { return 'nexpaq-driver-actions' }
 
