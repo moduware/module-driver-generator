@@ -38,9 +38,23 @@
       a {
         text-decoration: none;
         color: #606060;
-        padding-right: 20px;
+        margin-right: 20px;
+      }
+      span {
+        margin-right: 20px;
       }
 
+      .flag {
+        width: 20px; height: 20px;
+        margin-top: -3px;
+        margin-left: -3px;
+      }
+      a:hover {
+        cursor: pointer;
+      }
+      .flag:focus {
+        background-color: rgba(238, 54, 150, 0.5);
+      }
 
     </style>
   
@@ -56,6 +70,9 @@
         <a href="https://nexpaq.com/terms-of-use/">Terms of Use</a>
         <a href="https://nexpaq.com/partners/">Our Partners</a>
         <span>© Nexpaq Limited</span>
+        <a class="flag" id="en" on-click="toggleLanguage">🇬🇧</a>
+        <a class="flag" id="es" on-click="toggleLanguage">🇪🇸</a>
+        <a class="flag" id="fr" on-click="toggleLanguage">🇫🇷 </a>
       </footer>
     </app-header-layout>
 
@@ -75,6 +92,17 @@
             type: String
           }
         }
+      }
+
+      toggleLanguage(e) {
+        if(e.target.id == "en") {
+          this.language = "en";
+        } else if(e.target.id == "es") {
+          this.language = "es";
+        } else if(e.target.id == "fr") {
+          this.language = "fr";
+        }
+        console.log(this.language);
       }
     }
 
