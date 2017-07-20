@@ -44,17 +44,16 @@
       span {
         margin-right: 20px;
       }
-
       .flag {
-        width: 20px; height: 20px;
-        margin-top: -3px;
-        margin-left: -3px;
-      }
-      a:hover {
-        cursor: pointer;
+        min-width: 25px;
+        width: 4%; height: 10px;
+        margin-right: -5px;
       }
       .flag:focus {
-        background-color: rgba(238, 54, 150, 0.5);
+        background-color: rgba(96, 96, 96, 0.3);
+      }
+      #en {
+        background-color: rgba(96, 96, 96, 0.3);
       }
 
     </style>
@@ -71,9 +70,9 @@
         <a href="https://nexpaq.com/terms-of-use/">Terms of Use</a>
         <a href="https://nexpaq.com/partners/">Our Partners</a>
         <span>© Nexpaq Limited</span>
-        <a class="flag" id="en" on-click="toggleLanguage">🇬🇧</a>
-        <a class="flag" id="esp" on-click="toggleLanguage">🇪🇸</a>
-        <a class="flag" id="fr" on-click="toggleLanguage">🇫🇷 </a>
+        <paper-button class="flag" id="en" on-click="toggleLanguage">🇬🇧</paper-button>
+        <paper-button class="flag" id="esp" on-click="toggleLanguage">🇪🇸</paper-button>
+        <paper-button class="flag" id="fr" on-click="toggleLanguage">🇫🇷</paper-button>
       </footer>
     </app-header-layout>
 
@@ -97,8 +96,10 @@
       }
 
       toggleLanguage(e) {
+        this.$.en.style.backgroundColor = "white";
         if(e.target.id == "en") {
           this.language = "en";
+          this.$.en.style.backgroundColor = "rgba(96, 96, 96, 0.3)";
         } else if(e.target.id == "esp") {
           this.language = "esp";
         } else if(e.target.id == "fr") {
