@@ -173,7 +173,7 @@
 
           if (this.receivedAllowedFields.indexOf(key) !== -1) {
             console.log("inside variables");
-
+            //Sets the key and the values of the state into stateKey anc Value fields on the form
             if (this.driver[key].variables !== undefined) {
               for ( var i=0; i < this.driver[key].variables.length; i++) {
                 if (this.driver[key].variables[i].state !== undefined) {
