@@ -86,10 +86,14 @@
        */
       renderData(data1,data2) {
 
-        // //Converts modules string to an Array
-        // if (this.input.data !== undefined && !Array.isArray(this.input.data)) {
-        //   this.input.data = this.input.data.split(",");
-        // }
+        //Converts Data string to an Array
+        for(var i=0; i < this.receivedData.data.length; i++) {
+          for(var j=0; j < this.receivedData.data[i].variables.length; j++) {
+            if (this.receivedData.data[i].variables[j].data !== undefined && !Array.isArray(this.receivedData.data[i].variables[j].data)) {
+              this.receivedData.data[i].variables[j].data = this.receivedData.data[i].variables[j].data.split(",");
+            }
+          }
+        }
         //Stringifies the data
         var combinedData = Object.assign(this.sentData, this.receivedData);
         var json = JSON.stringify(combinedData, null, "\t");
