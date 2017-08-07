@@ -151,28 +151,28 @@
        */
       parseManifest (driverJSON) {
         this.driver = JSON.parse(driverJSON);
-        console.log(this.driver);
 
         this.setAllowedFields();
 
         //Checks if there is unfamiliar field in uploaded content.
         for (var key in this.driver) {
           if (this.sentAllowedFields.indexOf(key) === -1 && this.receivedAllowedFields.indexOf(key) === -1 ) {
+            //Calls dismissDialog function
             this.$.confirm.open();
             return;
           }
         }
 
-        //if all familiar content, sets uploaded data to driver.
+        //If all familiar content, sets uploaded data to driver's sentData and receivedData.
         var dataSent = {};
         var dataReceived = {};
         for (var key in this.driver) {
+          //creates the object for sentData
           if (this.sentAllowedFields.indexOf(key) !== -1) {
             dataSent[key] = this.driver[key];
           }
-
+          // creates the object for receivedData
           if (this.receivedAllowedFields.indexOf(key) !== -1) {
-            console.log("inside variables");
             //Sets the key and the values of the state into stateKey anc Value fields on the form
             if (this.driver[key].variables !== undefined) {
               for ( var i=0; i < this.driver[key].variables.length; i++) {
@@ -187,6 +187,7 @@
             dataReceived[key] = this.driver[key];
           }
         }
+        //Sets created objects to properties.
         this.set("sentData", dataSent);
         this.notifyPath("sentData");
         this.set("receivedData", dataReceived);
