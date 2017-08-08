@@ -9,13 +9,13 @@
 <dom-module id="nexpaq-driver-form">
   <template>
   	<style>
+
       :host {
         display: block;
         box-sizing: border-box;
         padding: 10px;
         position: relative;
       }
-
       paper-tooltip {
         --paper-tooltip-opacity: 0.8;
         --paper-tooltip-background: black ;
@@ -27,8 +27,15 @@
         color: white;
         background-color: #606060;
         float: right;
-        font-size: 9px;
+        font-size: 8px;
         width: 25%; height: 9%;
+      }
+      paper-button.indigo.mid {
+        margin-top: 18px;
+        clear: right;
+        float: right;
+        font-size: 9px;
+        width: 28%; height: 11%;
       }
       paper-button.indigo.outer {
         margin-top: 25px;
@@ -37,7 +44,6 @@
         font-size: 10px;
         width: 30%; height: 12%;
       }
-
       h4 {
         color: #606060;
         font-weight: 500;
@@ -61,18 +67,16 @@
       }
       .wrapper {
         width:98%;
-        height: 65px;
       }
       .close {
         float: right;
         width: 6px;
         right: 2px;
-        top: -2px;
+        /*top: -2px;*/
       }
       .close:hover {
         color: #EE3696;
       }
-
       paper-input {
       	--secondary-text-color: #9b9b9b;
       	--paper-font-subhead_-_font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -118,26 +122,41 @@
             </template>
             <paper-button raised class="indigo clearfix" on-click="addMoreFields"> + {{localize('addMore')}} {{localize('fields')}}</paper-button>
   	      </div>
-  	      <paper-input class="clearfix" always-float-label id="command" label="{{localize('command')}}" value="{{command.command}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
-  	      <paper-tooltip for="command" offset="-7" position="bottom">ex : 2702</paper-tooltip>
-  	      <span>{{localize('data')}}</span>
-  	      <div class="subfield-container">
-  		      <template is="dom-repeat" items="{{command.data}}" as="data" index-as="commandDataIndex">
-              <div class = "wrapper clearfix">
-                <span class="close" on-click = "removeData">&times;</span>
-    		        <paper-input class="clearfix" always-float-label id="defaultValue" label="{{localize('defaultValue')}}" value="{{data.defaultValue}}" required auto-validate allowed-pattern="[0-9]" error-message="This field is required!" maxlength="20" on-change="validateForm"></paper-input>
-    		        <paper-tooltip for="defaultValue" offset="-7" position="bottom">ex : 0</paper-tooltip>
-    	          <paper-input class= "container-left" always-float-label id="convert" label="{{localize('convert')}}" value="{{data.convert}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
-    	          <paper-tooltip for="convert" offset="-7" position="bottom">ex : true</paper-tooltip>
-    	          <paper-input class= "container-right" always-float-label id="format" label="{{localize('format')}}" value="{{data.format}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
-    	          <paper-tooltip for="format" offset="-7" position="bottom">ex : ({0} >> 8) & 0xFF</paper-tooltip>
-              </div>
-            </template>
-            <paper-button raised class="indigo clearfix" on-click="addMoreData"> + {{localize('addMore')}} {{localize('fields')}}</paper-button>
-  		    </div>
+          <template is="dom-if" if="{{commandAdded}}">
+            <div class = "wrapper clearfix">
+              <span class="close" on-click = "toggleCommand">&times;</span>
+  	          <paper-input class="clearfix" always-float-label id="command" label="{{localize('command')}}" value="{{command.command}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+  	          <paper-tooltip for="command" offset="-7" position="bottom">ex : 2702</paper-tooltip>
+            </div>
+          </template>
+          <template is="dom-if" if="{{!commandAdded}}">
+            <paper-button raised class="indigo mid clearfix" on-click="toggleCommand"> + Add Command</paper-button>
+          </template>
+          <template is="dom-if" if="{{dataAdded}}">
+            <div class = "wrapper clearfix">
+            <span>{{localize('data')}}</span>
+    	      <div class="subfield-container">
+    		      <template is="dom-repeat" items="{{command.data}}" as="data" index-as="commandDataIndex">
+                <div class = "wrapper clearfix">
+                    <span class="close" on-click = "removeData">&times;</span>
+        		        <paper-input class="clearfix" always-float-label id="defaultValue" label="{{localize('defaultValue')}}" value="{{data.defaultValue}}" required auto-validate allowed-pattern="[0-9]" error-message="This field is required!" maxlength="20" on-change="validateForm"></paper-input>
+        		        <paper-tooltip for="defaultValue" offset="-7" position="bottom">ex : 0</paper-tooltip>
+        	          <paper-input class= "container-left" always-float-label id="convert" label="{{localize('convert')}}" value="{{data.convert}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+        	          <paper-tooltip for="convert" offset="-7" position="bottom">ex : true</paper-tooltip>
+        	          <paper-input class= "container-right" always-float-label id="format" label="{{localize('format')}}" value="{{data.format}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+        	          <paper-tooltip for="format" offset="-7" position="bottom">ex : ({0} >> 8) & 0xFF</paper-tooltip>
+                  </div>
+                </template>
+                <paper-button raised class="indigo clearfix" on-click="addMoreData"> + {{localize('addMore')}} {{localize('data')}}</paper-button>
+      		    </div>
+            </div>
+          </template>
+          <template is="dom-if" if="{{!dataAdded}}">
+            <paper-button raised class="indigo clearfix mid" on-click="toggleData"> + Add Data</paper-button>
+          </template>
         </div>
 	    </template>
-      <paper-button raised class="indigo outer" on-click="addMoreCommands"> + {{localize('addMore')}} {{localize('commands')}}</paper-button>
+      <paper-button raised class="indigo clearfix outer" on-click="addMoreCommands"> + {{localize('addMore')}} {{localize('commands')}}</paper-button>
     </div>
     <h4 class="clearfix">{{localize('receivingData')}}</h4>
   	<span>{{localize('data')}}</span>
@@ -225,6 +244,20 @@
               };
             }
           },
+          commandAdded: {
+            type: Boolean,
+            notify: true,
+            value: function() {
+              return false;
+            }
+          },
+          dataAdded: {
+            type: Boolean,
+            notify: true,
+            value: function() {
+              return false;
+            }
+          },
           valid: {
             type: Boolean,
             notify: true,
@@ -291,6 +324,22 @@
          this.splice(item, index, 1);
        }
 
+       toggleCommand() {
+        if(this.commandAdded) {
+          this.commandAdded = false;
+        } else {
+          this.commandAdded = true;
+        }
+       }
+
+       toggleData() {
+         if(this.dataAdded) {
+           this.dataAdded = false;
+         } else {
+           this.dataAdded = true;
+         }
+       }
+
        addMoreData(e) {
          var i = e.model.commandIndex;
          var item = 'sentData.commands.'+i+'.data';
@@ -298,6 +347,9 @@
        }
 
        removeData(e) {
+         if(e.model.itemsIndex == 0) {
+           this.toggleData();
+         }
          var i = e.model.parentModel.commandIndex;
          var item = 'sentData.commands.'+i+'.data';
          var index = e.model.commandDataIndex;
@@ -349,6 +401,7 @@
            }]
          })
        }
+
        removeReceivedData(e) {
          var item = 'receivedData.data';
          var index = e.model.dataIndex;
