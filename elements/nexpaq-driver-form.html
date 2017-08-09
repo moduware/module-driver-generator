@@ -5,6 +5,8 @@
 <link rel="import" href="../bower_components/neon-animation/web-animations.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/app-localize-behavior/app-localize-behavior.html">
+<link rel="import" href="nexpaq-driver-form-received-data.html">
+<link rel="import" href="nexpaq-driver-form-sent-data.html">
 
 <dom-module id="nexpaq-driver-form">
   <template>
@@ -91,8 +93,8 @@
 
     </style>
 
-    <nexpaq-driver-form-sent-data sent-data="{{sentData}}"></nexpaq-driver-form-sent-data>
-    <nexpaq-driver-form-received-data received-data="{{receivedData}}"></nexpaq-driver-form-received-data>
+    <nexpaq-driver-form-sent-data sent-data="{{sentData}}" valid="{{sentDataValid}}" language="[[language]]" resources="[[resources]]"></nexpaq-driver-form-sent-data>
+    <nexpaq-driver-form-received-data received-data="{{receivedData}}" valid="{{receivedDataValid}}" language="[[language]]" resources="[[resources]]"></nexpaq-driver-form-received-data>
 
 
   </template>
@@ -116,40 +118,13 @@
           valid: {
             type: Boolean,
             notify: true,
-            value: function() {
-              return false;
-            }
+            computed: 'computeFormValid(sentDataValid, receivedDataValid)'
           },
         }
       }
-      /**
-       * Validates the form by checking each
-       * paper input field.
-       * @param {object}
-       */
-      validateForm() {
-        var paperInputs = Polymer.dom(this.root).querySelectorAll("paper-input");
-        for (var i=0; i<paperInputs.length; i++) {
-          if (!this.validateField(paperInputs[i])) {
-            this.valid = false;
-            return;
-          }
-        }
-        this.valid = true;
-        return;
-      }
 
-      /**
-       * Checks if the field is valid and required
-       * field is filled.
-       * @param {object}
-       */
-      validateField(field) {
-        if(field.invalid) return false;
-        if(field.required) {
-          if (field.value == null || field.value == "") return false;
-        }
-        return true;
+      computeFormValid(sentDataValid, receivedDataValid) {
+        return sentDataValid && receivedDataValid;
       }
 
 
