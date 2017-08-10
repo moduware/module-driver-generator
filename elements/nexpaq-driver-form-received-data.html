@@ -45,6 +45,13 @@
         font-size: 10px;
         width: 30%; height: 12%;
       }
+      paper-button.main {
+        margin-top: 25px;
+        clear: right;
+        float: right;
+        font-size: 12px;
+        width: 40%; height: 12%;
+      }
       h4 {
         color: #606060;
         font-weight: 500;
@@ -90,54 +97,68 @@
       	line-height: 24px;
       }
     </style>
-    <h4 class="clearfix">{{localize('receivingData')}}</h4>
-  	<span>{{localize('data')}}</span>
-    <div class="subfield-container">
-	  	<template is="dom-repeat" items="{{receivedData.data}}" as="dataInReceived" index-as="dataIndex">
-        <div class = "wrapper clearfix">
-          <span class="close" on-click = "removeReceivedData">&times;</span>
-  	  		<paper-input always-float-label  class="clearfix" id="name" label="{{localize('name')}}" value="{{dataInReceived.name}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
-  	      <paper-tooltip for="name" offset="-7" position="bottom">ex : SensorValue</paper-tooltip>
-  	      <paper-input always-float-label id="title" label="{{localize('title')}}" value="{{dataInReceived.title}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
-  	      <paper-tooltip for="title" offset="-7" position="bottom">ex : Sensor value</paper-tooltip>
-  	      <paper-input always-float-label id="description" label="{{localize('description')}}" value="{{dataInReceived.description}}" required auto-validate error-message="This field is required!" maxlength="150" on-change="validateForm"></paper-input>
-  	      <paper-tooltip for="description" offset="-7" position="bottom">ex : Value from Temperature and Humidity sensor</paper-tooltip>
-  	      <paper-input always-float-label id="source" label="{{localize('source')}}" value="{{dataInReceived.source}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
-  	      <paper-tooltip for="source" offset="-7" position="bottom">ex : 2800</paper-tooltip>
-  	      <span>{{localize('variables')}}</span>
-  	      <div class="subfield-container">
-  		      <template is="dom-repeat" items="{{dataInReceived.variables}}" as="variable" index-as="variableIndex">
-                <span class="close" on-click = "removeVariable">&times;</span>
-    			      <paper-input always-float-label id="name" label="{{localize('name')}}" value="{{variable.name}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
-    			      <paper-tooltip for="name" offset="-7" position="bottom">ex : humidity</paper-tooltip>
-    			      <paper-input always-float-label id="title" label="{{localize('title')}}" value="{{variable.title}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
-    			      <paper-tooltip for="title" offset="-7" position="bottom">ex : Humidity</paper-tooltip>
-    			      <paper-input always-float-label id="description" label="{{localize('description')}}" value="{{variable.description}}" required auto-validate error-message="This field is required!" maxlength="150" on-change="validateForm"></paper-input>
-    			      <paper-tooltip for="description" offset="-7" position="bottom">ex : Ambient humidity detected by module</paper-tooltip>
-    			      <paper-input always-float-label id="data" label="{{localize('data')}}" value="{{variable.data}}" required auto-validate allowed-pattern="[0-9_\,]" error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
-    			      <paper-tooltip for="data" offset="-7" position="bottom">ex : 0, 1</paper-tooltip>
-    			      <span>{{localize('state')}}</span>
-    			      <div class="subfield-container">
-    			      	<template is="dom-repeat" items="{{toArray(variable.state)}}" as="state">
-                    <div class = "wrapper clearfix">
-                      <span class="close" on-click = "removeState">&times;</span>
-      					      <paper-input class= "container-left" always-float-label id="key" label="{{localize('key')}}" value="{{state.stateKey}}" auto-validate maxlength="50" on-change="validateForm"></paper-input>
-      					      <paper-tooltip for="key" offset="-7" position="bottom">ex : 00</paper-tooltip>
-      					      <paper-input class= "container-right" always-float-label id="value" label="{{localize('value')}}" value="{{state.value}}" auto-validate maxlength="50" on-change="validateForm"></paper-input>
-      					      <paper-tooltip for="value" offset="-7" position="bottom">ex : success</paper-tooltip>
-                    </div>
-                  </template>
-                  <paper-button raised class="indigo clearfix" on-click="addMoreState"> + {{localize('addMore')}} {{localize('fields')}}</paper-button>
-    			      </div>
-    			      <paper-input class="clearfix" always-float-label id="format" label="{{localize('format')}}" value="{{variable.format}}" auto-validate maxlength="150" on-change="validateForm"></paper-input>
-    			      <paper-tooltip for="format" offset="-7" position="bottom">ex : 175.75 * ({0} * 256 + {1} / 4 * 4) / 65536 - 46.85</paper-tooltip>
-            </template>
-            <paper-button raised class="indigo outer clearfix" on-click="addMoreVariables"> + {{localize('addMore')}} {{localize('variables')}}</paper-button>
-          </div>
+    <template is="dom-if" if="{{receivedDataAdded}}">
+      <div class = "wrapper clearfix">
+        <h4 class="clearfix">{{localize('receivingData')}}</h4>
+      	<span>{{localize('data')}}</span>
+        <div class="subfield-container">
+    	  	<template is="dom-repeat" items="{{receivedData.data}}" as="dataInReceived" index-as="dataIndex">
+            <div class = "wrapper clearfix">
+              <span class="close" on-click = "removeReceivedData">&times;</span>
+      	  		<paper-input always-float-label  class="clearfix" id="name" label="{{localize('name')}}" value="{{dataInReceived.name}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+      	      <paper-tooltip for="name" offset="-7" position="bottom">ex : SensorValue</paper-tooltip>
+      	      <paper-input always-float-label id="title" label="{{localize('title')}}" value="{{dataInReceived.title}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+      	      <paper-tooltip for="title" offset="-7" position="bottom">ex : Sensor value</paper-tooltip>
+      	      <paper-input always-float-label id="description" label="{{localize('description')}}" value="{{dataInReceived.description}}" required auto-validate error-message="This field is required!" maxlength="150" on-change="validateForm"></paper-input>
+      	      <paper-tooltip for="description" offset="-7" position="bottom">ex : Value from Temperature and Humidity sensor</paper-tooltip>
+      	      <paper-input always-float-label id="source" label="{{localize('source')}}" value="{{dataInReceived.source}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+      	      <paper-tooltip for="source" offset="-7" position="bottom">ex : 2800</paper-tooltip>
+              <template is="dom-if" if="{{variableAdded}}">
+                <div class = "wrapper clearfix">
+                  <span>{{localize('variables')}}</span>
+          	      <div class="subfield-container">
+          		      <template is="dom-repeat" items="{{dataInReceived.variables}}" as="variable" index-as="variableIndex">
+                      <span class="close" on-click = "removeVariable">&times;</span>
+          			      <paper-input always-float-label id="name" label="{{localize('name')}}" value="{{variable.name}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+          			      <paper-tooltip for="name" offset="-7" position="bottom">ex : humidity</paper-tooltip>
+          			      <paper-input always-float-label id="title" label="{{localize('title')}}" value="{{variable.title}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+          			      <paper-tooltip for="title" offset="-7" position="bottom">ex : Humidity</paper-tooltip>
+          			      <paper-input always-float-label id="description" label="{{localize('description')}}" value="{{variable.description}}" required auto-validate error-message="This field is required!" maxlength="150" on-change="validateForm"></paper-input>
+          			      <paper-tooltip for="description" offset="-7" position="bottom">ex : Ambient humidity detected by module</paper-tooltip>
+          			      <paper-input always-float-label id="data" label="{{localize('data')}}" value="{{variable.data}}" required auto-validate allowed-pattern="[0-9_\,]" error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+          			      <paper-tooltip for="data" offset="-7" position="bottom">ex : 0, 1</paper-tooltip>
+          			      <span>{{localize('state')}}</span>
+          			      <div class="subfield-container">
+          			      	<template is="dom-repeat" items="{{toArray(variable.state)}}" as="state">
+                          <div class = "wrapper clearfix">
+                            <span class="close" on-click = "removeState">&times;</span>
+            					      <paper-input class= "container-left" always-float-label id="key" label="{{localize('key')}}" value="{{state.stateKey}}" auto-validate maxlength="50" on-change="validateForm"></paper-input>
+            					      <paper-tooltip for="key" offset="-7" position="bottom">ex : 00</paper-tooltip>
+            					      <paper-input class= "container-right" always-float-label id="value" label="{{localize('value')}}" value="{{state.value}}" auto-validate maxlength="50" on-change="validateForm"></paper-input>
+            					      <paper-tooltip for="value" offset="-7" position="bottom">ex : success</paper-tooltip>
+                          </div>
+                        </template>
+                        <paper-button raised class="indigo clearfix" on-click="addMoreState"> + {{localize('addMore')}} {{localize('fields')}}</paper-button>
+          			      </div>
+          			        <paper-input class="clearfix" always-float-label id="format" label="{{localize('format')}}" value="{{variable.format}}" auto-validate maxlength="150" on-change="validateForm"></paper-input>
+          			        <paper-tooltip for="format" offset="-7" position="bottom">ex : 175.75 * ({0} * 256 + {1} / 4 * 4) / 65536 - 46.85</paper-tooltip>
+                    </template>
+                    <paper-button raised class="indigo outer clearfix" on-click="addMoreVariables"> + {{localize('addMore')}} {{localize('variables')}}</paper-button>
+                  </div>
+                </div>
+              </template>
+              <template is="dom-if" if="{{!variableAdded}}">
+                <paper-button raised class="indigo clearfix mid" on-click="toggleVariable"> + Add Variable</paper-button>
+              </template>
+            </div>
+    		  </template>
+          <paper-button raised class="indigo outer" on-click="addMoreReceivedData"> + {{localize('addMore')}} {{localize('data')}}</paper-button>
         </div>
-		  </template>
-      <paper-button raised class="indigo outer" on-click="addMoreReceivedData"> + {{localize('addMore')}} {{localize('data')}}</paper-button>
-    </div>
+      </div>
+    </template>
+    <template is="dom-if" if="{{!receivedDataAdded}}">
+      <paper-button raised class="indigo main" on-click="toggleData"> + Add Data</paper-button>
+    </template>
   </template>
   <script>
     class NexpaqDriverFormReceivedData extends Polymer.mixinBehaviors([Polymer.AppLocalizeBehavior], Polymer.Element){
@@ -149,19 +170,28 @@
             notify: true,
             value: function() {
               return {
-                data: [{
-                  variables: [{
-                    state: {"":""}
-                  }]
-                }]
               };
             }
           },
-          dataAdded: {
+          receivedDataAdded: {
             type: Boolean,
             notify: true,
             value: function() {
               return false;
+            }
+          },
+          variableAdded: {
+            type: Boolean,
+            notify: true,
+            value: function() {
+              return false;
+            }
+          },
+          formatAdded: {
+            type: Boolean,
+            notify: true,
+            value: function() {
+              return true;
             }
           },
           valid: {
@@ -204,33 +234,72 @@
         return true;
       }
 
+      toArray(obj) {
+        return Object.keys(obj).map(function(key) {
+          return {
+            stateKey: key,
+            value: obj[key]
+          };
+        });
+      }
+
       addMoreVariables(e) {
         var i = e.model.dataIndex;
-        console.log(i);
         var item = 'receivedData.data.'+i+'.variables';
         this.push(item, {state: {"":""}});
       }
 
       removeVariable(e) {
+        if(e.model.itemsIndex == 0) {
+          this.toggleVariable();
+        }
         var i = e.model.parentModel.dataIndex;
         var item = 'receivedData.data.'+i+'.variables';
         var index = e.model.variableIndex;
         this.splice(item, index, 1);
       }
 
+      toggleVariable(e) {
+        if(this.variableAdded) {
+          this.variableAdded = false;
+        } else {
+          this.variableAdded = true;
+          var i = e.model.dataIndex;
+          var item = 'receivedData.data.'+i+'.variables';
+          this.set(item, [{state: {"":""}}]);
+        }
+      }
+
       addMoreReceivedData(e) {
         var item = 'receivedData.data';
-        this.push(item, {
-          variables: [{
-            state: {"":""}
-          }]
-        })
+        this.push(item, {})
       }
 
       removeReceivedData(e) {
+        if(e.model.itemsIndex == 0) {
+          this.toggleData();
+        }
         var item = 'receivedData.data';
         var index = e.model.dataIndex;
         this.splice(item, index, 1);
+      }
+
+      toggleData() {
+        if(this.receivedDataAdded) {
+          this.receivedDataAdded = false;
+        } else {
+          this.receivedDataAdded = true;
+          var item = 'receivedData.data';
+          this.set(item,[{}]);
+        }
+      }
+
+      addMoreState(e) {
+        var i = e.model.parentModel.dataIndex;
+        var j = e.model.variableIndex;
+        var item = 'receivedData.data.'+i+'.variables.'+j+'.state';
+        //Since state is object push doesnt work
+        // this.set(item, {"":""} );
       }
     }
     customElements.define(NexpaqDriverFormReceivedData.is, NexpaqDriverFormReceivedData);

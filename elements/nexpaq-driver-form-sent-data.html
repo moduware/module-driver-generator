@@ -29,7 +29,7 @@
         background-color: #606060;
         float: right;
         font-size: 8px;
-        width: 25%; height: 9%;
+        width: 26%; height: 9%;
       }
       paper-button.indigo.mid {
         margin-top: 18px;
@@ -43,7 +43,14 @@
         clear: right;
         float: right;
         font-size: 10px;
-        width: 30%; height: 12%;
+        width: 31%; height: 12%;
+      }
+      paper-button.main {
+        margin-top: 25px;
+        clear: right;
+        float: right;
+        font-size: 12px;
+        width: 40%; height: 12%;
       }
       h4 {
         color: #606060;
@@ -90,73 +97,76 @@
       	line-height: 24px;
       }
     </style>
-    <h4>{{localize('sendingData')}}</h4>
-    <paper-input always-float-label id="type"  label="{{localize('type')}}" value="{{sentData.type}}" required auto-validate allowed-pattern="[A-Za-z_\.\-0-9]" error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+    <paper-input always-float-label id="type"  label="{{localize('moduleType')}}" value="{{sentData.type}}" required auto-validate allowed-pattern="[A-Za-z_\.\-0-9]" error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
     <paper-tooltip for="type" offset="-7" position="bottom">ex : nexpaq.module.led</paper-tooltip>
-
-    <paper-input always-float-label id="version" label="{{localize('version')}}" value="{{sentData.version}}" required auto-validate allowed-pattern="[0-9_\.]" error-message="This field is required!" maxlength="20" on-change="validateForm"></paper-input>
+    <paper-input always-float-label id="version" label="{{localize('driverVersion')}}" value="{{sentData.version}}" required auto-validate allowed-pattern="[0-9_\.]" error-message="This field is required!" maxlength="20" on-change="validateForm"></paper-input>
     <paper-tooltip for="version" offset="-7" position="bottom">ex : 1.0.0</paper-tooltip>
-
-    <span>{{localize('commands')}}</span>
-    <div class="subfield-container">
-      <template is="dom-repeat" items="{{sentData.commands}}" as="command" index-as="commandIndex">
-        <div class = "wrapper clearfix">
-          <span class="close" on-click = "removeCommand">&times;</span>
-          <paper-input always-float-label id="name" class="clearfix" label="{{localize('name')}}" value="{{command.name}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
-          <paper-tooltip for="name" offset="-7" position="bottom">ex : SetRGB</paper-tooltip>
-          <paper-input always-float-label id="title" label="{{localize('title')}}" value="{{command.title}}" required auto-validate error-message="This field is required!" maxlength="80" on-change="validateForm"></paper-input>
-          <paper-tooltip for="title" offset="-7" position="bottom">ex : Set color in RGB</paper-tooltip>
-          <paper-input always-float-label id="description" label="{{localize('description')}}" value="{{command.description}}" required auto-validate error-message="This field is required!" maxlength="150" on-change="validateForm"></paper-input>
-          <paper-tooltip for="description" offset="-7" position="bottom">ex : Changes color of module to specified RGB color</paper-tooltip>
-          <span>{{localize('arguments')}}</span>
-          <div class="subfield-container">
-            <template is="dom-repeat" items="{{command.arguments}}" as="argument" index-as="argumentIndex">
-                <div class = "wrapper clearfix">
-                  <span class="close" on-click = "removeArgument">&times;</span>
-                  <paper-input class= "container-left" always-float-label id="name" label="{{localize('argumentName')}}" value="{{argument.name}}" auto-validate maxlength="50" on-change="validateForm"></paper-input>
-                  <paper-tooltip for="name" offset="-7" position="bottom">ex : Red</paper-tooltip>
-                  <paper-input class= "container-right" always-float-label id="validation" label="{{localize('validation')}}" value="{{argument.validation}}" auto-validate maxlength="50" on-change="validateForm"></paper-input>
-                  <paper-tooltip for="validation" offset="-7" position="bottom">ex : ({0} >= 0) and ({0} <= 255)</paper-tooltip>
+    <template is="dom-if" if="{{commandAdded}}">
+      <div class = "wrapper clearfix">
+      <h4>{{localize('sendingData')}}</h4>
+      <span>{{localize('commands')}}</span>
+      <div class="subfield-container">
+        <template is="dom-repeat" items="{{sentData.commands}}" as="command" index-as="commandIndex">
+          <div class = "wrapper clearfix">
+            <span class="close" on-click = "removeCommand">&times;</span>
+            <paper-input always-float-label id="name" class="clearfix" label="{{localize('name')}}" value="{{command.name}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+            <paper-tooltip for="name" offset="-7" position="bottom">ex : SetRGB</paper-tooltip>
+            <paper-input always-float-label id="title" label="{{localize('title')}}" value="{{command.title}}" required auto-validate error-message="This field is required!" maxlength="80" on-change="validateForm"></paper-input>
+            <paper-tooltip for="title" offset="-7" position="bottom">ex : Set color in RGB</paper-tooltip>
+            <paper-input always-float-label id="description" label="{{localize('description')}}" value="{{command.description}}" required auto-validate error-message="This field is required!" maxlength="150" on-change="validateForm"></paper-input>
+            <paper-tooltip for="description" offset="-7" position="bottom">ex : Changes color of module to specified RGB color</paper-tooltip>
+            <paper-input class="clearfix" always-float-label id="command" label="{{localize('command')}}" value="{{command.command}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+            <paper-tooltip for="command" offset="-7" position="bottom">ex : 2702</paper-tooltip>
+            <template is="dom-if" if="{{argumentAdded}}">
+              <div class = "wrapper clearfix">
+                <span>{{localize('arguments')}}</span>
+                <div class="subfield-container">
+                  <template is="dom-repeat" items="{{command.arguments}}" as="argument" index-as="argumentIndex">
+                      <div class = "wrapper clearfix">
+                        <span class="close" on-click = "removeArgument">&times;</span>
+                        <paper-input class= "container-left" always-float-label id="name" label="{{localize('argumentName')}}" value="{{argument.name}}" auto-validate maxlength="50" on-change="validateForm"></paper-input>
+                        <paper-tooltip for="name" offset="-7" position="bottom">ex : Red</paper-tooltip>
+                        <paper-input class= "container-right" always-float-label id="validation" label="{{localize('validation')}}" value="{{argument.validation}}" auto-validate maxlength="50" on-change="validateForm"></paper-input>
+                        <paper-tooltip for="validation" offset="-7" position="bottom">ex : ({0} >= 0) and ({0} <= 255)</paper-tooltip>
+                      </div>
+                  </template>
+                  <paper-button raised class="indigo clearfix" on-click="addMoreArgument"> + {{localize('addMore')}} {{localize('argument')}}</paper-button>
                 </div>
-            </template>
-            <paper-button raised class="indigo clearfix" on-click="addMoreFields"> + {{localize('addMore')}} {{localize('fields')}}</paper-button>
-          </div>
-          <template is="dom-if" if="{{commandAdded}}">
-            <div class = "wrapper clearfix">
-              <span class="close" on-click = "toggleCommand">&times;</span>
-              <paper-input class="clearfix" always-float-label id="command" label="{{localize('command')}}" value="{{command.command}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
-              <paper-tooltip for="command" offset="-7" position="bottom">ex : 2702</paper-tooltip>
-            </div>
-          </template>
-          <template is="dom-if" if="{{!commandAdded}}">
-            <paper-button raised class="indigo mid clearfix" on-click="toggleCommand"> + Add Command</paper-button>
-          </template>
-          <template is="dom-if" if="{{dataAdded}}">
-            <div class = "wrapper clearfix">
-            <span>{{localize('data')}}</span>
-            <div class="subfield-container">
-              <template is="dom-repeat" items="{{command.data}}" as="data" index-as="commandDataIndex">
-                <div class = "wrapper clearfix">
-                    <span class="close" on-click = "removeData">&times;</span>
-                    <paper-input class="clearfix" always-float-label id="defaultValue" label="{{localize('defaultValue')}}" value="{{data.defaultValue}}" auto-validate allowed-pattern="[0-9]" maxlength="20" on-change="validateForm"></paper-input>
-                    <paper-tooltip for="defaultValue" offset="-7" position="bottom">ex : 0</paper-tooltip>
-                    <paper-input class= "container-left" always-float-label id="convert" label="{{localize('convert')}}" value="{{data.convert}}" auto-validate maxlength="50" on-change="validateForm"></paper-input>
-                    <paper-tooltip for="convert" offset="-7" position="bottom">ex : true</paper-tooltip>
-                    <paper-input class= "container-right" always-float-label id="format" label="{{localize('format')}}" value="{{data.format}}" auto-validate maxlength="50" on-change="validateForm"></paper-input>
-                    <paper-tooltip for="format" offset="-7" position="bottom">ex : ({0} >> 8) & 0xFF</paper-tooltip>
-                  </div>
-                </template>
-                <paper-button raised class="indigo clearfix" on-click="addMoreData"> + {{localize('addMore')}} {{localize('data')}}</paper-button>
               </div>
-            </div>
-          </template>
-          <template is="dom-if" if="{{!dataAdded}}">
-            <paper-button raised class="indigo clearfix mid" on-click="toggleData"> + Add Data</paper-button>
-          </template>
-        </div>
-      </template>
-      <paper-button raised class="indigo clearfix outer" on-click="addMoreCommands"> + {{localize('addMore')}} {{localize('commands')}}</paper-button>
-    </div>
+            </template>
+            <template is="dom-if" if="{{!argumentAdded}}">
+              <paper-button raised class="indigo clearfix mid" on-click="toggleArgument"> + Add Argument</paper-button>
+            </template>
+            <template is="dom-if" if="{{dataAdded}}">
+              <div class = "wrapper clearfix">
+              <span>{{localize('data')}}</span>
+              <div class="subfield-container">
+                <template is="dom-repeat" items="{{command.data}}" as="data" index-as="commandDataIndex">
+                  <div class = "wrapper clearfix">
+                      <span class="close" on-click = "removeData">&times;</span>
+                      <paper-input class="clearfix" always-float-label id="defaultValue" label="{{localize('defaultValue')}}" value="{{data.defaultValue}}" auto-validate allowed-pattern="[0-9]" maxlength="20" on-change="validateForm"></paper-input>
+                      <paper-tooltip for="defaultValue" offset="-7" position="bottom">ex : 0</paper-tooltip>
+                      <paper-input class= "container-left" always-float-label id="convert" label="{{localize('convert')}}" value="{{data.convert}}" auto-validate maxlength="50" on-change="validateForm"></paper-input>
+                      <paper-tooltip for="convert" offset="-7" position="bottom">ex : true</paper-tooltip>
+                      <paper-input class= "container-right" always-float-label id="format" label="{{localize('format')}}" value="{{data.format}}" auto-validate maxlength="50" on-change="validateForm"></paper-input>
+                      <paper-tooltip for="format" offset="-7" position="bottom">ex : ({0} >> 8) & 0xFF</paper-tooltip>
+                    </div>
+                  </template>
+                  <paper-button raised class="indigo clearfix" on-click="addMoreData"> + {{localize('addMore')}} {{localize('data')}}</paper-button>
+                </div>
+              </div>
+            </template>
+            <template is="dom-if" if="{{!dataAdded}}">
+              <paper-button raised class="indigo clearfix mid" on-click="toggleData"> + Add Data</paper-button>
+            </template>
+          </div>
+        </template>
+        <paper-button raised class="indigo clearfix outer" on-click="addMoreCommands"> + {{localize('addMore')}} {{localize('commands')}}</paper-button>
+      </div>
+    </template>
+    <template is="dom-if" if="{{!commandAdded}}">
+      <paper-button raised class="indigo main" on-click="toggleCommand"> + Add Command</paper-button>
+    </template>
   </template>
   <script>
     class NexpaqDriverFormSentData extends Polymer.mixinBehaviors([Polymer.AppLocalizeBehavior], Polymer.Element){
@@ -169,10 +179,8 @@
             reflectToAttribute: true,
             value: function() {
               return {
-                commands: [{
-                  arguments: [{}],
-                  data: [{}]
-                }]
+                type: "nexpaq.module",
+                version: "1.0.0"
               };
             }
           },
@@ -184,6 +192,13 @@
             }
           },
           dataAdded: {
+            type: Boolean,
+            notify: true,
+            value: function() {
+              return false;
+            }
+          },
+          argumentAdded: {
             type: Boolean,
             notify: true,
             value: function() {
@@ -230,82 +245,84 @@
         return true;
       }
 
-      toArray(obj) {
-         return Object.keys(obj).map(function(key) {
-           return {
-             stateKey: key,
-             value: obj[key]
-           };
-         });
-       }
-
-       addMoreFields(e) {
+      addMoreArgument(e) {
         var i = e.model.commandIndex;
-         var item = 'sentData.commands.'+i+'.arguments';
-         this.push(item, {});
-       }
+        var item = 'sentData.commands.'+i+'.arguments';
+        this.push(item, {});
+      }
 
-       removeArgument(e) {
-         var i = e.model.parentModel.commandIndex;
-         var item = 'sentData.commands.'+i+'.arguments';
-         var index = e.model.argumentIndex;
-         this.splice(item, index, 1);
-       }
+      removeArgument(e) {
+        if(e.model.itemsIndex == 0) {
+          this.toggleArgument();
+        //  delete e.model.parentModel.command['arguments'];
+        }
+          var i = e.model.parentModel.commandIndex;
+          var item = 'sentData.commands.'+i+'.arguments';
+          var index = e.model.argumentIndex;
+          this.splice(item, index, 1);
+      }
 
-       toggleCommand() {
+      toggleArgument(e) {
+        if(this.argumentAdded) {
+          this.argumentAdded = false;
+        } else {
+          this.argumentAdded = true;
+          var i = e.model.commandIndex;
+          var item = 'sentData.commands.'+i+'.arguments';
+          this.set(item, [{}]);
+        }
+      }
+
+      addMoreData(e) {
+        var i = e.model.commandIndex;
+        var item = 'sentData.commands.'+i+'.data';
+        this.push(item, {});
+      }
+
+      removeData(e) {
+        if(e.model.itemsIndex == 0) {
+          this.toggleData();
+        }
+        var i = e.model.parentModel.commandIndex;
+        var item = 'sentData.commands.'+i+'.data';
+        var index = e.model.commandDataIndex;
+        this.splice(item, index, 1);
+      }
+
+      toggleData(e) {
+        if(this.dataAdded) {
+          this.dataAdded = false;
+        } else {
+          this.dataAdded = true;
+          var i = e.model.commandIndex;
+          var item = 'sentData.commands.'+i+'.data';
+          this.set(item, [{}]);
+        }
+      }
+
+      addMoreCommands(e) {
+        var item = 'sentData.commands';
+        this.push(item,{});
+      }
+
+      removeCommand(e) {
+        if(e.model.itemsIndex == 0) {
+          this.toggleCommand();
+        }
+        var item = 'sentData.commands';
+        var index = e.model.commandIndex;
+        this.splice(item, index, 1);
+      }
+
+      toggleCommand() {
         if(this.commandAdded) {
           this.commandAdded = false;
         } else {
           this.commandAdded = true;
+          var item = 'sentData.commands';
+          this.set(item,[{}]);
         }
-       }
-
-       toggleData() {
-         if(this.dataAdded) {
-           this.dataAdded = false;
-         } else {
-           this.dataAdded = true;
-         }
-       }
-
-       addMoreData(e) {
-         var i = e.model.commandIndex;
-         var item = 'sentData.commands.'+i+'.data';
-         this.push(item, {});
-       }
-
-       removeData(e) {
-         if(e.model.itemsIndex == 0) {
-           this.toggleData();
-         }
-         var i = e.model.parentModel.commandIndex;
-         var item = 'sentData.commands.'+i+'.data';
-         var index = e.model.commandDataIndex;
-         this.splice(item, index, 1);
-       }
-
-       addMoreCommands(e) {
-         var item = 'sentData.commands';
-         this.push(item, {
-           arguments: [{}],
-           data: [{}]
-         });
-       }
-
-       removeCommand(e) {
-         var item = 'sentData.commands';
-         var index = e.model.commandIndex;
-         this.splice(item, index, 1);
-
-       }
-
-       addMoreState(e) {
-         var i = e.model.dataIndex;
-         var j = e.model.variableIndex;
-         var item = 'receivedData.data.'+i+'.variables'+j+'.state';
-         //Since state is object push doesnt work
-         //this.set(item, {} );
-       }
+      }
     }
     customElements.define(NexpaqDriverFormSentData.is, NexpaqDriverFormSentData);
   </script>
