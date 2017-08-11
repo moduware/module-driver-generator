@@ -15,13 +15,16 @@
 
     </style>
 
-    <template is="dom-repeat" items="{{toArray(variable.state)}}" as="state">
+    <template is="dom-repeat" items="{{statesObjectRenderer(states, states.*)}}" as="state">
       <div class = "wrapper clearfix">
         <span class="close" on-click = "removeState">&times;</span>
+
         <paper-input class= "container-left" always-float-label id="key" label="{{localize('key')}}" value="{{state.stateKey}}" auto-validate maxlength="50" on-change="validateForm"></paper-input>
         <paper-tooltip for="key" offset="-7" position="bottom">ex : 00</paper-tooltip>
-        <paper-input class= "container-right" always-float-label id="value" label="{{localize('value')}}" value="{{state.value}}" auto-validate maxlength="50" on-change="validateForm"></paper-input>
+
+        <paper-input class= "container-right" always-float-label id="value" label="{{localize('value')}}" value="{{state.value}}" data-key$="{{state.stateKey}}" auto-validate maxlength="50" on-change="passValueToStatesObject"></paper-input>
         <paper-tooltip for="value" offset="-7" position="bottom">ex : success</paper-tooltip>
+
       </div>
     </template>
     <paper-button raised class="indigo clearfix" on-click="addMoreState"> + {{localize('addMore')}} {{localize('fields')}}</paper-button>
@@ -40,6 +43,32 @@
             notify: true
           }
         }
+      }
+
+      /**
+      * Renders our states object ot array on every key change
+      */
+      statesObjectRenderer(states, changes) {
+        return this.toArray(states);
+      }
+
+      /**
+      * Adds additional key to our states object
+      */
+      addMoreState() {
+        var newKeyName = 'key' + (Object.keys(this.states).length + 1);
+        this.set('states.' + newKeyName, '');
+      }
+
+      /**
+      * Tracks changes in key values and passes them back to states objects
+      */
+      passValueToStatesObject(event) {
+        // collecting key and value
+        var key = event.currentTarget.dataset.key;
+        var value = event.currentTarget.value;
+        // passing to object
+        this.set('states.' + key, value);
       }
     }
 

@@ -134,16 +134,6 @@
                       <span>{{localize('state')}}</span>
           			      <div class="subfield-container">
                         <nexpaq-driver-form-states language="[[language]]" resources="[[resources]]" states="{{variable.state}}"></nexpaq-driver-form-states>
-          			      	<!-- <template is="dom-repeat" items="{{toArray(variable.state)}}" as="state">
-                          <div class = "wrapper clearfix">
-                            <span class="close" on-click = "removeState">&times;</span>
-            					      <paper-input class= "container-left" always-float-label id="key" label="{{localize('key')}}" value="{{state.stateKey}}" auto-validate maxlength="50" on-change="validateForm"></paper-input>
-            					      <paper-tooltip for="key" offset="-7" position="bottom">ex : 00</paper-tooltip>
-            					      <paper-input class= "container-right" always-float-label id="value" label="{{localize('value')}}" value="{{state.value}}" auto-validate maxlength="50" on-change="validateForm"></paper-input>
-            					      <paper-tooltip for="value" offset="-7" position="bottom">ex : success</paper-tooltip>
-                          </div>
-                        </template>
-                        <paper-button raised class="indigo clearfix" on-click="addMoreState"> + {{localize('addMore')}} {{localize('fields')}}</paper-button> -->
                       </div>
                             
           			        <paper-input class="clearfix" always-float-label id="format" label="{{localize('format')}}" value="{{variable.format}}" auto-validate maxlength="150" on-change="validateForm"></paper-input>
@@ -252,7 +242,7 @@
       addMoreVariables(e) {
         var i = e.model.dataIndex;
         var item = 'receivedData.data.'+i+'.variables';
-        this.push(item, {state: {"":""}});
+        this.push(item, {state: {'key1':''}});
       }
 
       removeVariable(e) {
@@ -272,7 +262,7 @@
           this.variableAdded = true;
           var i = e.model.dataIndex;
           var item = 'receivedData.data.'+i+'.variables';
-          this.set(item, [{state: {"":""}}]);
+          this.set(item, [{state: {'key1':''}}]);
         }
       }
 
@@ -298,14 +288,6 @@
           var item = 'receivedData.data';
           this.set(item,[{}]);
         }
-      }
-
-      addMoreState(e) {
-        var i = e.model.parentModel.dataIndex;
-        var j = e.model.variableIndex;
-        var item = 'receivedData.data.'+i+'.variables.'+j+'.state';
-        //Since state is object push doesnt work
-        // this.set(item, {"":""} );
       }
     }
     customElements.define(NexpaqDriverFormReceivedData.is, NexpaqDriverFormReceivedData);
