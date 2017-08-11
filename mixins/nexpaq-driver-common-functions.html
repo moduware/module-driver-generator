@@ -1,0 +1,16 @@
+<dom-module id="nexpaq-driver-common-functions">
+  <script>
+  NexpaqDriverCommonFunctions = function(superClass) {
+    return class extends superClass {
+      toArray(obj) {
+        return Object.keys(obj).map(function(key) {
+          return {
+            stateKey: key,
+            value: obj[key]
+          };
+        });
+      }
+    }
+  }
+  </script>
+</dom-module>

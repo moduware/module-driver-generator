@@ -6,6 +6,8 @@
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/app-localize-behavior/app-localize-behavior.html">
 
+<link rel="import" href="../mixins/nexpaq-driver-common-functions.html">
+
 <dom-module id="nexpaq-driver-form-received-data">
   <template>
   	<style>
@@ -127,7 +129,8 @@
           			      <paper-tooltip for="description" offset="-7" position="bottom">ex : Ambient humidity detected by module</paper-tooltip>
           			      <paper-input always-float-label id="data" label="{{localize('data')}}" value="{{variable.data}}" required auto-validate allowed-pattern="[0-9_\,]" error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
           			      <paper-tooltip for="data" offset="-7" position="bottom">ex : 0, 1</paper-tooltip>
-          			      <span>{{localize('state')}}</span>
+                      
+                      <span>{{localize('state')}}</span>
           			      <div class="subfield-container">
           			      	<template is="dom-repeat" items="{{toArray(variable.state)}}" as="state">
                           <div class = "wrapper clearfix">
@@ -139,7 +142,8 @@
                           </div>
                         </template>
                         <paper-button raised class="indigo clearfix" on-click="addMoreState"> + {{localize('addMore')}} {{localize('fields')}}</paper-button>
-          			      </div>
+                      </div>
+                            
           			        <paper-input class="clearfix" always-float-label id="format" label="{{localize('format')}}" value="{{variable.format}}" auto-validate maxlength="150" on-change="validateForm"></paper-input>
           			        <paper-tooltip for="format" offset="-7" position="bottom">ex : 175.75 * ({0} * 256 + {1} / 4 * 4) / 65536 - 46.85</paper-tooltip>
                     </template>
@@ -161,7 +165,7 @@
     </template>
   </template>
   <script>
-    class NexpaqDriverFormReceivedData extends Polymer.mixinBehaviors([Polymer.AppLocalizeBehavior], Polymer.Element){
+    class NexpaqDriverFormReceivedData extends Polymer.mixinBehaviors([Polymer.AppLocalizeBehavior], NexpaqDriverCommonFunctions(Polymer.Element)){
       static get is() { return 'nexpaq-driver-form-received-data' }
       static get properties() {
         return {
@@ -234,14 +238,14 @@
         return true;
       }
 
-      toArray(obj) {
-        return Object.keys(obj).map(function(key) {
-          return {
-            stateKey: key,
-            value: obj[key]
-          };
-        });
-      }
+      // toArray(obj) {
+      //   return Object.keys(obj).map(function(key) {
+      //     return {
+      //       stateKey: key,
+      //       value: obj[key]
+      //     };
+      //   });
+      // }
 
       addMoreVariables(e) {
         var i = e.model.dataIndex;
