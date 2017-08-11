@@ -1,0 +1,49 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/app-localize-behavior/app-localize-behavior.html">
+<link rel="import" href="../mixins/nexpaq-driver-common-functions.html">
+<link rel="import" href="../styles/nexpaq-driver-form-common-styles.html">
+
+<dom-module id="nexpaq-driver-form-states">
+  <template>
+  	<style include="nexpaq-driver-form-common-styles">
+
+      :host {
+        display: block;
+        box-sizing: border-box;
+        position: relative;
+      }
+
+    </style>
+
+    <template is="dom-repeat" items="{{toArray(variable.state)}}" as="state">
+      <div class = "wrapper clearfix">
+        <span class="close" on-click = "removeState">&times;</span>
+        <paper-input class= "container-left" always-float-label id="key" label="{{localize('key')}}" value="{{state.stateKey}}" auto-validate maxlength="50" on-change="validateForm"></paper-input>
+        <paper-tooltip for="key" offset="-7" position="bottom">ex : 00</paper-tooltip>
+        <paper-input class= "container-right" always-float-label id="value" label="{{localize('value')}}" value="{{state.value}}" auto-validate maxlength="50" on-change="validateForm"></paper-input>
+        <paper-tooltip for="value" offset="-7" position="bottom">ex : success</paper-tooltip>
+      </div>
+    </template>
+    <paper-button raised class="indigo clearfix" on-click="addMoreState"> + {{localize('addMore')}} {{localize('fields')}}</paper-button>
+
+  </template>
+  <script>
+    // Extend Polymer.Element base class
+    class DriverFormStates extends Polymer.mixinBehaviors([Polymer.AppLocalizeBehavior], NexpaqDriverCommonFunctions(Polymer.Element)) {
+
+      static get is() { return 'nexpaq-driver-form-states' }
+
+      static get properties() {
+        return {
+          states: {
+            type: Object,
+            notify: true
+          }
+        }
+      }
+    }
+
+    // Register custom element definition using standard platform API
+    customElements.define(DriverFormStates.is, DriverFormStates);
+  </script>
+</dom-module>

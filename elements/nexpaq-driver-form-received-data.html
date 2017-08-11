@@ -7,10 +7,12 @@
 <link rel="import" href="../bower_components/app-localize-behavior/app-localize-behavior.html">
 
 <link rel="import" href="../mixins/nexpaq-driver-common-functions.html">
+<link rel="import" href="../styles/nexpaq-driver-form-common-styles.html">
+<link rel="import" href="nexpaq-driver-form-states.html"> 
 
 <dom-module id="nexpaq-driver-form-received-data">
   <template>
-  	<style>
+  	<style include="nexpaq-driver-form-common-styles">
 
       :host {
         display: block;
@@ -19,7 +21,7 @@
         position: relative;
         overflow: auto;
       }
-      paper-tooltip {
+      /* paper-tooltip {
         --paper-tooltip-opacity: 0.8;
         --paper-tooltip-background: black ;
         --paper-tooltip-text-color: white;
@@ -53,7 +55,7 @@
         float: right;
         font-size: 12px;
         width: 40%; height: 12%;
-      }
+      } */
       h4 {
         color: #606060;
         font-weight: 500;
@@ -61,28 +63,27 @@
         padding-top: 24px;
         display: block;
       }
-      .container-left {
+      /* .container-left {
         float: left;
         width: 45%;
       }
       .container-right {
         float: right;
         width: 45%;
-      }
-      .clearfix {
+      } */
+      /* .clearfix {
         clear: right;
-      }
+      } */
       .subfield-container {
       	margin-left: 25px;
       }
       .wrapper {
         width:98%;
       }
-      .close {
+      /* .close {
         float: right;
         width: 6px;
         right: 2px;
-        /*top: -2px;*/
       }
       .close:hover {
         color: #EE3696;
@@ -90,7 +91,7 @@
       paper-input {
       	--secondary-text-color: #9b9b9b;
       	--paper-font-subhead_-_font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-      }
+      } */
       span {
       	color: #9b9b9b;
       	font-size: 12px;
@@ -132,7 +133,8 @@
                       
                       <span>{{localize('state')}}</span>
           			      <div class="subfield-container">
-          			      	<template is="dom-repeat" items="{{toArray(variable.state)}}" as="state">
+                        <nexpaq-driver-form-states language="[[language]]" resources="[[resources]]" states="{{variable.state}}"></nexpaq-driver-form-states>
+          			      	<!-- <template is="dom-repeat" items="{{toArray(variable.state)}}" as="state">
                           <div class = "wrapper clearfix">
                             <span class="close" on-click = "removeState">&times;</span>
             					      <paper-input class= "container-left" always-float-label id="key" label="{{localize('key')}}" value="{{state.stateKey}}" auto-validate maxlength="50" on-change="validateForm"></paper-input>
@@ -141,7 +143,7 @@
             					      <paper-tooltip for="value" offset="-7" position="bottom">ex : success</paper-tooltip>
                           </div>
                         </template>
-                        <paper-button raised class="indigo clearfix" on-click="addMoreState"> + {{localize('addMore')}} {{localize('fields')}}</paper-button>
+                        <paper-button raised class="indigo clearfix" on-click="addMoreState"> + {{localize('addMore')}} {{localize('fields')}}</paper-button> -->
                       </div>
                             
           			        <paper-input class="clearfix" always-float-label id="format" label="{{localize('format')}}" value="{{variable.format}}" auto-validate maxlength="150" on-change="validateForm"></paper-input>
