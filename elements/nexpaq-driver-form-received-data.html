@@ -8,7 +8,7 @@
 
 <link rel="import" href="../mixins/nexpaq-driver-common-functions.html">
 <link rel="import" href="../styles/nexpaq-driver-form-common-styles.html">
-<link rel="import" href="nexpaq-driver-form-states.html"> 
+<link rel="import" href="nexpaq-driver-form-states.html">
 
 <dom-module id="nexpaq-driver-form-received-data">
   <template>
@@ -21,89 +21,18 @@
         position: relative;
         overflow: auto;
       }
-      /* paper-tooltip {
-        --paper-tooltip-opacity: 0.8;
-        --paper-tooltip-background: black ;
-        --paper-tooltip-text-color: white;
-        width: 120px;
-        font-size: 13px;
-      }
-      paper-button.indigo {
-        color: white;
-        background-color: #606060;
-        float: right;
-        font-size: 8px;
-        width: 25%; height: 9%;
-      }
-      paper-button.indigo.mid {
-        margin-top: 18px;
-        clear: right;
-        float: right;
-        font-size: 9px;
-        width: 28%; height: 11%;
-      }
-      paper-button.indigo.outer {
-        margin-top: 25px;
-        clear: right;
-        float: right;
-        font-size: 10px;
-        width: 30%; height: 12%;
-      }
-      paper-button.main {
-        margin-top: 25px;
-        clear: right;
-        float: right;
-        font-size: 12px;
-        width: 40%; height: 12%;
-      } */
-      h4 {
-        color: #606060;
-        font-weight: 500;
-        text-align: center;
-        padding-top: 24px;
-        display: block;
-      }
-      /* .container-left {
-        float: left;
-        width: 45%;
-      }
-      .container-right {
-        float: right;
-        width: 45%;
-      } */
-      /* .clearfix {
-        clear: right;
-      } */
       .subfield-container {
       	margin-left: 25px;
       }
       .wrapper {
         width:98%;
       }
-      /* .close {
-        float: right;
-        width: 6px;
-        right: 2px;
-      }
-      .close:hover {
-        color: #EE3696;
-      }
-      paper-input {
-      	--secondary-text-color: #9b9b9b;
-      	--paper-font-subhead_-_font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-      } */
-      span {
-      	color: #9b9b9b;
-      	font-size: 12px;
-      	font-weight: 300;
-      	font-family: Helvetica, Arial, sans-serif;
-      	line-height: 24px;
-      }
+
     </style>
     <template is="dom-if" if="{{receivedDataAdded}}">
       <div class = "wrapper clearfix">
-        <h4 class="clearfix">{{localize('receivingData')}}</h4>
-      	<span>{{localize('data')}}</span>
+        <h4 class="header clearfix">{{localize('receivingData')}}</h4>
+      	<span class="field">{{localize('data')}}</span>
         <div class="subfield-container">
     	  	<template is="dom-repeat" items="{{receivedData.data}}" as="dataInReceived" index-as="dataIndex">
             <div class = "wrapper clearfix">
@@ -117,8 +46,8 @@
       	      <paper-input always-float-label id="source" label="{{localize('source')}}" value="{{dataInReceived.source}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
       	      <paper-tooltip for="source" offset="-7" position="bottom">ex : 2800</paper-tooltip>
               <template is="dom-if" if="{{variableAdded}}">
-                <div class = "wrapper clearfix">
-                  <span>{{localize('variables')}}</span>
+                <div class="wrapper clearfix">
+                  <span class="field">{{localize('variables')}}</span>
           	      <div class="subfield-container">
           		      <template is="dom-repeat" items="{{dataInReceived.variables}}" as="variable" index-as="variableIndex">
                       <span class="close" on-click = "removeVariable">&times;</span>
@@ -130,14 +59,12 @@
           			      <paper-tooltip for="description" offset="-7" position="bottom">ex : Ambient humidity detected by module</paper-tooltip>
           			      <paper-input always-float-label id="data" label="{{localize('data')}}" value="{{variable.data}}" required auto-validate allowed-pattern="[0-9_\,]" error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
           			      <paper-tooltip for="data" offset="-7" position="bottom">ex : 0, 1</paper-tooltip>
-                      
-                      <span>{{localize('state')}}</span>
+                      <span class="field">{{localize('state')}}</span>
           			      <div class="subfield-container">
                         <nexpaq-driver-form-states language="[[language]]" resources="[[resources]]" states="{{variable.state}}"></nexpaq-driver-form-states>
                       </div>
-                            
-          			        <paper-input class="clearfix" always-float-label id="format" label="{{localize('format')}}" value="{{variable.format}}" auto-validate maxlength="150" on-change="validateForm"></paper-input>
-          			        <paper-tooltip for="format" offset="-7" position="bottom">ex : 175.75 * ({0} * 256 + {1} / 4 * 4) / 65536 - 46.85</paper-tooltip>
+          			      <paper-input class="clearfix" always-float-label id="format" label="{{localize('format')}}" value="{{variable.format}}" auto-validate maxlength="150" on-change="validateForm"></paper-input>
+                      <paper-tooltip for="format" offset="-7" position="bottom">ex : 175.75 * ({0} * 256 + {1} / 4 * 4) / 65536 - 46.85</paper-tooltip>
                     </template>
                     <paper-button raised class="indigo outer clearfix" on-click="addMoreVariables"> + {{localize('addMore')}} {{localize('variables')}}</paper-button>
                   </div>
