@@ -6,7 +6,7 @@
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/app-localize-behavior/app-localize-behavior.html">
 <link rel="import" href="../styles/nexpaq-driver-form-common-styles.html">
-
+<link rel="import" href="nexpaq-driver-form-arguments.html">
 <dom-module id="nexpaq-driver-form-sent-data">
   <template>
   	<style include="nexpaq-driver-form-common-styles">
@@ -51,7 +51,9 @@
               <div class = "wrapper clearfix">
                 <span class="field">{{localize('arguments')}}</span>
                 <div class="subfield-container">
-                  <template is="dom-repeat" items="{{command.arguments}}" as="argument" index-as="argumentIndex">
+                  <nexpaq-driver-form-arguments language="[[language]]" resources="[[resources]]" arguments="{{command.arguments}}"></nexpaq-driver-form-arguments>
+
+                  <!-- <template is="dom-repeat" items="{{command.arguments}}" as="argument" index-as="argumentIndex">
                       <div class="wrapper clearfix">
                         <span class="close" on-click = "removeArgument">&times;</span>
                         <paper-input class= "container-left" always-float-label id="name" label="{{localize('argumentName')}}" value="{{argument.name}}" auto-validate maxlength="50" on-change="validateForm"></paper-input>
@@ -60,7 +62,8 @@
                         <paper-tooltip for="validation" offset="-7" position="bottom">ex : ({0} >= 0) and ({0} <= 255)</paper-tooltip>
                       </div>
                   </template>
-                  <paper-button raised class="indigo clearfix" on-click="addMoreArgument"> + {{localize('addMore')}} {{localize('argument')}}</paper-button>
+                  <paper-button raised class="indigo clearfix" on-click="addMoreArgument"> + {{localize('addMore')}} {{localize('argument')}}</paper-button> -->
+
                 </div>
               </div>
             </template>
@@ -175,33 +178,7 @@
         return true;
       }
 
-      addMoreArgument(e) {
-        var i = e.model.commandIndex;
-        var item = 'sentData.commands.'+i+'.arguments';
-        this.push(item, {});
-      }
 
-      removeArgument(e) {
-        if(e.model.itemsIndex == 0) {
-          this.toggleArgument();
-        //  delete e.model.parentModel.command['arguments'];
-        }
-          var i = e.model.parentModel.commandIndex;
-          var item = 'sentData.commands.'+i+'.arguments';
-          var index = e.model.argumentIndex;
-          this.splice(item, index, 1);
-      }
-
-      toggleArgument(e) {
-        if(this.argumentAdded) {
-          this.argumentAdded = false;
-        } else {
-          this.argumentAdded = true;
-          var i = e.model.commandIndex;
-          var item = 'sentData.commands.'+i+'.arguments';
-          this.set(item, [{}]);
-        }
-      }
 
       addMoreData(e) {
         var i = e.model.commandIndex;
@@ -226,6 +203,16 @@
           this.dataAdded = true;
           var i = e.model.commandIndex;
           var item = 'sentData.commands.'+i+'.data';
+          this.set(item, [{}]);
+        }
+      }
+      toggleArgument(e) {
+        if(this.argumentAdded) {
+          this.argumentAdded = false;
+        } else {
+          this.argumentAdded = true;
+          var i = e.model.commandIndex;
+          var item = 'sentData.commands.'+i+'.arguments';
           this.set(item, [{}]);
         }
       }
