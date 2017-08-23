@@ -142,7 +142,7 @@
             type: Boolean,
             notify: true,
             value: function() {
-              return false;
+              return true;
             }
           },
         }
@@ -155,6 +155,7 @@
        */
       validateForm() {
         var paperInputs = Polymer.dom(this.root).querySelectorAll("paper-input");
+        console.log(paperInputs);
         for (var i=0; i<paperInputs.length; i++) {
           if (!this.validateField(paperInputs[i])) {
             this.valid = false;
@@ -229,6 +230,7 @@
         var item = 'sentData.commands';
         var index = e.model.commandIndex;
         this.splice(item, index, 1);
+        this.validateForm();
       }
 
       toggleCommand() {
