@@ -47,11 +47,11 @@
             <paper-tooltip for="description" offset="-7" position="bottom">ex : Changes color of module to specified RGB color</paper-tooltip>
             <paper-input class="clearfix" always-float-label id="command" label="{{localize('command')}}" value="{{command.command}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
             <paper-tooltip for="command" offset="-7" position="bottom">ex : 2702</paper-tooltip>
-            <template is="dom-if" if="{{argumentAdded}}">
+            <!-- <template is="dom-if" if="{{argumentAdded}}">
               <div class = "wrapper clearfix">
                 <span class="field">{{localize('arguments')}}</span>
-                <div class="subfield-container">
-                  <nexpaq-driver-form-arguments language="[[language]]" resources="[[resources]]" arguments="{{command.arguments}}"></nexpaq-driver-form-arguments>
+                <div class="subfield-container"> -->
+                  <nexpaq-driver-form-arguments command="{{commandIndex}}" language="[[language]]" resources="[[resources]]" arguments="{{command.arguments}}"></nexpaq-driver-form-arguments>
 
                   <!-- <template is="dom-repeat" items="{{command.arguments}}" as="argument" index-as="argumentIndex">
                       <div class="wrapper clearfix">
@@ -64,12 +64,12 @@
                   </template>
                   <paper-button raised class="indigo clearfix" on-click="addMoreArgument"> + {{localize('addMore')}} {{localize('argument')}}</paper-button> -->
 
-                </div>
+                <!-- </div>
               </div>
             </template>
             <template is="dom-if" if="{{!argumentAdded}}">
               <paper-button raised class="indigo clearfix mid" on-click="toggleArgument"> + Add Argument</paper-button>
-            </template>
+            </template> -->
             <template is="dom-if" if="{{dataAdded}}">
               <div class="wrapper clearfix">
               <span class="field">{{localize('data')}}</span>
