@@ -1,0 +1,78 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/app-localize-behavior/app-localize-behavior.html">
+<link rel="import" href="../mixins/nexpaq-driver-common-functions.html">
+<link rel="import" href="../styles/nexpaq-driver-form-common-styles.html">
+<link rel="import" href="nexpaq-driver-form-states.html">
+
+<dom-module id="nexpaq-driver-form-variables">
+  <template>
+  	<style include="nexpaq-driver-form-common-styles">
+
+      :host {
+        display: block;
+        box-sizing: border-box;
+        position: relative;
+      }
+
+    </style>
+
+    <template is="dom-repeat" items="{{variables}}" as="variable" index-as="variableIndex">
+      <span class="close" on-click = "removeVariable">&times;</span>
+      <paper-input always-float-label id="name" label="{{localize('name')}}" value="{{variable.name}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+      <paper-tooltip for="name" offset="-7" position="bottom">ex : humidity</paper-tooltip>
+      <paper-input always-float-label id="title" label="{{localize('title')}}" value="{{variable.title}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+      <paper-tooltip for="title" offset="-7" position="bottom">ex : Humidity</paper-tooltip>
+      <paper-input always-float-label id="description" label="{{localize('description')}}" value="{{variable.description}}" required auto-validate error-message="This field is required!" maxlength="150" on-change="validateForm"></paper-input>
+      <paper-tooltip for="description" offset="-7" position="bottom">ex : Ambient humidity detected by module</paper-tooltip>
+      <paper-input always-float-label id="data" label="{{localize('data')}}" value="{{variable.data}}" required auto-validate allowed-pattern="[0-9_\,]" error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+      <paper-tooltip for="data" offset="-7" position="bottom">ex : 0, 1</paper-tooltip>
+      <span class="field">{{localize('state')}}</span>
+      <div class="subfield-container">
+        <nexpaq-driver-form-states language="[[language]]" resources="[[resources]]" states="{{variable.state}}" valid="{{valid}}"></nexpaq-driver-form-states>
+      </div>
+      <paper-input class="clearfix" always-float-label id="format" label="{{localize('format')}}" value="{{variable.format}}" auto-validate maxlength="150" on-change="validateForm"></paper-input>
+      <paper-tooltip for="format" offset="-7" position="bottom">ex : 175.75 * ({0} * 256 + {1} / 4 * 4) / 65536 - 46.85</paper-tooltip>
+    </template>
+    <paper-button raised class="indigo outer clearfix" on-click="addMoreVariables"> + {{localize('addMore')}} {{localize('variables')}}</paper-button>
+
+  </template>
+  <script>
+    // Extend Polymer.Element base class
+    class DriverFormVariables extends Polymer.mixinBehaviors([Polymer.AppLocalizeBehavior], NexpaqDriverCommonFunctions(Polymer.Element)) {
+
+      static get is() { return 'nexpaq-driver-form-variables' }
+
+      static get properties() {
+        return {
+          variables: {
+            type: Array,
+            notify: true
+          },
+          added: {
+            type: Boolean,
+            notify: true
+          },
+          valid: {
+            type: Boolean,
+            notify: true
+          }
+        }
+      }
+
+      addMoreVariables(e) {
+        this.push("variables", {state: {'key1':''}});
+      }
+
+      removeVariable(e) {
+        if(e.model.itemsIndex == 0) {
+          this.added = false;
+        }
+        var index = e.model.variableIndex;
+        this.splice('variables', index, 1);
+      }
+    }
+
+    // Register custom element definition using standard platform API
+    customElements.define(DriverFormVariables.is, DriverFormVariables);
+  </script>
+</dom-module>
