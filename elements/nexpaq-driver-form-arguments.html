@@ -55,7 +55,7 @@
       }
 
       removeArgument(e) {
-        if(e.model.itemsIndex == 0) {
+        if(this.arguments.length == 1) {
           this.added = false;
         }
         var index = e.model.argumentIndex;

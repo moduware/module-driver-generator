@@ -64,7 +64,7 @@
       }
 
       removeVariable(e) {
-        if(e.model.itemsIndex == 0) {
+        if(this.variables.length == 1) {
           this.added = false;
         }
         var index = e.model.variableIndex;

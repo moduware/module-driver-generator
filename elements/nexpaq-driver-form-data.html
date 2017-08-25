@@ -56,7 +56,7 @@
       }
 
       removeData(e) {
-        if(e.model.itemsIndex == 0) {
+        if(this.commandData.length == 1) {
           this.added = false;
         }
         var index = e.model.commandDataIndex;
