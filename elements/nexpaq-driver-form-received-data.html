@@ -61,7 +61,7 @@
           			      <paper-tooltip for="data" offset="-7" position="bottom">ex : 0, 1</paper-tooltip>
                       <span class="field">{{localize('state')}}</span>
           			      <div class="subfield-container">
-                        <nexpaq-driver-form-states language="[[language]]" resources="[[resources]]" states="{{variable.state}}"></nexpaq-driver-form-states>
+                        <nexpaq-driver-form-states language="[[language]]" resources="[[resources]]" states="{{variable.state}}" valid="{{valid}}"></nexpaq-driver-form-states>
                       </div>
           			      <paper-input class="clearfix" always-float-label id="format" label="{{localize('format')}}" value="{{variable.format}}" auto-validate maxlength="150" on-change="validateForm"></paper-input>
                       <paper-tooltip for="format" offset="-7" position="bottom">ex : 175.75 * ({0} * 256 + {1} / 4 * 4) / 65536 - 46.85</paper-tooltip>
@@ -123,47 +123,38 @@
             value: function() {
               return true;
             }
-          },
-        }
-      }
-
-      /**
-       * Validates the form by checking each
-       * paper input field.
-       * @param {object}
-       */
-      validateForm() {
-        var paperInputs = Polymer.dom(this.root).querySelectorAll("paper-input");
-        for (var i=0; i<paperInputs.length; i++) {
-          if (!this.validateField(paperInputs[i])) {
-            this.valid = false;
-            return;
           }
         }
-        this.valid = true;
-        return;
       }
 
-      /**
-       * Checks if the field is valid and required
-       * field is filled.
-       * @param {object}
-       */
-      validateField(field) {
-        if(field.invalid) return false;
-        if(field.required) {
-          if (field.value == null || field.value == "") return false;
-        }
-        return true;
-      }
-
-      // toArray(obj) {
-      //   return Object.keys(obj).map(function(key) {
-      //     return {
-      //       stateKey: key,
-      //       value: obj[key]
-      //     };
-      //   });
+      // /**
+      //  * Validates the form by checking each
+      //  * paper input field.
+      //  * @param {object}
+      //  */
+      // validateForm() {
+      //   var paperInputs = Polymer.dom(this.root).querySelectorAll("paper-input");
+      //   for (var i=0; i<paperInputs.length; i++) {
+      //     if (!this.validateField(paperInputs[i])) {
+      //       this.valid = false;
+      //       return;
+      //     }
+      //   }
+      //   this.valid = true;
+      //   return;
+      // }
+      //
+      // /**
+      //  * Checks if the field is valid and required
+      //  * field is filled.
+      //  * @param {object}
+      //  */
+      // validateField(field) {
+      //   if(field.invalid) return false;
+      //   if(field.required) {
+      //     if (field.value == null || field.value == "") return false;
+      //   }
+      //   return true;
       // }
 
       addMoreVariables(e) {

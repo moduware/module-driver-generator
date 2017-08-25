@@ -20,7 +20,7 @@
           <span class="close" on-click = "removeArgument">&times;</span>
           <paper-input class= "container-left" always-float-label id="name" label="{{localize('argumentName')}}" value="{{argument.name}}" auto-validate maxlength="50" on-change="validateForm"></paper-input>
           <paper-tooltip for="name" offset="-7" position="bottom">ex : Red</paper-tooltip>
-          <paper-input class= "container-right" always-float-label id="validation" label="{{localize('validation')}}" value="{{argument.validation}}" auto-validate maxlength="50" on-change="validateForm"></paper-input>
+          <paper-input class= "container-right" always-float-label id="validation" label="{{localize('validation')}}" value="{{argument.validation}}" auto-validate maxlength="50" on-change="validateForm" ></paper-input>
           <paper-tooltip for="validation" offset="-7" position="bottom">ex : ({0} >= 0) and ({0} <= 255)</paper-tooltip>
         </div>
     </template>
@@ -40,6 +40,10 @@
             notify: true
           },
           added: {
+            type: Boolean,
+            notify: true
+          },
+          valid: {
             type: Boolean,
             notify: true
           }
