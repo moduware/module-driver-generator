@@ -1,7 +1,7 @@
 {
   "en": {
     "headerGenerator": "Driver Generator",
-    "sendingData": "Sending Data",
+    "moduleCommands": "Module Commands",
     "moduleType": "Module Type",
     "driverVersion": "Driver Version",
     "commands": "Commands",
@@ -35,7 +35,7 @@
   },
   "esp" : {
     "headerGenerator": "Generador de Conductor",
-    "sendingData": "Envío de datos",
+    "moduleCommands": "Comandos del Módulo",
     "moduleType": "Tipo de Módulo",
     "driverVersion": "Versión del controlador",
     "commands": "Comandos",
@@ -69,11 +69,11 @@
   },
   "fr" : {
     "headerGenerator": "Générateur de conducteurs",
-    "sendingData": "Envoi de données",
+    "moduleCommands": "Commandes du Module",
     "moduleType": "Type de Module",
     "driverVersion": "Version du Pilote",
     "commands": "Commandes",
-    "name": "prénom",
+    "name": "Prénom",
     "title": "Titre",
     "description": "La description",
     "arguments": "Arguments",

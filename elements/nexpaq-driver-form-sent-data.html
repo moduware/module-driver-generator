@@ -36,12 +36,11 @@
     <paper-tooltip for="version" offset="-7" position="bottom">ex : 1.0.0</paper-tooltip>
     <template is="dom-if" if="{{commandAdded}}">
       <div class="wrapper clearfix">
-      <h4 class="header">{{localize('sendingData')}}</h4>
-      <span class="field">{{localize('commands')}}</span>
+      <h4 class="header">{{localize('moduleCommands')}}</h4>
       <div class="subfield-container">
         <template is="dom-repeat" items="{{sentData.commands}}" as="command" index-as="commandIndex">
           <div class="wrapper clearfix">
-            <span class="close" on-click = "removeCommand">&times;</span>
+            <span class="close" on-click="removeCommand">&times;</span>
             <paper-input always-float-label id="name" class="clearfix" label="{{localize('name')}}" value="{{command.name}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
             <paper-tooltip for="name" offset="-7" position="bottom">ex : SetRGB</paper-tooltip>
             <paper-input always-float-label id="title" label="{{localize('title')}}" value="{{command.title}}" required auto-validate error-message="This field is required!" maxlength="80" on-change="validateForm"></paper-input>
@@ -167,7 +166,7 @@
         var item = 'sentData.commands';
         var index = e.model.commandIndex;
         this.splice(item, index, 1);
-        this.validateForm();
+
       }
 
       toggleCommand() {
