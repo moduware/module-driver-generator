@@ -1,5 +1,5 @@
 {
-  "name": "polymer-2-driverGenerator",
+  "name": "polymer-driver-generator",
   "private": true,
   "dependencies": {
     "polymer": "Polymer/polymer#2",
