@@ -53,7 +53,7 @@
 
             <template is="dom-if" if="{{argumentAdded}}">
               <div class = "wrapper clearfix">
-                <span class="field">{{localize('arguments')}}</span>
+                <span class="field">{{localize('argument')}}</span>
                 <div class="subfield-container">
                   <nexpaq-driver-form-arguments added="{{argumentAdded}}" language="[[language]]" resources="[[resources]]" arguments="{{command.arguments}}" valid={{valid}}></nexpaq-driver-form-arguments>
                 </div>
@@ -77,7 +77,7 @@
 
           </div>
         </template>
-        <paper-button raised class="indigo clearfix outer" on-click="addMoreCommands"> + {{localize('addMore')}} {{localize('commands')}}</paper-button>
+        <paper-button raised class="indigo clearfix main" on-click="addMoreCommands"> + {{localize('add')}} {{localize('command')}}</paper-button>
       </div>
     </template>
     <template is="dom-if" if="{{!commandAdded}}">

@@ -47,7 +47,7 @@
       	      <paper-tooltip for="source" offset="-7" position="bottom">ex : 2800</paper-tooltip>
               <template is="dom-if" if="{{variableAdded}}">
                 <div class="wrapper clearfix">
-                  <span class="field">{{localize('variables')}}</span>
+                  <span class="field">{{localize('variable')}}</span>
           	      <div class="subfield-container">
                     <nexpaq-driver-form-variables added="{{variableAdded}}" language="[[language]]" resources="[[resources]]" variables="{{dataInReceived.variables}}" valid="{{valid}}"></nexpaq-driver-form-variables>
                   </div>
@@ -58,7 +58,7 @@
               </template>
             </div>
     		  </template>
-          <paper-button raised class="indigo outer" on-click="addMoreReceivedData"> + {{localize('addMore')}} {{localize('data')}}</paper-button>
+          <paper-button raised class="indigo outer" on-click="addMoreReceivedData"> + {{localize('add')}} {{localize('data')}}</paper-button>
         </div>
       </div>
     </template>
