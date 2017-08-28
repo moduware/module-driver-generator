@@ -77,11 +77,11 @@
 
           </div>
         </template>
-        <paper-button raised class="indigo clearfix main" on-click="addMoreCommands"> + {{localize('add')}} {{localize('command')}}</paper-button>
+        <paper-button raised class="main" on-click="addMoreCommands"> + {{localize('add')}} {{localize('command')}}</paper-button>
       </div>
     </template>
     <template is="dom-if" if="{{!commandAdded}}">
-      <paper-button raised class="indigo main" on-click="toggleCommand"> + Add Command</paper-button>
+      <paper-button raised class="main" on-click="toggleCommand"> + Add Command</paper-button>
     </template>
 
   </template>

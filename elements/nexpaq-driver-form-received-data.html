@@ -58,12 +58,12 @@
               </template>
             </div>
     		  </template>
-          <paper-button raised class="indigo outer" on-click="addMoreReceivedData"> + {{localize('add')}} {{localize('data')}}</paper-button>
+          <paper-button raised class="main" on-click="addMoreReceivedData"> + {{localize('add')}} {{localize('data')}}</paper-button>
         </div>
       </div>
     </template>
     <template is="dom-if" if="{{!receivedDataAdded}}">
-      <paper-button raised class="indigo main" on-click="toggleData"> + Add Data</paper-button>
+      <paper-button raised class="main" on-click="toggleData"> + Add Data</paper-button>
     </template>
   </template>
   <script>
