@@ -5,26 +5,18 @@
 
 <dom-module id="nexpaq-driver-form-arguments">
   <template>
-  	<style include="nexpaq-driver-form-common-styles">
-
-      :host {
-        display: block;
-        box-sizing: border-box;
-        position: relative;
-      }
-
-    </style>
+  	<style include="nexpaq-driver-form-common-styles"></style>
 
     <template is="dom-repeat" items="{{arguments}}" as="argument" index-as="argumentIndex">
-        <div class="wrapper clearfix">
-          <span class="close" on-click = "removeArgument">&times;</span>
-          <paper-input class= "container-left" always-float-label id="name" label="{{localize('argumentName')}}" value="{{argument.name}}" auto-validate maxlength="50" on-change="validateForm"></paper-input>
-          <paper-tooltip for="name" offset="-7" position="bottom">ex : Red</paper-tooltip>
-          <paper-input class= "container-right" always-float-label id="validation" label="{{localize('validation')}}" value="{{argument.validation}}" auto-validate maxlength="50" on-change="validateForm" ></paper-input>
-          <paper-tooltip for="validation" offset="-7" position="bottom">ex : ({0} >= 0) and ({0} <= 255)</paper-tooltip>
-        </div>
+      <div class="inline-container">
+        <span class="close argument" on-click = "removeArgument">&times;</span>
+        <paper-input class= "container" always-float-label id="name" label="{{localize('argumentName')}}" value="{{argument.name}}" auto-validate maxlength="50" on-change="validateForm"></paper-input>
+        <paper-tooltip for="name" offset="-7" position="bottom">ex : Red</paper-tooltip>
+        <paper-input class= "container" always-float-label id="validation" label="{{localize('validation')}}" value="{{argument.validation}}" auto-validate maxlength="50" on-change="validateForm" ></paper-input>
+        <paper-tooltip for="validation" offset="-7" position="bottom">ex : ({0} >= 0) and ({0} <= 255)</paper-tooltip>
+      </div>
     </template>
-    <paper-button raised class="indigo clearfix" on-click="addMoreArgument"> + {{localize('add')}} {{localize('argument')}}</paper-button>
+    <paper-button raised class="indigo clicked" on-click="addMoreArgument"> + {{localize('add')}} {{localize('argument')}}</paper-button>
 
   </template>
   <script>

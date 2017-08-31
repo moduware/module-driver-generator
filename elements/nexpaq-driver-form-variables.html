@@ -17,23 +17,23 @@
     </style>
 
     <template is="dom-repeat" items="{{variables}}" as="variable" index-as="variableIndex">
-      <span class="close" on-click = "removeVariable">&times;</span>
-      <paper-input always-float-label id="name" label="{{localize('name')}}" value="{{variable.name}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
-      <paper-tooltip for="name" offset="-7" position="bottom">ex : humidity</paper-tooltip>
-      <paper-input always-float-label id="title" label="{{localize('title')}}" value="{{variable.title}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
-      <paper-tooltip for="title" offset="-7" position="bottom">ex : Humidity</paper-tooltip>
-      <paper-input always-float-label id="description" label="{{localize('description')}}" value="{{variable.description}}" required auto-validate error-message="This field is required!" maxlength="150" on-change="validateForm"></paper-input>
-      <paper-tooltip for="description" offset="-7" position="bottom">ex : Ambient humidity detected by module</paper-tooltip>
-      <paper-input always-float-label id="data" label="{{localize('data')}}" value="{{variable.data}}" required auto-validate allowed-pattern="[0-9_\,]" error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
-      <paper-tooltip for="data" offset="-7" position="bottom">ex : 0, 1</paper-tooltip>
-      <span class="field">{{localize('state')}}</span>
       <div class="subfield-container">
+        <span class="close" on-click = "removeVariable">&times;</span>
+        <paper-input always-float-label id="name" label="{{localize('name')}}" value="{{variable.name}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+        <paper-tooltip for="name" offset="-7" position="bottom">ex : humidity</paper-tooltip>
+        <paper-input always-float-label id="title" label="{{localize('title')}}" value="{{variable.title}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+        <paper-tooltip for="title" offset="-7" position="bottom">ex : Humidity</paper-tooltip>
+        <paper-input always-float-label id="description" label="{{localize('description')}}" value="{{variable.description}}" required auto-validate error-message="This field is required!" maxlength="150" on-change="validateForm"></paper-input>
+        <paper-tooltip for="description" offset="-7" position="bottom">ex : Ambient humidity detected by module</paper-tooltip>
+        <paper-input always-float-label id="data" label="{{localize('data')}}" value="{{variable.data}}" required auto-validate allowed-pattern="[0-9_\,]" error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+        <paper-tooltip for="data" offset="-7" position="bottom">ex : 0, 1</paper-tooltip>
+        <span class="field">{{localize('state')}}</span>
         <nexpaq-driver-form-states language="[[language]]" resources="[[resources]]" states="{{variable.state}}" valid="{{valid}}"></nexpaq-driver-form-states>
+        <paper-input always-float-label id="format" label="{{localize('format')}}" value="{{variable.format}}" auto-validate maxlength="150" on-change="validateForm"></paper-input>
+        <paper-tooltip for="format" offset="-7" position="bottom">ex : 175.75 * ({0} * 256 + {1} / 4 * 4) / 65536 - 46.85</paper-tooltip>
       </div>
-      <paper-input class="clearfix" always-float-label id="format" label="{{localize('format')}}" value="{{variable.format}}" auto-validate maxlength="150" on-change="validateForm"></paper-input>
-      <paper-tooltip for="format" offset="-7" position="bottom">ex : 175.75 * ({0} * 256 + {1} / 4 * 4) / 65536 - 46.85</paper-tooltip>
     </template>
-    <paper-button raised class="indigo mid clearfix" on-click="addMoreVariables"> + {{localize('add')}} {{localize('variable')}}</paper-button>
+    <paper-button raised class="indigo clicked" on-click="addMoreVariables"> + {{localize('add')}} {{localize('variable')}}</paper-button>
 
   </template>
   <script>

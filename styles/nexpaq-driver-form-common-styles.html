@@ -11,31 +11,27 @@
       paper-button.indigo {
         color: white;
         background-color: #0f2a37;
-        float: right;
         font-size: 8px;
         width: 25%; height: 9%;
       }
       paper-button.indigo.mid {
         margin-top: 18px;
-        clear: right;
-        float: right;
+        margin-bottom:10px;
+        align-self: flex-end;
         font-size: 9px;
         width: 28%; height: 11%;
       }
       paper-button.indigo.outer {
-        margin-top: 25px;
-        clear: right;
-        float: right;
-        font-size: 10px;
-        width: 30%; height: 12%;
+        margin-left: -11px;
       }
       paper-button.main {
         color: white;
         background-color: #0f2a37;
-        margin-top: 20px;
-        margin-left: 25%;
+        margin-top: 25px;
+        left: 50%;
+        -webkit-transform: translateX(-50%) translatey(-50%);
         font-size: 12px;
-        width: 50%; height: 14%;
+        width: 220px; height: 14%;
       }
       .field {
         color: #9b9b9b;
@@ -51,27 +47,42 @@
         padding-top: 24px;
         display: block;
       }
-      .clearfix {
-        clear: right;
-      }
-      .container-left {
-        float: left;
-        width: 45%;
-      }
-      .container-right {
-        float: right;
-        width: 45%;
-      }
+
       .close {
-        float: right;
+        align-self: flex-end;
         width: 6px;
-        right: 2px;
         color: #84919c;
       }
       .close:hover {
         color: #d12f3d;
       }
+
+      .inline-container {
+        margin-left: 25px;
+        display: flex;
+        justify-content: space-between;
+      }
+      .container {
+        width: 45%;
+        margin-right: 10px;
+      }
+      .argument {
+        order: 3;
+        align-self: flex-start;
+      }
+      .subfield-container {
+        margin-left: 25px;
+        margin-bottom: 6px;
+        display: flex;
+        flex-direction: column;
+      }
+      .clicked {
+        -webkit-transform: translateX(-50%) translatey(-50%);
+        left: 85%;
+        margin-top: 3%;
+      }
       paper-input {
+        width: 100%;
       	--secondary-text-color: #9b9b9b;
       	--paper-font-subhead_-_font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
       }

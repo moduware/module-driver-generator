@@ -101,18 +101,6 @@
         //Stringifies the data
 
         var combinedData = Object.assign(this.sentData, this.receivedData);
-        // (function filter(obj) {
-        //   $.each(obj, function(key, value){
-        //     console.log(key);
-        //     if (value === "" || value === null ){
-        //       delete obj[key];
-        //     } else if (Object.prototype.toString.call(value) === '[object Object]') {
-        //       filter(value);
-        //     } else if ($.isArray(value)) {
-        //       $.each(value, function (k,v) { filter(v); });
-        //     }
-        //   });
-        // })(combinedData);
         var json = JSON.stringify(combinedData, null, "\t");
         this.json = json;
         return json;

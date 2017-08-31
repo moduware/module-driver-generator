@@ -17,73 +17,53 @@
       :host {
         display: block;
         box-sizing: border-box;
-        padding: 10px;
+        padding: 10px 10px 0 10px;
         position: relative;
         overflow: auto;
       }
 
-      .subfield-container {
-      	margin-left: 25px;
-      }
-      .wrapper {
-        width:98%;
-        display: flex;
-        flex-direction: column;
-      }
-
     </style>
+
     <paper-input always-float-label id="type"  label="{{localize('moduleType')}}" value="{{sentData.type}}" required auto-validate allowed-pattern="[A-Za-z_\.\-0-9]" error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
     <paper-tooltip for="type" offset="-7" position="bottom">ex : nexpaq.module.led</paper-tooltip>
     <paper-input always-float-label id="version" label="{{localize('driverVersion')}}" value="{{sentData.version}}" required auto-validate allowed-pattern="[0-9_\.]" error-message="This field is required!" maxlength="20" on-change="validateForm"></paper-input>
     <paper-tooltip for="version" offset="-7" position="bottom">ex : 1.0.0</paper-tooltip>
 
     <template is="dom-if" if="{{commandAdded}}">
-      <div class="wrapper clearfix">
       <h4 class="header">{{localize('moduleCommands')}}</h4>
       <div class="subfield-container">
         <template is="dom-repeat" items="{{sentData.commands}}" as="command" index-as="commandIndex">
-          <div class="wrapper clearfix">
-            <span class="close" on-click="removeCommand">&times;</span>
-            <paper-input always-float-label id="name" class="clearfix" label="{{localize('name')}}" value="{{command.name}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
-            <paper-tooltip for="name" offset="-7" position="bottom">ex : SetRGB</paper-tooltip>
-            <paper-input always-float-label id="title" label="{{localize('title')}}" value="{{command.title}}" required auto-validate error-message="This field is required!" maxlength="80" on-change="validateForm"></paper-input>
-            <paper-tooltip for="title" offset="-7" position="bottom">ex : Set color in RGB</paper-tooltip>
-            <paper-input always-float-label id="description" label="{{localize('description')}}" value="{{command.description}}" required auto-validate error-message="This field is required!" maxlength="150" on-change="validateForm"></paper-input>
-            <paper-tooltip for="description" offset="-7" position="bottom">ex : Changes color of module to specified RGB color</paper-tooltip>
-            <paper-input class="clearfix" always-float-label id="command" label="{{localize('command')}}" value="{{command.command}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
-            <paper-tooltip for="command" offset="-7" position="bottom">ex : 2702</paper-tooltip>
+          <span class="close" on-click="removeCommand">&times;</span>
+          <paper-input always-float-label id="name" label="{{localize('name')}}" value="{{command.name}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+          <paper-tooltip for="name" offset="-7" position="bottom">ex : SetRGB</paper-tooltip>
+          <paper-input always-float-label id="title" label="{{localize('title')}}" value="{{command.title}}" required auto-validate error-message="This field is required!" maxlength="80" on-change="validateForm"></paper-input>
+          <paper-tooltip for="title" offset="-7" position="bottom">ex : Set color in RGB</paper-tooltip>
+          <paper-input always-float-label id="description" label="{{localize('description')}}" value="{{command.description}}" required auto-validate error-message="This field is required!" maxlength="150" on-change="validateForm"></paper-input>
+          <paper-tooltip for="description" offset="-7" position="bottom">ex : Changes color of module to specified RGB color</paper-tooltip>
+          <paper-input always-float-label id="command" label="{{localize('command')}}" value="{{command.command}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+          <paper-tooltip for="command" offset="-7" position="bottom">ex : 2702</paper-tooltip>
 
-            <template is="dom-if" if="{{argumentAdded}}">
-              <div class = "wrapper clearfix">
-                <span class="field">{{localize('argument')}}</span>
-                <div class="subfield-container">
-                  <nexpaq-driver-form-arguments added="{{argumentAdded}}" language="[[language]]" resources="[[resources]]" arguments="{{command.arguments}}" valid={{valid}}></nexpaq-driver-form-arguments>
-                </div>
-              </div>
-            </template>
-            <template is="dom-if" if="{{!argumentAdded}}">
-              <paper-button raised class="indigo clearfix mid" on-click="toggleArgument"> + Add Argument</paper-button>
-            </template>
+          <template is="dom-if" if="{{argumentAdded}}">
+            <span class="field">{{localize('argument')}}</span>
+            <nexpaq-driver-form-arguments added="{{argumentAdded}}" language="[[language]]" resources="[[resources]]" arguments="{{command.arguments}}" valid={{valid}}></nexpaq-driver-form-arguments>
+          </template>
+          <template is="dom-if" if="{{!argumentAdded}}">
+            <paper-button raised class="indigo mid" on-click="toggleArgument"> + Add Argument</paper-button>
+          </template>
 
-            <template is="dom-if" if="{{dataAdded}}">
-              <div class="wrapper clearfix">
-                <span class="field">{{localize('data')}}</span>
-                <div class="subfield-container">
-                  <nexpaq-driver-form-data added="{{dataAdded}}" language="[[language]]" resources="[[resources]]" command-data="{{command.data}}" valid={{valid}}></nexpaq-driver-form-data>
-                </div>
-              </div>
-            </template>
-            <template is="dom-if" if="{{!dataAdded}}">
-              <paper-button raised class="indigo clearfix mid" on-click="toggleData"> + Add Data</paper-button>
-            </template>
-
-          </div>
+          <template is="dom-if" if="{{dataAdded}}">
+            <span class="field">{{localize('data')}}</span>
+            <nexpaq-driver-form-data added="{{dataAdded}}" language="[[language]]" resources="[[resources]]" command-data="{{command.data}}" valid={{valid}}></nexpaq-driver-form-data>
+          </template>
+          <template is="dom-if" if="{{!dataAdded}}">
+            <paper-button raised class="indigo mid" on-click="toggleData"> + Add Data</paper-button>
+          </template>
         </template>
-        <paper-button raised class="main" on-click="addMoreCommands"> + {{localize('add')}} {{localize('command')}}</paper-button>
+        <paper-button raised class="indigo main outer" on-click="addMoreCommands"> + {{localize('add')}} {{localize('command')}}</paper-button>
       </div>
     </template>
     <template is="dom-if" if="{{!commandAdded}}">
-      <paper-button raised class="main" on-click="toggleCommand"> + Add Command</paper-button>
+      <paper-button raised class="indigo main" on-click="toggleCommand"> + Add Command</paper-button>
     </template>
 
   </template>
