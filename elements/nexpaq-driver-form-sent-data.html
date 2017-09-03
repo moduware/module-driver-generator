@@ -45,7 +45,7 @@
 
           <template is="dom-if" if="{{argumentAdded}}">
             <span class="field">{{localize('argument')}}</span>
-            <nexpaq-driver-form-arguments added="{{argumentAdded}}" language="[[language]]" resources="[[resources]]" arguments="{{command.arguments}}" valid={{valid}}></nexpaq-driver-form-arguments>
+            <nexpaq-driver-form-arguments added="{{argumentAdded}}" language="[[language]]" resources="[[resources]]" arguments="{{command.arguments}}" sent-data="{{sentData}}" command-index="{{commandIndex}}" valid={{valid}}></nexpaq-driver-form-arguments>
           </template>
           <template is="dom-if" if="{{!argumentAdded}}">
             <paper-button raised class="indigo mid" on-click="toggleArgument"> + Add Argument</paper-button>
@@ -53,7 +53,7 @@
 
           <template is="dom-if" if="{{dataAdded}}">
             <span class="field">{{localize('data')}}</span>
-            <nexpaq-driver-form-data added="{{dataAdded}}" language="[[language]]" resources="[[resources]]" command-data="{{command.data}}" valid={{valid}}></nexpaq-driver-form-data>
+            <nexpaq-driver-form-data added="{{dataAdded}}" language="[[language]]" resources="[[resources]]" command-data="{{command.data}}" sent-data="{{sentData}}" command-index="{{commandIndex}}" valid={{valid}}></nexpaq-driver-form-data>
           </template>
           <template is="dom-if" if="{{!dataAdded}}">
             <paper-button raised class="indigo mid" on-click="toggleData"> + Add Data</paper-button>
@@ -120,6 +120,7 @@
         var item = 'sentData.commands.'+i+'.data';
         this.set(item, [{}]);
       }
+
       toggleArgument(e) {
         this.argumentAdded = true;
         var i = e.model.commandIndex;
@@ -133,13 +134,15 @@
       }
 
       removeCommand(e) {
-        if(e.model.itemsIndex == 0) {
+        if(this.sentData.commands.length == 1) {
+          delete this.sentData['commands'];
+          this.notifyPath('sentData.commands');
           this.toggleCommand();
+        } else {
+          var item = 'sentData.commands';
+          var index = e.model.commandIndex;
+          this.splice(item, index, 1);
         }
-        var item = 'sentData.commands';
-        var index = e.model.commandIndex;
-        this.splice(item, index, 1);
-
       }
 
       toggleCommand() {

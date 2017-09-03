@@ -39,7 +39,7 @@
   	      <paper-tooltip for="source" offset="-7" position="bottom">ex : 2800</paper-tooltip>
           <template is="dom-if" if="{{variableAdded}}">
             <span class="field">{{localize('variable')}}</span>
-            <nexpaq-driver-form-variables added="{{variableAdded}}" language="[[language]]" resources="[[resources]]" variables="{{dataInReceived.variables}}" valid="{{valid}}"></nexpaq-driver-form-variables>
+            <nexpaq-driver-form-variables added="{{variableAdded}}" language="[[language]]" resources="[[resources]]" variables="{{dataInReceived.variables}}" received-data="{{receivedData}}" data-index="[[dataIndex]]" valid="{{valid}}"></nexpaq-driver-form-variables>
           </template>
           <template is="dom-if" if="{{!variableAdded}}">
             <paper-button raised class="indigo mid" on-click="toggleVariable"> + Add Variable</paper-button>
@@ -96,22 +96,6 @@
         }
       }
 
-      //
-      // addMoreVariables(e) {
-      //   var i = e.model.dataIndex;
-      //   var item = 'receivedData.data.'+i+'.variables';
-      //   this.push(item, {state: {'key1':''}});
-      // }
-      //
-      // removeVariable(e) {
-      //   if(e.model.itemsIndex == 0) {
-      //     this.toggleVariable();
-      //   }
-      //   var i = e.model.parentModel.dataIndex;
-      //   var item = 'receivedData.data.'+i+'.variables';
-      //   var index = e.model.variableIndex;
-      //   this.splice(item, index, 1);
-      // }
 
       toggleVariable(e) {
         if(this.variableAdded) {
@@ -130,12 +114,15 @@
       }
 
       removeReceivedData(e) {
-        if(e.model.itemsIndex == 0) {
+        if(this.receivedData.data.length == 1) {
+          delete this.receivedData['data'];
+          this.notifyPath('receivedData.data');
           this.toggleData();
+        } else {
+          var item = 'receivedData.data';
+          var index = e.model.dataIndex;
+          this.splice(item, index, 1);
         }
-        var item = 'receivedData.data';
-        var index = e.model.dataIndex;
-        this.splice(item, index, 1);
       }
 
       toggleData() {

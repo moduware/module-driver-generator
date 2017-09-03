@@ -44,6 +44,10 @@
 
       static get properties() {
         return {
+          receivedData: {
+            type: Object,
+            notify: true
+          },
           variables: {
             type: Array,
             notify: true
@@ -66,6 +70,8 @@
       removeVariable(e) {
         if(this.variables.length == 1) {
           this.added = false;
+          var i = e.model.parentModel.dataIndex;
+          delete this.receivedData.data[i]['variables'];
         }
         var index = e.model.variableIndex;
         this.splice('variables', index, 1);

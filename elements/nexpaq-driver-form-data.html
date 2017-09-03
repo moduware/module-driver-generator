@@ -35,6 +35,10 @@
 
       static get properties() {
         return {
+          sentData: {
+            type: Object,
+            notify: true
+          },
           commandData: {
             type: Array,
             notify: true
@@ -57,6 +61,8 @@
       removeData(e) {
         if(this.commandData.length == 1) {
           this.added = false;
+          var i = e.model.parentModel.commandIndex;
+          delete this.sentData.commands[i]['data'];
         }
         var index = e.model.commandDataIndex;
         this.splice('commandData', index, 1);

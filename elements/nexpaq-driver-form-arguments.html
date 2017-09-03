@@ -27,6 +27,10 @@
 
       static get properties() {
         return {
+          sentData: {
+            type: Object,
+            notify: true
+          },
           arguments: {
             type: Array,
             notify: true
@@ -49,6 +53,8 @@
       removeArgument(e) {
         if(this.arguments.length == 1) {
           this.added = false;
+          var i = e.model.parentModel.commandIndex;
+          delete this.sentData.commands[i]['arguments'];
         }
         var index = e.model.argumentIndex;
         this.splice('arguments', index, 1);
