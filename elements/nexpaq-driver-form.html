@@ -6,20 +6,20 @@
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/app-localize-behavior/app-localize-behavior.html">
 <link rel="import" href="nexpaq-driver-form-received-data.html">
-<link rel="import" href="nexpaq-driver-form-sent-data.html">
+<link rel="import" href="nexpaq-driver-form-commands.html">
 <link rel="import" href="../styles/nexpaq-driver-form-common-styles.html">
 
 <dom-module id="nexpaq-driver-form">
   <template>
   	<style include="nexpaq-driver-form-common-styles">
 
-      nexpaq-driver-form-sent-data {
+      nexpaq-driver-form-commands {
         margin-top: 15%;
       }
 
     </style>
 
-    <nexpaq-driver-form-sent-data sent-data="{{sentData}}" valid="{{sentDataValid}}" language="[[language]]" resources="[[resources]]"></nexpaq-driver-form-sent-data>
+    <nexpaq-driver-form-commands sent-data="{{sentData}}" valid="{{sentDataValid}}" language="[[language]]" resources="[[resources]]"></nexpaq-driver-form-commands>
     <nexpaq-driver-form-received-data received-data="{{receivedData}}" valid="{{receivedDataValid}}" language="[[language]]" resources="[[resources]]"></nexpaq-driver-form-received-data>
 
   </template>
