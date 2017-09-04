@@ -10,7 +10,7 @@
     <template is="dom-repeat" items="{{statesObjectRenderer(states, states.*)}}" as="state">
       <div class = "inline-container">
         <span class="close argument" on-click="removeState">&times;</span>
-        <paper-input class= "container" always-float-label id="key" label="{{localize('key')}}" value="{{state.stateKey}}" auto-validate maxlength="50" on-change="validateForm"></paper-input>
+        <paper-input class= "container" always-float-label id="key" label="{{localize('key')}}" value="{{state.stateKey}}" auto-validate maxlength="50" on-focus="saveOldValue" on-change="updateKeyInStatesObject"></paper-input>
         <paper-tooltip for="key" offset="-7" position="bottom">ex : 00</paper-tooltip>
         <paper-input class= "container" always-float-label id="value" label="{{localize('value')}}" value="{{state.value}}" data-key$="{{state.stateKey}}" auto-validate maxlength="50" on-change="passValueToStatesObject"></paper-input>
         <paper-tooltip for="value" offset="-7" position="bottom">ex : success</paper-tooltip>
@@ -62,6 +62,33 @@
         var value = event.currentTarget.value;
         // passing to object
         this.set('states.' + key, value);
+      }
+
+      /**
+      * Saves value of input to default value, so it can be used in case of change
+      */
+      saveOldValue(event) {
+        var key = event.currentTarget.value;
+        event.currentTarget.defaultValue = key;
+      }
+
+      /**
+      * Track changes in the key and reflect them to our states object
+      */
+      updateKeyInStatesObject(event) {
+        // collecting required data
+        var oldKey = event.currentTarget.defaultValue;
+        var key = event.currentTarget.value;
+        var value = this.states[oldKey];
+
+        // removing old key
+        delete this.states[oldKey];
+        // adding new key with same value
+        this.set('states.' + key, value);
+
+        // updates current default value so we can change key value 
+        // without moving focus out of field
+        event.currentTarget.defaultValue = key;
       }
     }
 
