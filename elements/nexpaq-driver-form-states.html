@@ -7,7 +7,7 @@
   <template>
   	<style include="nexpaq-driver-form-common-styles"></style>
 
-    <template is="dom-repeat" items="{{statesObjectRenderer(states, states.*)}}" as="state">
+    <template is="dom-repeat" items="{{statesObjectRenderer(states, states.*)}}" as="state" index-as="stateIndex">
       <div class = "inline-container">
         <span class="close argument" on-click="removeState">&times;</span>
         <paper-input class= "container" always-float-label id="key" label="{{localize('key')}}" value="{{state.stateKey}}" auto-validate maxlength="50" on-focus="saveOldValue" on-change="updateKeyInStatesObject"></paper-input>
@@ -27,6 +27,18 @@
 
       static get properties() {
         return {
+          receivedData: {
+            type: Object,
+            notify: true
+          },
+          variableIndex: {
+            type: Number,
+            notify: true
+          },
+          added: {
+            type: Boolean,
+            notify: true
+          },
           states: {
             type: Object,
             notify: true
@@ -51,6 +63,19 @@
       addMoreState() {
         var newKeyName = 'key' + (Object.keys(this.states).length + 1);
         this.set('states.' + newKeyName, '');
+      }
+
+      /**
+      * Removes deleted state from variables.
+      */
+      removeState(e) {
+        if(this.states.length == 1) {
+          this.added = false;
+          var i = e.model.parentModel.variableIndex;
+          delete this.receivedData.variables[i]['state'];
+        }
+        var index = e.model.argumentIndex;
+        this.splice('arguments', index, 1);
       }
 
       /**
@@ -86,7 +111,7 @@
         // adding new key with same value
         this.set('states.' + key, value);
 
-        // updates current default value so we can change key value 
+        // updates current default value so we can change key value
         // without moving focus out of field
         event.currentTarget.defaultValue = key;
       }
