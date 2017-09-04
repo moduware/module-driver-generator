@@ -134,14 +134,15 @@
       }
 
       removeCommand(e) {
-        if(this.sentData.commands.length == 1) {
-          delete this.sentData['commands'];
-          this.notifyPath('sentData.commands');
-          this.toggleCommand();
-        } else {
-          var item = 'sentData.commands';
-          var index = e.model.commandIndex;
-          this.splice(item, index, 1);
+        // Removing current item from array
+        var item = 'sentData.commands';
+        var index = e.model.commandIndex;
+        this.splice(item, index, 1);
+
+        // if there are no more items in array, then removing array
+        if(this.sentData.commands.length == 0) {
+          delete this.sentData.commands;
+          this.notifyPath('sentData.commands', false);
         }
       }
 
