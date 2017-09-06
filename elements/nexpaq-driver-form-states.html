@@ -74,7 +74,7 @@
           var i = e.model.parentModel.variableIndex;
           delete this.receivedData.variables[i]['state'];
         }
-        var index = e.model.argumentIndex;
+        var index = e.model.stateIndex;
         this.splice('arguments', index, 1);
       }
 

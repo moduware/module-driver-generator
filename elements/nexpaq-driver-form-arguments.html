@@ -6,18 +6,13 @@
 <dom-module id="nexpaq-driver-form-arguments">
   <template>
   	<style include="nexpaq-driver-form-common-styles"></style>
-
-    <template is="dom-repeat" items="{{arguments}}" as="argument" index-as="argumentIndex">
       <div class="inline-container">
-        <span class="close argument" on-click = "removeArgument">&times;</span>
+        <span class="close argument" on-click="triggerDeletedEvent">×</span>
         <paper-input class= "container" always-float-label id="name" label="{{localize('argumentName')}}" value="{{argument.name}}" auto-validate maxlength="50" on-change="validateForm"></paper-input>
         <paper-tooltip for="name" offset="-7" position="bottom">ex : Red</paper-tooltip>
         <paper-input class= "container" always-float-label id="validation" label="{{localize('validation')}}" value="{{argument.validation}}" auto-validate maxlength="50" on-change="validateForm" ></paper-input>
         <paper-tooltip for="validation" offset="-7" position="bottom">ex : ({0} >= 0) and ({0} <= 255)</paper-tooltip>
       </div>
-    </template>
-    <paper-button raised class="indigo clicked" on-click="addMoreArgument"> + {{localize('add')}} {{localize('argument')}}</paper-button>
-
   </template>
   <script>
     // Extend Polymer.Element base class
@@ -27,16 +22,8 @@
 
       static get properties() {
         return {
-          sentData: {
+          argument: {
             type: Object,
-            notify: true
-          },
-          arguments: {
-            type: Array,
-            notify: true
-          },
-          added: {
-            type: Boolean,
             notify: true
           },
           valid: {
@@ -46,18 +33,8 @@
         }
       }
 
-      addMoreArgument(e) {
-        this.push('arguments', {});
-      }
-
-      removeArgument(e) {
-        if(this.arguments.length == 1) {
-          this.added = false;
-          var i = e.model.parentModel.commandIndex;
-          delete this.sentData.commands[i]['arguments'];
-        }
-        var index = e.model.argumentIndex;
-        this.splice('arguments', index, 1);
+      triggerDeletedEvent(event) {
+        this.dispatchEvent(new CustomEvent('user-argument-delete-request', {}));
       }
     }
 

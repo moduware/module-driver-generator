@@ -8,7 +8,6 @@
 <link rel="import" href="../styles/nexpaq-driver-form-common-styles.html">
 <link rel="import" href="../mixins/nexpaq-driver-common-functions.html">
 <link rel="import" href="nexpaq-driver-form-command.html">
-<link rel="import" href="nexpaq-driver-form-arguments.html">
 <link rel="import" href="nexpaq-driver-form-data.html">
 
 <dom-module id="nexpaq-driver-form-commands">
@@ -30,46 +29,15 @@
     <paper-input always-float-label id="version" label="{{localize('driverVersion')}}" value="{{sentData.version}}" required auto-validate allowed-pattern="[0-9_\.]" error-message="This field is required!" maxlength="20" on-change="validateForm"></paper-input>
     <paper-tooltip for="version" offset="-7" position="bottom">ex : 1.0.0</paper-tooltip>
 
-    <!-- <template is="dom-if" if="{{commandAdded}}"> -->
     <template is="dom-if" if="{{sentData.commands.length}}">
       <h4 class="header">{{localize('moduleCommands')}}</h4>
     </template>
     <div class="subfield-container">
       <template is="dom-repeat" items="{{sentData.commands}}" as="command" index-as="commandIndex">
-        <nexpaq-driver-form-command command="{{command}}" language="[[language]]" resources="[[resources]]" data-index$="[[commandIndex]]" on-user-delete-request="removeCommand"></nexpaq-driver-form-command>
-        <!-- <span class="close" on-click="removeCommand">&times;</span>
-        <paper-input always-float-label id="name" label="{{localize('name')}}" value="{{command.name}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
-        <paper-tooltip for="name" offset="-7" position="bottom">ex : SetRGB</paper-tooltip>
-        <paper-input always-float-label id="title" label="{{localize('title')}}" value="{{command.title}}" required auto-validate error-message="This field is required!" maxlength="80" on-change="validateForm"></paper-input>
-        <paper-tooltip for="title" offset="-7" position="bottom">ex : Set color in RGB</paper-tooltip>
-        <paper-input always-float-label id="description" label="{{localize('description')}}" value="{{command.description}}" required auto-validate error-message="This field is required!" maxlength="150" on-change="validateForm"></paper-input>
-        <paper-tooltip for="description" offset="-7" position="bottom">ex : Changes color of module to specified RGB color</paper-tooltip>
-        <paper-input always-float-label id="command" label="{{localize('command')}}" value="{{command.command}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
-        <paper-tooltip for="command" offset="-7" position="bottom">ex : 2702</paper-tooltip>
-
-        <template is="dom-if" if="{{argumentAdded}}">
-          <span class="field">{{localize('argument')}}</span>
-          <nexpaq-driver-form-arguments added="{{argumentAdded}}" language="[[language]]" resources="[[resources]]" arguments="{{command.arguments}}" sent-data="{{sentData}}" command-index="{{commandIndex}}" valid={{valid}}></nexpaq-driver-form-arguments>
-        </template>
-        <template is="dom-if" if="{{!argumentAdded}}">
-          <paper-button raised class="indigo mid" on-click="toggleArgument"> + Add Argument</paper-button>
-        </template>
-
-        <template is="dom-if" if="{{dataAdded}}">
-          <span class="field">{{localize('data')}}</span>
-          <nexpaq-driver-form-data added="{{dataAdded}}" language="[[language]]" resources="[[resources]]" command-data="{{command.data}}" sent-data="{{sentData}}" command-index="{{commandIndex}}" valid={{valid}}></nexpaq-driver-form-data>
-        </template>
-        <template is="dom-if" if="{{!dataAdded}}">
-          <paper-button raised class="indigo mid" on-click="toggleData"> + Add Data</paper-button>
-        </template> -->
+        <nexpaq-driver-form-command command="{{command}}" language="[[language]]" resources="[[resources]]" data-index$="[[commandIndex]]" on-user-command-delete-request="removeCommand" valid="{{valid}}"></nexpaq-driver-form-command>
       </template>
       <paper-button raised class="indigo main outer" on-click="addMoreCommands"> + {{localize('add')}} {{localize('command')}}</paper-button>
     </div>
-    <!-- </template> -->
-    <!-- <template is="dom-if" if="{{!commandAdded}}">
-      <paper-button raised class="indigo main" on-click="toggleCommand"> + Add Command</paper-button>
-    </template> -->
-
   </template>
   <script>
     class NexpaqDriverFormCommands extends Polymer.mixinBehaviors([Polymer.AppLocalizeBehavior], NexpaqDriverCommonFunctions(Polymer.Element)){
@@ -87,27 +55,6 @@
               };
             }
           },
-          commandAdded: {
-            type: Boolean,
-            notify: true,
-            value: function() {
-              return false;
-            }
-          },
-          dataAdded: {
-            type: Boolean,
-            notify: true,
-            value: function() {
-              return false;
-            }
-          },
-          argumentAdded: {
-            type: Boolean,
-            notify: true,
-            value: function() {
-              return false;
-            }
-          },
           valid: {
             type: Boolean,
             notify: true,
@@ -118,49 +65,12 @@
         }
       }
 
-      toggleData(e) {
-        this.dataAdded = true;
-        var i = e.model.commandIndex;
-        var item = 'sentData.commands.'+i+'.data';
-        this.set(item, [{}]);
-      }
-
-      toggleArgument(e) {
-        this.argumentAdded = true;
-        var i = e.model.commandIndex;
-        var item = 'sentData.commands.'+i+'.arguments';
-        this.set(item, [{}]);
-      }
-
       addMoreCommands(e) {
         if(this.sentData.commands == null) {
           this.set('sentData.commands', []);
         }
-        
         var item = 'sentData.commands';
         this.push(item,{});
-      }
-
-      removeCommand(e) {
-        // Removing current item from array
-        var index = e.currentTarget.dataset.index;
-        this.splice('sentData.commands', index, 1);
-
-        // if there are no more items in array, then removing array
-        if(this.sentData.commands.length == 0) {
-          delete this.sentData.commands;
-          this.notifyPath('sentData.commands', false);
-        }
-      }
-
-      toggleCommand() {
-        if(this.commandAdded) {
-          this.commandAdded = false;
-        } else {
-          this.commandAdded = true;
-          var item = 'sentData.commands';
-          this.set(item,[{}]);
-        }
       }
     }
     customElements.define(NexpaqDriverFormCommands.is, NexpaqDriverFormCommands);
