@@ -8,7 +8,6 @@
 <link rel="import" href="../styles/nexpaq-driver-form-common-styles.html">
 <link rel="import" href="../mixins/nexpaq-driver-common-functions.html">
 <link rel="import" href="nexpaq-driver-form-command.html">
-<link rel="import" href="nexpaq-driver-form-data.html">
 
 <dom-module id="nexpaq-driver-form-commands">
   <template>
@@ -32,12 +31,10 @@
     <template is="dom-if" if="{{sentData.commands.length}}">
       <h4 class="header">{{localize('moduleCommands')}}</h4>
     </template>
-    <div class="subfield-container">
-      <template is="dom-repeat" items="{{sentData.commands}}" as="command" index-as="commandIndex">
-        <nexpaq-driver-form-command command="{{command}}" language="[[language]]" resources="[[resources]]" data-index$="[[commandIndex]]" on-user-command-delete-request="removeCommand" valid="{{valid}}"></nexpaq-driver-form-command>
-      </template>
-      <paper-button raised class="indigo main outer" on-click="addMoreCommands"> + {{localize('add')}} {{localize('command')}}</paper-button>
-    </div>
+    <template is="dom-repeat" items="{{sentData.commands}}" as="command" index-as="commandIndex">
+      <nexpaq-driver-form-command command="{{command}}" language="[[language]]" resources="[[resources]]" data-index$="[[commandIndex]]" on-user-command-delete-request="removeCommand" valid="{{valid}}"></nexpaq-driver-form-command>
+    </template>
+    <paper-button raised class="indigo main outer" on-click="addMoreCommands"> + {{localize('add')}} {{localize('command')}}</paper-button>
   </template>
   <script>
     class NexpaqDriverFormCommands extends Polymer.mixinBehaviors([Polymer.AppLocalizeBehavior], NexpaqDriverCommonFunctions(Polymer.Element)){
@@ -72,6 +69,19 @@
         var item = 'sentData.commands';
         this.push(item,{});
       }
+
+      removeCommand(e) {
+        // Removing current item from array
+        var index = e.currentTarget.dataset.index;
+        this.splice('sentData.commands', index, 1);
+
+        // if there are no more items in array, then removing array
+        if(this.sentData.commands.length == 0) {
+          delete this.sentData.commands;
+          this.notifyPath('sentData.commands', false);
+        }
+      }
+
     }
     customElements.define(NexpaqDriverFormCommands.is, NexpaqDriverFormCommands);
   </script>

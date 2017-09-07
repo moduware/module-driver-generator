@@ -16,7 +16,7 @@
         <paper-tooltip for="value" offset="-7" position="bottom">ex : success</paper-tooltip>
       </div>
     </template>
-    <paper-button raised class="indigo clicked" on-click="addMoreState"> + {{localize('add')}} {{localize('fields')}}</paper-button>
+    <paper-button raised class="indigo clicked" on-click="addMoreState"> + {{localize('add')}} {{localize('state')}}</paper-button>
 
   </template>
   <script>
@@ -27,18 +27,6 @@
 
       static get properties() {
         return {
-          receivedData: {
-            type: Object,
-            notify: true
-          },
-          variableIndex: {
-            type: Number,
-            notify: true
-          },
-          added: {
-            type: Boolean,
-            notify: true
-          },
           states: {
             type: Object,
             notify: true
@@ -61,8 +49,12 @@
       * Adds additional key to our states object
       */
       addMoreState() {
-        var newKeyName = 'key' + (Object.keys(this.states).length + 1);
-        this.set('states.' + newKeyName, '');
+        if (this.states == null) {
+          this.set('states', {'key1':''})
+        } else {
+          var newKeyName = 'key' + (Object.keys(this.states).length + 1);
+          this.set('states.' + newKeyName, '');
+        }
       }
 
       /**

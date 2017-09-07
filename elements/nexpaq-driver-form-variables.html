@@ -15,10 +15,8 @@
       }
 
     </style>
-
-    <template is="dom-repeat" items="{{variables}}" as="variable" index-as="variableIndex">
       <div class="subfield-container">
-        <span class="close" on-click = "removeVariable">&times;</span>
+        <span class="close" on-click="triggerDeletedEvent">×</span>
         <paper-input always-float-label id="name" label="{{localize('name')}}" value="{{variable.name}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
         <paper-tooltip for="name" offset="-7" position="bottom">ex : humidity</paper-tooltip>
         <paper-input always-float-label id="title" label="{{localize('title')}}" value="{{variable.title}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
@@ -27,19 +25,15 @@
         <paper-tooltip for="description" offset="-7" position="bottom">ex : Ambient humidity detected by module</paper-tooltip>
         <paper-input always-float-label id="data" label="{{localize('data')}}" value="{{variable.data}}" required auto-validate allowed-pattern="[0-9_\,]" error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
         <paper-tooltip for="data" offset="-7" position="bottom">ex : 0, 1</paper-tooltip>
-        <template is="dom-if" if="{{stateAdded}}">
+
+        <template is="dom-if" if="{{variable.states}}">
           <span class="field">{{localize('state')}}</span>
-          <nexpaq-driver-form-states language="[[language]]" resources="[[resources]]" added="{{stateAdded}}" states="{{variable.state}}" received-data="{{receivedData}}" variable-index="[[variableIndex]]" valid="{{valid}}"></nexpaq-driver-form-states>
         </template>
-        <template is="dom-if" if="{{!stateAdded}}">
-          <paper-button raised class="indigo mid" on-click="toggleState"> + Add State</paper-button>
-        </template>
+          <nexpaq-driver-form-states language="[[language]]" resources="[[resources]]" states="{{variable.states}}" on-user-state-delete-request="removeState" valid="{{valid}}"></nexpaq-driver-form-states>
+
         <paper-input always-float-label id="format" label="{{localize('format')}}" value="{{variable.format}}" auto-validate maxlength="150" on-change="validateForm"></paper-input>
         <paper-tooltip for="format" offset="-7" position="bottom">ex : 175.75 * ({0} * 256 + {1} / 4 * 4) / 65536 - 46.85</paper-tooltip>
       </div>
-    </template>
-    <paper-button raised class="indigo clicked" on-click="addMoreVariables"> + {{localize('add')}} {{localize('variable')}}</paper-button>
-
   </template>
   <script>
     // Extend Polymer.Element base class
@@ -49,24 +43,9 @@
 
       static get properties() {
         return {
-          receivedData: {
+          variable: {
             type: Object,
             notify: true
-          },
-          variables: {
-            type: Array,
-            notify: true
-          },
-          added: {
-            type: Boolean,
-            notify: true
-          },
-          stateAdded: {
-            type: Boolean,
-            notify: true,
-            value: function() {
-              return false;
-            }
           },
           valid: {
             type: Boolean,
@@ -75,26 +54,11 @@
         }
       }
 
-      addMoreVariables(e) {
-        this.push("variables", {});
+      triggerDeletedEvent(event) {
+        console.log(this.variable.states);
+        this.dispatchEvent(new CustomEvent('user-variable-delete-request', {}));
       }
 
-      removeVariable(e) {
-        if(this.variables.length == 1) {
-          this.added = false;
-          var i = e.model.parentModel.dataIndex;
-          delete this.receivedData.data[i]['variables'];
-        }
-        var index = e.model.variableIndex;
-        this.splice('variables', index, 1);
-      }
-
-      // toggleState(e) {
-      //   this.stateAdded = true;
-      //   var item =
-      //   this.set(item, state: {'key1':''})
-
-      // }
     }
 
     // Register custom element definition using standard platform API
