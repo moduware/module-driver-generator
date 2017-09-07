@@ -47,9 +47,9 @@
       }
 
     </style>
-    <nexpaq-driver-form id="userForm" sent-data="{{sentData}}"  received-data="{{receivedData}}" valid="{{valid}}" language="[[language]]" resources="[[resources]]"></nexpaq-driver-form>
+    <nexpaq-driver-form id="userForm" module-type="{{moduleType}}" driver-version="{{driverVersion}}" module-commands="{{moduleCommands}}" module-data="{{moduleData}}" language="[[language]]" resources="[[resources]]"></nexpaq-driver-form>
     <div class="column-container">
-      <nexpaq-driver-view sent-data="[[sentData]]"  received-data="[[receivedData]]" json="{{json}}" max-lines="30"></nexpaq-driver-view>
+      <nexpaq-driver-view data="[[combineDriveObject(moduleType, driverVersion, moduleCommands.*, moduleData.*)]]" json="{{json}}" max-lines="30"></nexpaq-driver-view>
       <nexpaq-driver-actions sent-data="{{sentData}}"  received-data="{{receivedData}}" json="[[json]]" valid="[[valid]]" on-driver-uploaded="driverUploadedHandler" language="[[language]]" resources="[[resources]]"></nexpaq-driver-actions>
     </div>
   </template>
@@ -59,10 +59,50 @@
 
       static get properties() {
         return {
-          sentData: Object,
-          receivedData: Object
+          moduleType: {
+            type: String,
+            notify: true,
+            value: 'nexpaq.module.name'
+          },
+          driverVersion: {
+            type: String,
+            notify: true,
+            value: '1.0.0'
+          },
+          moduleCommands: {
+            type: Array,
+            notify: true,
+            value: function() {
+              return [];
+            }
+          },
+          moduleData: {
+            type: Array,
+            notify: true,
+            value: function() {
+              return [];
+            }
+          }
         }
       }
+
+      combineDriveObject(moduleType, driverVersion, moduleCommands, moduleData) {
+        var driver = {
+          type: this.moduleType,
+          version: this.driverVersion
+        };
+
+        if(this.moduleCommands.length != 0) {
+          driver.commands = this.moduleCommands;
+        }
+
+        if(this.moduleData.length != 0) {
+          driver.data = this.moduleData;
+        }
+
+        return driver;
+      }
+
      /**
      * Handles driver uploaded event and validates form
      *after successful upload.

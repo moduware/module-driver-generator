@@ -22,11 +22,11 @@
       }
 
     </style>
-    <template is="dom-if" if="{{receivedData.data.length}}">
+    <template is="dom-if" if="{{moduleData.length}}">
       <h4 class="header">{{localize('receivingData')}}</h4>
     	<!-- <span class="field">{{localize('data')}}</span> -->
     </template>
-	  <template is="dom-repeat" items="{{receivedData.data}}" as="dataInReceived" index-as="dataInReceivedIndex">
+	  <template is="dom-repeat" items="{{moduleData}}" as="dataInReceived" index-as="dataInReceivedIndex">
       <nexpaq-driver-form-received-data data="{{dataInReceived}}" language="[[language]]" resources="[[resources]]" data-index$="[[dataInReceivedIndex]]" on-user-received-data-delete-request="removeDataInReceived" valid="{{valid}}"></nexpaq-driver-form-received-data>
     </template>
     <paper-button raised class="indigo main outer" on-click="addMoreReceivedData"> + Add Data</paper-button>
@@ -36,13 +36,9 @@
       static get is() { return 'nexpaq-driver-form-received-datas' }
       static get properties() {
         return {
-          receivedData: {
-            type: Object,
-            notify: true,
-            reflectToAttribute: true,
-            value: function() {
-              return {};
-            }
+          moduleData: {
+            type: Array,
+            notify: true
           },
           valid: {
             type: Boolean,
@@ -55,23 +51,13 @@
       }
 
       addMoreReceivedData(e) {
-        if(this.receivedData.data == null) {
-          this.set('receivedData.data', []);
-        }
-        var item = 'receivedData.data';
-        this.push(item,{});
+        this.push('moduleData', {});
       }
 
       removeDataInReceived(e) {
         // Removing current item from array
         var index = e.currentTarget.dataset.index;
-        this.splice('receivedData.data', index, 1);
-
-        // if there are no more items in array, then removing array
-        if(this.receivedData.data.length == 0) {
-          delete this.receivedData.data;
-          this.notifyPath('receivedData.data', false);
-        }
+        this.splice('moduleData', index, 1);
       }
     }
     customElements.define(NexpaqDriverFormReceivedDatas.is, NexpaqDriverFormReceivedDatas);

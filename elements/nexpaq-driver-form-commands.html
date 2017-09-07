@@ -23,34 +23,23 @@
 
     </style>
 
-    <paper-input always-float-label id="type"  label="{{localize('moduleType')}}" value="{{sentData.type}}" required auto-validate allowed-pattern="[A-Za-z_\.\-0-9]" error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
-    <paper-tooltip for="type" offset="-7" position="bottom">ex : nexpaq.module.led</paper-tooltip>
-    <paper-input always-float-label id="version" label="{{localize('driverVersion')}}" value="{{sentData.version}}" required auto-validate allowed-pattern="[0-9_\.]" error-message="This field is required!" maxlength="20" on-change="validateForm"></paper-input>
-    <paper-tooltip for="version" offset="-7" position="bottom">ex : 1.0.0</paper-tooltip>
-
-    <template is="dom-if" if="{{sentData.commands.length}}">
+    <template is="dom-if" if="{{moduleCommands.length}}">
       <h4 class="header">{{localize('moduleCommands')}}</h4>
     </template>
-    <template is="dom-repeat" items="{{sentData.commands}}" as="command" index-as="commandIndex">
+    <template is="dom-repeat" items="{{moduleCommands}}" as="command" index-as="commandIndex">
       <nexpaq-driver-form-command command="{{command}}" language="[[language]]" resources="[[resources]]" data-index$="[[commandIndex]]" on-user-command-delete-request="removeCommand" valid="{{valid}}"></nexpaq-driver-form-command>
     </template>
     <paper-button raised class="indigo main outer" on-click="addMoreCommands"> + {{localize('add')}} {{localize('command')}}</paper-button>
+  
   </template>
   <script>
     class NexpaqDriverFormCommands extends Polymer.mixinBehaviors([Polymer.AppLocalizeBehavior], NexpaqDriverCommonFunctions(Polymer.Element)){
       static get is() { return 'nexpaq-driver-form-commands' }
       static get properties() {
         return {
-        	sentData: {
-            type: Object,
-            notify: true,
-            reflectToAttribute: true,
-            value: function() {
-              return {
-                type: "nexpaq.module",
-                version: "1.0.0"
-              };
-            }
+        	moduleCommands: {
+            type: Array,
+            notify: true
           },
           valid: {
             type: Boolean,
@@ -63,23 +52,13 @@
       }
 
       addMoreCommands(e) {
-        if(this.sentData.commands == null) {
-          this.set('sentData.commands', []);
-        }
-        var item = 'sentData.commands';
-        this.push(item,{});
+        this.push('moduleCommands', {});
       }
 
       removeCommand(e) {
         // Removing current item from array
         var index = e.currentTarget.dataset.index;
-        this.splice('sentData.commands', index, 1);
-
-        // if there are no more items in array, then removing array
-        if(this.sentData.commands.length == 0) {
-          delete this.sentData.commands;
-          this.notifyPath('sentData.commands', false);
-        }
+        this.splice('moduleCommands', index, 1);
       }
 
     }
