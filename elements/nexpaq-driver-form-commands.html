@@ -16,7 +16,6 @@
       :host {
         display: block;
         box-sizing: border-box;
-        padding: 10px 10px 0 10px;
         position: relative;
         overflow: auto;
       }
@@ -30,7 +29,7 @@
       <nexpaq-driver-form-command command="{{command}}" language="[[language]]" resources="[[resources]]" data-index$="[[commandIndex]]" on-user-command-delete-request="removeCommand" valid="{{valid}}"></nexpaq-driver-form-command>
     </template>
     <paper-button raised class="indigo main outer" on-click="addMoreCommands"> + {{localize('add')}} {{localize('command')}}</paper-button>
-  
+
   </template>
   <script>
     class NexpaqDriverFormCommands extends Polymer.mixinBehaviors([Polymer.AppLocalizeBehavior], NexpaqDriverCommonFunctions(Polymer.Element)){
