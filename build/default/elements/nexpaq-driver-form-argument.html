@@ -1,0 +1,44 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/app-localize-behavior/app-localize-behavior.html">
+<link rel="import" href="../mixins/nexpaq-driver-common-functions.html">
+<link rel="import" href="../styles/nexpaq-driver-form-common-styles.html">
+
+<dom-module id="nexpaq-driver-form-argument">
+  <template>
+  	<style include="nexpaq-driver-form-common-styles"></style>
+      <div class="inline-container">
+        <span class="close argument" on-click="triggerDeletedEvent">×</span>
+        <paper-input class="container" always-float-label="" id="name" label="{{localize('argumentName')}}" value="{{argument.name}}" auto-validate="" maxlength="50" on-change="validateForm"></paper-input>
+        <paper-tooltip for="name" offset="-7" position="bottom">ex : Red</paper-tooltip>
+        <paper-input class="container" always-float-label="" id="validation" label="{{localize('validation')}}" value="{{argument.validation}}" auto-validate="" maxlength="50" on-change="validateForm"></paper-input>
+        <paper-tooltip for="validation" offset="-7" position="bottom">ex : ({0} &gt;= 0) and ({0} &lt;= 255)</paper-tooltip>
+      </div>
+  </template>
+  <script>
+    // Extend Polymer.Element base class
+    class DriverFormArgument extends Polymer.mixinBehaviors([Polymer.AppLocalizeBehavior], NexpaqDriverCommonFunctions(Polymer.Element)) {
+
+      static get is() { return 'nexpaq-driver-form-argument' }
+
+      static get properties() {
+        return {
+          argument: {
+            type: Object,
+            notify: true
+          },
+          valid: {
+            type: Boolean,
+            notify: true
+          }
+        }
+      }
+
+      triggerDeletedEvent(event) {
+        this.dispatchEvent(new CustomEvent('user-argument-delete-request', {}));
+      }
+    }
+
+    // Register custom element definition using standard platform API
+    customElements.define(DriverFormArgument.is, DriverFormArgument);
+  </script>
+</dom-module>

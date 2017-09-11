@@ -1,0 +1,48 @@
+<dom-module id="nexpaq-driver-common-functions">
+  <script>
+  NexpaqDriverCommonFunctions = function(superClass) {
+    return class extends superClass {
+      toArray(obj) {
+        return Object.keys(obj).map(function(key) {
+          return {
+            stateKey: key,
+            value: obj[key]
+          };
+        });
+      }
+
+      /**
+       * Validates the form by checking each
+       * paper input field.
+       * @param {object}
+       */
+      validateForm() {
+        var paperInputs = Polymer.dom(this.root).querySelectorAll("paper-input");
+        for (var i=0; i<paperInputs.length; i++) {
+          console.log(paperInputs);
+          console.log(this.validateField(paperInputs[i]));
+          if (!this.validateField(paperInputs[i])) {
+            this.valid = false;
+            return;
+          }
+        }
+        this.valid = true;
+        return;
+      }
+
+      /**
+       * Checks if the field is valid and required
+       * field is filled.
+       * @param {object}
+       */
+      validateField(field) {
+        if(field.invalid) return false;
+        if(field.required) {
+          if (field.value == null || field.value == "") return false;
+        }
+        return true;
+      }
+    }
+  }
+  </script>
+</dom-module>

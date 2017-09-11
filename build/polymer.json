@@ -1,0 +1,17 @@
+{
+  "entrypoint": "index.html",
+  "fragments": [],
+  "sources": [
+    "src/**/*",
+    "index.html"
+  ],
+  "extraDependencies": [
+    "bower_components/webcomponentsjs/*.js",
+    "localizedData.json"
+  ],
+  "builds": [
+    {
+      "addServiceWorker": true
+    }
+  ]
+}
