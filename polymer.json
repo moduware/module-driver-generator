@@ -1,0 +1,11 @@
+{
+  "entrypoint": "index.html",
+  "extraDependencies": [
+    "localizedData.json"
+  ],
+  "builds": [
+    {
+      "addServiceWorker": true
+    }
+  ]
+}

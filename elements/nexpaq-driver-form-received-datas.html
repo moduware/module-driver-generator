@@ -1,0 +1,65 @@
+<!-- Load the Polymer.Element base class -->
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-tooltip/paper-tooltip.html">
+<link rel="import" href="../bower_components/neon-animation/web-animations.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/app-localize-behavior/app-localize-behavior.html">
+<link rel="import" href="../mixins/nexpaq-driver-common-functions.html">
+<link rel="import" href="../styles/nexpaq-driver-form-common-styles.html">
+<link rel="import" href="nexpaq-driver-form-received-data.html">
+
+<dom-module id="nexpaq-driver-form-received-datas">
+  <template>
+  	<style include="nexpaq-driver-form-common-styles">
+
+      :host {
+        display: block;
+        box-sizing: border-box;
+        padding: 0 10px 10px 10px;
+        position: relative;
+        overflow: auto;
+      }
+
+    </style>
+    <template is="dom-if" if="{{moduleData.length}}">
+      <h4 class="header">{{localize('receivingData')}}</h4>
+    	<!-- <span class="field">{{localize('data')}}</span> -->
+    </template>
+	  <template is="dom-repeat" items="{{moduleData}}" as="dataInReceived" index-as="dataInReceivedIndex">
+      <nexpaq-driver-form-received-data data="{{dataInReceived}}" language="[[language]]" resources="[[resources]]" data-index$="[[dataInReceivedIndex]]" on-user-received-data-delete-request="removeDataInReceived" valid="{{valid}}"></nexpaq-driver-form-received-data>
+    </template>
+    <paper-button raised class="indigo main outer" on-click="addMoreReceivedData"> + Add Data</paper-button>
+  </template>
+  <script>
+    class NexpaqDriverFormReceivedDatas extends Polymer.mixinBehaviors([Polymer.AppLocalizeBehavior], NexpaqDriverCommonFunctions(Polymer.Element)){
+      static get is() { return 'nexpaq-driver-form-received-datas' }
+      static get properties() {
+        return {
+          moduleData: {
+            type: Array,
+            notify: true
+          },
+          valid: {
+            type: Boolean,
+            notify: true,
+            value: function() {
+              return true;
+            }
+          }
+        }
+      }
+
+      addMoreReceivedData(e) {
+        this.push('moduleData', {});
+      }
+
+      removeDataInReceived(e) {
+        // Removing current item from array
+        var index = e.currentTarget.dataset.index;
+        this.splice('moduleData', index, 1);
+      }
+    }
+    customElements.define(NexpaqDriverFormReceivedDatas.is, NexpaqDriverFormReceivedDatas);
+  </script>
+</dom-module>

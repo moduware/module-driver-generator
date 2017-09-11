@@ -1,0 +1,113 @@
+<link rel="import" href="bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="bower_components/app-localize-behavior/app-localize-behavior.html">
+<link rel="import" href="elements/nexpaq-driver-interface.html">
+
+<dom-module id="nexpaq-driver-generator">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      app-header {
+        height: 40px;
+        line-height: 40px;
+        background-color: #d12f3d;
+        color: white;
+        text-align: center;
+        font-size: 18px;
+      }
+
+      nexpaq-driver-interface {
+        max-width: 980px;
+        margin: 0 auto;
+      }
+
+      footer {
+        margin: 0 auto;
+        margin-top: 3vh;
+        text-align: center;
+        padding: 20px;
+        color: #606060;
+        display: flex;
+        justify-content: center;
+        border-top: 1px solid #606060;
+        max-width: 980px;
+        font-size: 14px;
+      }
+
+      a {
+        text-decoration: none;
+        color: #606060;
+        margin-right: 20px;
+      }
+      span {
+        margin-right: 20px;
+      }
+      .flag {
+        min-width: 25px;
+        width: 4%; height: 10px;
+        margin-right: -5px;
+      }
+      .flag:focus {
+        background-color: rgba(96, 96, 96, 0.3);
+      }
+      #en {
+        background-color: rgba(96, 96, 96, 0.3);
+      }
+
+    </style>
+
+    <app-header-layout>
+      <app-header condenses="">
+        <app-toolbar>
+          <div main-title="">{{localize('headerGenerator')}}</div>
+        </app-toolbar>
+      </app-header>
+      <nexpaq-driver-interface language="[[language]]" resources="[[resources]]"></nexpaq-driver-interface>
+      <footer>
+        <a href="https://nexpaq.com/privacy-policy/">Privacy Policy</a>
+        <a href="https://nexpaq.com/terms-of-use/">Terms of Use</a>
+        <a href="https://nexpaq.com/partners/">Our Partners</a>
+        <span>© Nexpaq Limited</span>
+        <paper-button class="flag" id="en" on-click="toggleLanguage">🇬🇧</paper-button>
+        <paper-button class="flag" id="esp" on-click="toggleLanguage">🇪🇸</paper-button>
+        <paper-button class="flag" id="fr" on-click="toggleLanguage">🇫🇷</paper-button>
+      </footer>
+    </app-header-layout>
+
+  </template>
+  <script>
+    class NexpaqDriverGenerator extends Polymer.mixinBehaviors([Polymer.AppLocalizeBehavior], Polymer.Element){
+      static get is() { return 'nexpaq-driver-generator' }
+
+      connectedCallback() {
+        super.connectedCallback();
+        this.loadResources(this.resolveUrl('localizedData.json'));
+      }
+
+      static get properties() {
+        return {
+          language: {
+            value: 'en',
+            type: String
+          }
+        }
+      }
+
+      toggleLanguage(e) {
+        this.$.en.style.backgroundColor = "white";
+        if(e.target.id == "en") {
+          this.language = "en";
+          this.$.en.style.backgroundColor = "rgba(96, 96, 96, 0.3)";
+        } else if(e.target.id == "esp") {
+          this.language = "esp";
+        } else if(e.target.id == "fr") {
+          this.language = "fr";
+        }
+      }
+    }
+
+    customElements.define(NexpaqDriverGenerator.is, NexpaqDriverGenerator);
+  </script>
+</dom-module>

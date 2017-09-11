@@ -1,0 +1,96 @@
+<dom-module id="nexpaq-driver-form-common-styles">
+  <template>
+    <style>
+      paper-tooltip {
+        --paper-tooltip-opacity: 0.8;
+        --paper-tooltip-background: #0f2a37;
+        --paper-tooltip-text-color: white;
+        width: 120px;
+        font-size: 13px;
+      }
+      paper-button.indigo {
+        color: white;
+        background-color: #0f2a37;
+        font-size: 8px;
+        width: 25%; height: 9%;
+      }
+      paper-button.indigo.mid {
+        margin-top: 18px;
+        margin-bottom:10px;
+        align-self: flex-end;
+        font-size: 9px;
+        width: 28%; height: 11%;
+      }
+      paper-button.indigo.outer {
+        margin-left: -11px;
+      }
+      paper-button.main {
+        color: white;
+        background-color: #0f2a37;
+        margin-top: 25px;
+        left: 50%;
+        -webkit-transform: translateX(-50%) translateY(-50%);
+        font-size: 12px;
+        width: 220px; height: 14%;
+      }
+      .field {
+        color: #9b9b9b;
+        font-size: 12px;
+        font-weight: 300;
+        font-family: Helvetica, Arial, sans-serif;
+        line-height: 24px;
+      }
+      .header {
+        color: #d12f3d;
+        font-weight: 500;
+        text-align: center;
+        display: block;
+      }
+
+      .close {
+        align-self: flex-end;
+        width: 6px;
+        color: #84919c;
+      }
+      .close:hover {
+        color: #d12f3d;
+      }
+
+      .inline-container {
+        margin-left: 10px;
+        margin-bottom: 5px;
+        display: flex;
+        justify-content: space-between;
+        border: dotted 1px rgba(132, 145, 156, 0.7);
+        border-radius: 5px;
+        padding: 15px;
+      }
+      .container {
+        width: 45%;
+        margin-right: 10px;
+      }
+      .argument {
+        order: 3;
+        align-self: flex-start;
+      }
+      .subfield-container {
+        margin-bottom: 15px;
+        display: flex;
+        flex-direction: column;
+        padding: 15px;
+        border: dotted 1px rgba(132, 145, 156, 1);
+        border-radius: 5px;
+      }
+      .clicked {
+        -webkit-transform: translateX(-50%) translateY(-50%);
+        left: 85%;
+        margin-top: 3%;
+      }
+      paper-input {
+        width: 100%;
+      	--secondary-text-color: #9b9b9b;
+      	--paper-font-subhead_-_font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      }
+    </style>
+  </template>
+</dom-module>

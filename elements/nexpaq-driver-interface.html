@@ -1,0 +1,119 @@
+<!-- Load the Polymer.Element base class -->
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="nexpaq-driver-form.html">
+<link rel="import" href="nexpaq-driver-view.html">
+<link rel="import" href="nexpaq-driver-actions.html">
+<dom-module id="nexpaq-driver-interface">
+  <template>
+
+    <style>
+
+      :host {
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      nexpaq-driver-form {
+        margin-top: 70px;
+        min-width: 320px;
+        flex-grow: 1;
+        width: 47%;
+        margin-bottom:60px;
+        margin-left: 3%;
+      }
+
+      .column-container {
+        display: flex;
+        flex-grow: 1;
+        flex-direction: column;
+        width: 47%;
+        min-width: 320px;
+      }
+
+      nexpaq-driver-view{
+        order: 1;
+        flex-grow: 0.1;
+        margin-left: auto;
+        width: 100%;
+        padding-top: 24px;
+      }
+
+      nexpaq-driver-actions {
+        flex-grow: 1;
+        order: 2;
+        max-width: 400px;
+        margin: auto;
+        width: 100%;
+      }
+
+    </style>
+    <nexpaq-driver-form id="userForm" module-type="{{moduleType}}" driver-version="{{driverVersion}}" module-commands="{{moduleCommands}}" module-data="{{moduleData}}" language="[[language]]" resources="[[resources]]"></nexpaq-driver-form>
+    <div class="column-container">
+      <nexpaq-driver-view data="[[combineDriveObject(moduleType, driverVersion, moduleCommands.*, moduleData.*)]]" json="{{json}}" max-lines="30"></nexpaq-driver-view>
+      <nexpaq-driver-actions sent-data="{{sentData}}"  received-data="{{receivedData}}" json="[[json]]" valid="[[valid]]" on-driver-uploaded="driverUploadedHandler" language="[[language]]" resources="[[resources]]"></nexpaq-driver-actions>
+    </div>
+  </template>
+  <script>
+    class NexpaqDriverInterface extends Polymer.Element {
+      static get is() { return 'nexpaq-driver-interface' }
+
+      static get properties() {
+        return {
+          moduleType: {
+            type: String,
+            notify: true,
+            value: 'nexpaq.module.name'
+          },
+          driverVersion: {
+            type: String,
+            notify: true,
+            value: '1.0.0'
+          },
+          moduleCommands: {
+            type: Array,
+            notify: true,
+            value: function() {
+              return [];
+            }
+          },
+          moduleData: {
+            type: Array,
+            notify: true,
+            value: function() {
+              return [];
+            }
+          }
+        }
+      }
+
+      combineDriveObject(moduleType, driverVersion, moduleCommands, moduleData) {
+        var driver = {
+          type: this.moduleType,
+          version: this.driverVersion
+        };
+
+        if(this.moduleCommands.length != 0) {
+          driver.commands = this.moduleCommands;
+        }
+
+        if(this.moduleData.length != 0) {
+          driver.data = this.moduleData;
+        }
+
+        return driver;
+      }
+
+     /**
+     * Handles driver uploaded event and validates form
+     *after successful upload.
+     */
+      driverUploadedHandler() {
+        this.$.userForm.validateForm();
+      }
+    }
+    // Register custom element definition using standard platform API
+    customElements.define(NexpaqDriverInterface.is, NexpaqDriverInterface);
+  </script>
+</dom-module>

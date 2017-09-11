@@ -1,0 +1,65 @@
+<!-- Load the Polymer.Element base class --><link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-tooltip/paper-tooltip.html">
+<link rel="import" href="../bower_components/neon-animation/web-animations.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/app-localize-behavior/app-localize-behavior.html">
+<link rel="import" href="../styles/nexpaq-driver-form-common-styles.html">
+<link rel="import" href="../mixins/nexpaq-driver-common-functions.html">
+<link rel="import" href="nexpaq-driver-form-command.html">
+
+<dom-module id="nexpaq-driver-form-commands">
+  <template>
+  	<style include="nexpaq-driver-form-common-styles">
+
+      :host {
+        display: block;
+        box-sizing: border-box;
+        position: relative;
+        overflow: auto;
+      }
+
+    </style>
+
+    <template is="dom-if" if="{{moduleCommands.length}}">
+      <h4 class="header">{{localize('moduleCommands')}}</h4>
+    </template>
+    <template is="dom-repeat" items="{{moduleCommands}}" as="command" index-as="commandIndex">
+      <nexpaq-driver-form-command command="{{command}}" language="[[language]]" resources="[[resources]]" data-index$="[[commandIndex]]" on-user-command-delete-request="removeCommand" valid="{{valid}}"></nexpaq-driver-form-command>
+    </template>
+    <paper-button raised="" class="indigo main outer" on-click="addMoreCommands"> + {{localize('add')}} {{localize('command')}}</paper-button>
+
+  </template>
+  <script>
+    class NexpaqDriverFormCommands extends Polymer.mixinBehaviors([Polymer.AppLocalizeBehavior], NexpaqDriverCommonFunctions(Polymer.Element)){
+      static get is() { return 'nexpaq-driver-form-commands' }
+      static get properties() {
+        return {
+        	moduleCommands: {
+            type: Array,
+            notify: true
+          },
+          valid: {
+            type: Boolean,
+            notify: true,
+            value: function() {
+              return true;
+            }
+          },
+        }
+      }
+
+      addMoreCommands(e) {
+        this.push('moduleCommands', {});
+      }
+
+      removeCommand(e) {
+        // Removing current item from array
+        var index = e.currentTarget.dataset.index;
+        this.splice('moduleCommands', index, 1);
+      }
+
+    }
+    customElements.define(NexpaqDriverFormCommands.is, NexpaqDriverFormCommands);
+  </script>
+</dom-module>

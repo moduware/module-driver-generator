@@ -1,0 +1,114 @@
+
+<!-- Load the Polymer.Element base class -->
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+
+<dom-module id="nexpaq-driver-view">
+  <template>
+    <style>
+
+      :host {
+        display: inline-block;
+        box-sizing: border-box;
+        position: relative;
+        font-size: 14px;
+        padding: 10px;
+        color: #0f2a37;
+      }
+
+      h4 {
+        font-size: 18px;
+        font-weight: bold;
+        margin: 0;
+        text-align: center;
+        width: 100%;
+        padding-top: 30px;
+      }
+
+      .resultOutput {
+        white-space: pre;
+        overflow: scroll;
+        background: white;
+        line-height: 18px;
+      }
+    </style>
+
+    <div>
+      <h4> driver.json </h4>
+      <div class="resultOutput" style$="max-height: [[calculatePixelsInLines(maxLines)]]px;">
+[[renderData(data.*)]]
+      </div>
+
+    </div>
+  </template>
+
+  <script>
+
+    // Extend Polymer.Element base class
+    class DriverView extends Polymer.Element {
+
+      static get is() { return 'nexpaq-driver-view' }
+
+      static get observers() {
+        return [
+          'driverDataObserver(data)'
+        ]
+      }
+
+      static get properties() {
+        return {
+          data: {
+            type: Object,
+            value: function() {
+              return {};
+            }
+          },
+          // receivedData: {
+          //   type: Object,
+          //   value: function() {
+          //     return {};
+          //   }
+          // },
+          // sentData: {
+          //   type: Object,
+          //   value: function() {
+          //     return {};
+          //   }
+          // },
+          json: {
+            type: String,
+            notify: true
+          },
+          maxLines: Number
+        }
+      }
+
+      driverDataObserver(data) {
+        console.log('Data updated', data);
+      }
+      /**
+       * Renders the input data
+       * @param {object}
+       */
+      renderData(data1,data2) {
+        //Stringifies the data
+
+        //var combinedData = Object.assign(this.sentData, this.receivedData);
+        var json = JSON.stringify(this.data, function(key, value) {
+          if (value === null) return undefined;
+          return value;
+        }, "\t");
+        this.json = json;
+        return json;
+      }
+
+      calculatePixelsInLines (maxLines) {
+        return maxLines * 18;
+      }
+    }
+
+    // Register custom element definition using standard platform API
+    customElements.define(DriverView.is, DriverView);
+
+  </script>
+</dom-module>

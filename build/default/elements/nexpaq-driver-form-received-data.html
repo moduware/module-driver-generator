@@ -1,0 +1,81 @@
+<!-- Load the Polymer.Element base class --><link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-tooltip/paper-tooltip.html">
+<link rel="import" href="../bower_components/neon-animation/web-animations.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/app-localize-behavior/app-localize-behavior.html">
+<link rel="import" href="../mixins/nexpaq-driver-common-functions.html">
+<link rel="import" href="../styles/nexpaq-driver-form-common-styles.html">
+<link rel="import" href="nexpaq-driver-form-variables.html">
+
+<dom-module id="nexpaq-driver-form-received-data">
+  <template>
+  	<style include="nexpaq-driver-form-common-styles">
+
+      :host {
+      }
+
+    </style>
+    <div class="subfield-container">
+      <span class="close" on-click="triggerDeletedEvent">×</span>
+  		<paper-input always-float-label="" id="name" label="{{localize('name')}}" value="{{data.name}}" required="" auto-validate="" error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+      <paper-tooltip for="name" offset="-7" position="bottom">ex : SensorValue</paper-tooltip>
+      <paper-input always-float-label="" id="title" label="{{localize('title')}}" value="{{data.title}}" required="" auto-validate="" error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+      <paper-tooltip for="title" offset="-7" position="bottom">ex : Sensor value</paper-tooltip>
+      <paper-input always-float-label="" id="description" label="{{localize('description')}}" value="{{data.description}}" required="" auto-validate="" error-message="This field is required!" maxlength="150" on-change="validateForm"></paper-input>
+      <paper-tooltip for="description" offset="-7" position="bottom">ex : Value from Temperature and Humidity sensor</paper-tooltip>
+      <paper-input always-float-label="" id="source" label="{{localize('source')}}" value="{{data.source}}" required="" auto-validate="" error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+      <paper-tooltip for="source" offset="-7" position="bottom">ex : 2800</paper-tooltip>
+      <template is="dom-if" if="{{data.variables.length}}">
+        <span class="field">{{localize('variable')}}</span>
+      </template>
+      <template is="dom-repeat" items="{{data.variables}}" as="variable" index-as="variableIndex">
+        <nexpaq-driver-form-variables language="[[language]]" resources="[[resources]]" variable="{{variable}}" data-index$="[[variableIndex]]" on-user-variable-delete-request="removeVariable" valid="{{valid}}"></nexpaq-driver-form-variables>
+      </template>
+      <paper-button raised="" class="indigo mid" on-click="addMoreVariable"> + Add Variable</paper-button>
+    </div>
+  </template>
+  <script>
+    class NexpaqDriverFormReceivedData extends Polymer.mixinBehaviors([Polymer.AppLocalizeBehavior], NexpaqDriverCommonFunctions(Polymer.Element)){
+      static get is() { return 'nexpaq-driver-form-received-data' }
+      static get properties() {
+        return {
+          data: {
+            type: Object,
+            notify: true,
+          },
+          valid: {
+            type: Boolean,
+            notify: true,
+          }
+        }
+      }
+
+    
+      addMoreVariable(e) {
+        if(this.data.variables == null) {
+          this.set('data.variables', []);
+        }
+        var item = 'data.variables';
+        this.push(item,{});
+      }
+
+      triggerDeletedEvent(event) {
+        this.dispatchEvent(new CustomEvent('user-received-data-delete-request', {}));
+      }
+
+      removeVariable(e) {
+        // if there are no more items in array, then removing array
+        var index = e.currentTarget.dataset.index;
+        this.splice('data.variables', index, 1);
+
+        // Removing current item from array
+        if(this.data.variables.length == 0) {
+          delete this.data.variables;
+          this.notifyPath('data.variables', false);
+        }
+      }
+    }
+    customElements.define(NexpaqDriverFormReceivedData.is, NexpaqDriverFormReceivedData);
+  </script>
+</dom-module>
