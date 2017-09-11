@@ -91,13 +91,23 @@
        * @param {object}
        */
       renderData(data1,data2) {
+        // Converts Data string to an Array
+        // if (this.receivedData.data !== undefined){
+        //   for(var i=0; i < this.receivedData.data.length; i++) {
+        //     if (this.receivedData.data[i].variables !== undefined) {
+        //       for(var j=0; j < this.receivedData.data[i].variables.length; j++) {
+        //         if (this.receivedData.data[i].variables[j].data !== undefined && !Array.isArray(this.receivedData.data[i].variables[j].data)) {
+        //           this.receivedData.data[i].variables[j].data = this.receivedData.data[i].variables[j].data.split(",");
+        //         }
+        //       }
+        //     }
+        //   }
+        // }
+
         //Stringifies the data
 
         //var combinedData = Object.assign(this.sentData, this.receivedData);
-        var json = JSON.stringify(this.data, function(key, value) {
-          if (value === null) return undefined;
-          return value;
-        }, "\t");
+        var json = JSON.stringify(this.data, null, "\t");
         this.json = json;
         return json;
       }
