@@ -6,18 +6,16 @@
 <dom-module id="nexpaq-driver-form-states">
   <template>
   	<style include="nexpaq-driver-form-common-styles"></style>
-
     <template is="dom-repeat" items="{{statesObjectRenderer(states, states.*)}}" as="state" index-as="stateIndex">
-      <div class = "inline-container">
-        <span class="close argument" on-click="removeState">&times;</span>
-        <paper-input class= "container" always-float-label id="key" label="{{localize('key')}}" value="{{state.stateKey}}" auto-validate maxlength="50" on-focus="saveOldValue" on-change="updateKeyInStatesObject"></paper-input>
+      <div class="inline-container">
+        <span class="close argument" on-click="removeState" data-key$="[[state.stateKey]]">&times;</span>
+        <paper-input class="container" always-float-label id="key" label="{{localize('key')}}" value="{{state.stateKey}}" auto-validate maxlength="50" on-focus="saveOldValue" on-change="updateKeyInStatesObject"></paper-input>
         <paper-tooltip for="key" offset="-7" position="bottom">ex : 00</paper-tooltip>
-        <paper-input class= "container" always-float-label id="value" label="{{localize('value')}}" value="{{state.value}}" data-key$="{{state.stateKey}}" auto-validate maxlength="50" on-change="passValueToStatesObject"></paper-input>
+        <paper-input class="container" always-float-label id="value" label="{{localize('value')}}" value="{{state.value}}" data-key$="{{state.stateKey}}" auto-validate maxlength="50" on-change="passValueToStatesObject"></paper-input>
         <paper-tooltip for="value" offset="-7" position="bottom">ex : success</paper-tooltip>
       </div>
     </template>
     <paper-button raised class="indigo clicked" on-click="addMoreState"> + {{localize('add')}} {{localize('state')}}</paper-button>
-
   </template>
   <script>
     // Extend Polymer.Element base class
@@ -61,13 +59,12 @@
       * Removes deleted state from variables.
       */
       removeState(e) {
-        if(this.states.length == 1) {
-          this.added = false;
-          var i = e.model.parentModel.variableIndex;
-          delete this.receivedData.variables[i]['state'];
-        }
-        var index = e.model.stateIndex;
-        this.splice('arguments', index, 1);
+        // if there are no more items in array, then removing array
+        var key = e.currentTarget.dataset.key;
+        delete this.states[key];
+        this.notifyPath('states', this.states);
+        console.log(key);
+        console.log(this.states);
       }
 
       /**
