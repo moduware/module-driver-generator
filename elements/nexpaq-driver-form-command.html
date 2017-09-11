@@ -7,7 +7,7 @@
 <link rel="import" href="../bower_components/app-localize-behavior/app-localize-behavior.html">
 <link rel="import" href="../styles/nexpaq-driver-form-common-styles.html">
 <link rel="import" href="../mixins/nexpaq-driver-common-functions.html">
-<link rel="import" href="nexpaq-driver-form-arguments.html">
+<link rel="import" href="nexpaq-driver-form-argument.html">
 <link rel="import" href="nexpaq-driver-form-data.html">
 
 
@@ -44,7 +44,7 @@
         <span class="field">{{localize('argument')}}</span>
       </template>
       <template is="dom-repeat" items="{{command.arguments}}" as="argument" index-as="argumentIndex">
-        <nexpaq-driver-form-arguments language="[[language]]" resources="[[resources]]" argument="{{argument}}" data-index$="[[argumentIndex]]" on-user-argument-delete-request="removeArgument" valid={{valid}}></nexpaq-driver-form-arguments>
+        <nexpaq-driver-form-argument language="[[language]]" resources="[[resources]]" argument="{{argument}}" data-index$="[[argumentIndex]]" on-user-argument-delete-request="removeArgument" valid={{valid}}></nexpaq-driver-form-argument>
       </template>
       <paper-button raised class="indigo mid" on-click="addMoreArgument"> + Add Argument</paper-button>
 

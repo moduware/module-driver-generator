@@ -3,7 +3,7 @@
 <link rel="import" href="../mixins/nexpaq-driver-common-functions.html">
 <link rel="import" href="../styles/nexpaq-driver-form-common-styles.html">
 
-<dom-module id="nexpaq-driver-form-arguments">
+<dom-module id="nexpaq-driver-form-argument">
   <template>
   	<style include="nexpaq-driver-form-common-styles"></style>
       <div class="inline-container">
@@ -16,9 +16,9 @@
   </template>
   <script>
     // Extend Polymer.Element base class
-    class DriverFormArguments extends Polymer.mixinBehaviors([Polymer.AppLocalizeBehavior], NexpaqDriverCommonFunctions(Polymer.Element)) {
+    class DriverFormArgument extends Polymer.mixinBehaviors([Polymer.AppLocalizeBehavior], NexpaqDriverCommonFunctions(Polymer.Element)) {
 
-      static get is() { return 'nexpaq-driver-form-arguments' }
+      static get is() { return 'nexpaq-driver-form-argument' }
 
       static get properties() {
         return {
@@ -39,6 +39,6 @@
     }
 
     // Register custom element definition using standard platform API
-    customElements.define(DriverFormArguments.is, DriverFormArguments);
+    customElements.define(DriverFormArgument.is, DriverFormArgument);
   </script>
 </dom-module>
