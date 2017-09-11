@@ -62,9 +62,7 @@
         // if there are no more items in array, then removing array
         var key = e.currentTarget.dataset.key;
         delete this.states[key];
-        this.notifyPath('states', this.states);
-        console.log(key);
-        console.log(this.states);
+        this.notifyPath('states.' + key, false);
       }
 
       /**
