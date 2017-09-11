@@ -6,7 +6,7 @@
 <dom-module id="nexpaq-driver-form-states">
   <template>
   	<style include="nexpaq-driver-form-common-styles"></style>
-    <template is="dom-repeat" items="{{statesObjectRenderer(states, states.*)}}" as="state" index-as="stateIndex">
+    <template is="dom-repeat" items="{{statesObjectRenderer(states.*)}}" as="state" index-as="stateIndex">
       <div class="inline-container">
         <span class="close argument" on-click="removeState" data-key$="[[state.stateKey]]">&times;</span>
         <paper-input class="container" always-float-label id="key" label="{{localize('key')}}" value="{{state.stateKey}}" auto-validate maxlength="50" on-focus="saveOldValue" on-change="updateKeyInStatesObject"></paper-input>
@@ -39,8 +39,9 @@
       /**
       * Renders our states object ot array on every key change
       */
-      statesObjectRenderer(states, changes) {
-        return this.toArray(states);
+      statesObjectRenderer(statesChanges) {
+        if(this.states == null) return [];
+        return this.toArray(this.states);
       }
 
       /**
