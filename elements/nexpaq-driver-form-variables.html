@@ -29,7 +29,7 @@
         <template is="dom-if" if="{{variable.states}}">
           <span class="field">{{localize('state')}}</span>
         </template>
-          <nexpaq-driver-form-states language="[[language]]" resources="[[resources]]" states="{{variable.states}}" on-user-state-delete-request="removeState" valid="{{valid}}"></nexpaq-driver-form-states>
+        <nexpaq-driver-form-states language="[[language]]" resources="[[resources]]" states="{{variable.states}}" on-user-state-delete-request="removeState" valid="{{valid}}"></nexpaq-driver-form-states>
 
         <paper-input always-float-label id="format" label="{{localize('format')}}" value="{{variable.format}}" auto-validate maxlength="150" on-change="validateForm"></paper-input>
         <paper-tooltip for="format" offset="-7" position="bottom">ex : 175.75 * ({0} * 256 + {1} / 4 * 4) / 65536 - 46.85</paper-tooltip>
@@ -51,6 +51,23 @@
             type: Boolean,
             notify: true
           }
+        }
+      }
+
+      static get observers() {
+        return [
+          'stateObserver(variable.states.*)'
+        ];
+      }
+
+      stateObserver(stateChanges) {
+        console.log(this.variable);
+        if(this.variable.states == null) return;
+
+        var keys = Object.keys(this.variable.states);
+        if(keys.length == 0) {
+          // delete this.variable.states;
+          this.set('variable.states', null);
         }
       }
 
