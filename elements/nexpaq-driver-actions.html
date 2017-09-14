@@ -1,5 +1,3 @@
-//Should we create data object and have received and sent data in it?
-//organized the setting data part and  check allowed and required fields.
 <!-- Load the Polymer.Element base class -->
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
@@ -30,18 +28,24 @@
 
     </style>
 
+    <!-- Button to dowload manifest.json files -->
     <paper-button raised class="indigo" id="download">{{localize('buttonDownload')}}</paper-button>
+
+    <!-- Button to dowload manifest.json files -->
     <paper-button raised class="indigo">
       <span>{{localize('buttonUpload')}}</span>
       <input id="upload" name="Select File" type="file" />
     </paper-button>
 
+    <!-- Dialog box for not filling required fields -->
     <paper-dialog id="modal" modal>
       <p>{{localize('dialogRequiredField')}} <strong>{{requiredFields}}</strong> fields before downloading the driver file!</p>
       <div class="buttons">
         <paper-button dialog-confirm autofocus>{{localize('dialogButtonRequired')}}</paper-button>
       </div>
     </paper-dialog>
+
+    <!-- Dialog box for unfamiliar uploaded data -->
     <paper-dialog id="confirm" modal="true" on-iron-overlay-closed="dismissDialog">
       <p> {{localize('dialogUnfamiliarData')}}</p>
       <div class="buttons">
