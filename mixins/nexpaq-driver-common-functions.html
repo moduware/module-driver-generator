@@ -2,6 +2,10 @@
   <script>
   NexpaqDriverCommonFunctions = function(superClass) {
     return class extends superClass {
+      /**
+       * Converts object into array.
+       * @param {object}
+       */
       toArray(obj) {
         return Object.keys(obj).map(function(key) {
           return {
