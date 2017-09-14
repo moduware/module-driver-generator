@@ -2,6 +2,7 @@
   <script>
   NexpaqDriverCommonFunctions = function(superClass) {
     return class extends superClass {
+
       /**
        * Converts object into array.
        * @param {object}
@@ -18,7 +19,6 @@
       /**
        * Validates the form by checking each
        * paper input field.
-       * @param {object}
        */
       validateForm() {
         var paperInputs = Polymer.dom(this.root).querySelectorAll("paper-input");

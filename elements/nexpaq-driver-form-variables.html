@@ -16,21 +16,35 @@
 
     </style>
       <div class="subfield-container">
+
+        <!-- Button to remove this variable -->
         <span class="close" on-click="triggerDeletedEvent">×</span>
+
+        <!-- Variable name -->
         <paper-input always-float-label id="name" label="{{localize('name')}}" value="{{variable.name}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
         <paper-tooltip for="name" offset="-7" position="bottom">ex : humidity</paper-tooltip>
+
+        <!-- Variable title -->
         <paper-input always-float-label id="title" label="{{localize('title')}}" value="{{variable.title}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
         <paper-tooltip for="title" offset="-7" position="bottom">ex : Humidity</paper-tooltip>
+
+        <!-- Variable description -->
         <paper-input always-float-label id="description" label="{{localize('description')}}" value="{{variable.description}}" required auto-validate error-message="This field is required!" maxlength="150" on-change="validateForm"></paper-input>
         <paper-tooltip for="description" offset="-7" position="bottom">ex : Ambient humidity detected by module</paper-tooltip>
+
+        <!-- Variable data -->
         <paper-input always-float-label id="data" label="{{localize('data')}}" value="{{variable.data}}" required auto-validate allowed-pattern="[0-9_\,]" error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
         <paper-tooltip for="data" offset="-7" position="bottom">ex : 0, 1</paper-tooltip>
 
+        <!-- Title for variable state element -->
         <template is="dom-if" if="{{variable.states}}">
           <span class="field">{{localize('state')}}</span>
         </template>
+
+        <!-- Variable state element -->
         <nexpaq-driver-form-states language="[[language]]" resources="[[resources]]" states="{{variable.states}}" on-user-state-delete-request="removeState" valid="{{valid}}"></nexpaq-driver-form-states>
 
+        <!-- Variable format -->
         <paper-input always-float-label id="format" label="{{localize('format')}}" value="{{variable.format}}" auto-validate maxlength="150" on-change="validateForm"></paper-input>
         <paper-tooltip for="format" offset="-7" position="bottom">ex : 175.75 * ({0} * 256 + {1} / 4 * 4) / 65536 - 46.85</paper-tooltip>
       </div>
@@ -60,8 +74,8 @@
         ];
       }
 
+      //Sets variable state to null if there is no key.
       stateObserver(stateChanges) {
-        console.log(this.variable);
         if(this.variable.states == null) return;
 
         var keys = Object.keys(this.variable.states);
@@ -70,9 +84,8 @@
           this.set('variable.states', null);
         }
       }
-
+      //Triggers delete variable event on received data element.
       triggerDeletedEvent(event) {
-        console.log(this.variable.states);
         this.dispatchEvent(new CustomEvent('user-variable-delete-request', {}));
       }
 
