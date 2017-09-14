@@ -12,22 +12,25 @@
 <dom-module id="nexpaq-driver-form-commands">
   <template>
   	<style include="nexpaq-driver-form-common-styles">
-
       :host {
         display: block;
         box-sizing: border-box;
         position: relative;
         overflow: auto;
       }
-
     </style>
 
+    <!-- Header for command -->
     <template is="dom-if" if="{{moduleCommands.length}}">
       <h4 class="header">{{localize('moduleCommands')}}</h4>
     </template>
+
+    <!-- Command field of our driver -->
     <template is="dom-repeat" items="{{moduleCommands}}" as="command" index-as="commandIndex">
       <nexpaq-driver-form-command command="{{command}}" language="[[language]]" resources="[[resources]]" data-index$="[[commandIndex]]" on-user-command-delete-request="removeCommand" valid="{{valid}}"></nexpaq-driver-form-command>
     </template>
+
+    <!-- Button to add more command field -->
     <paper-button raised class="indigo main outer" on-click="addMoreCommands"> + {{localize('add')}} {{localize('command')}}</paper-button>
 
   </template>
@@ -50,12 +53,13 @@
         }
       }
 
+      //Adds more command field
       addMoreCommands(e) {
         this.push('moduleCommands', {});
       }
 
+      // Removes current command item from commands array
       removeCommand(e) {
-        // Removing current item from array
         var index = e.currentTarget.dataset.index;
         this.splice('moduleCommands', index, 1);
       }
