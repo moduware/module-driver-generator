@@ -12,19 +12,23 @@
 <dom-module id="nexpaq-driver-form">
   <template>
   	<style include="nexpaq-driver-form-common-styles">
-
       nexpaq-driver-form-commands {
         margin-top: 5%;
       }
-
     </style>
 
+    <!--Driver form type -->
     <paper-input always-float-label id="type"  label="{{localize('moduleType')}}" value="{{moduleType}}" required auto-validate allowed-pattern="[A-Za-z_\.\-0-9]" error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
     <paper-tooltip for="type" offset="-7" position="bottom">ex : nexpaq.module.led</paper-tooltip>
+
+    <!--Driver form version -->
     <paper-input always-float-label id="version" label="{{localize('driverVersion')}}" value="{{driverVersion}}" required auto-validate allowed-pattern="[0-9_\.]" error-message="This field is required!" maxlength="20" on-change="validateForm"></paper-input>
     <paper-tooltip for="version" offset="-7" position="bottom">ex : 1.0.0</paper-tooltip>
 
+    <!--Driver form commands -->
     <nexpaq-driver-form-commands module-commands="{{moduleCommands}}" valid="{{sentDataValid}}" language="[[language]]" resources="[[resources]]"></nexpaq-driver-form-commands>
+
+    <!--Driver form received datas -->
     <nexpaq-driver-form-received-datas module-data="{{moduleData}}" valid="{{receivedDataValid}}" language="[[language]]" resources="[[resources]]"></nexpaq-driver-form-received-datas>
 
   </template>
