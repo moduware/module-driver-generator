@@ -61,10 +61,16 @@
     <app-header-layout>
       <app-header condenses>
         <app-toolbar>
+
+          <!--Driver form header -->
           <div main-title>{{localize('headerGenerator')}}</div>
         </app-toolbar>
       </app-header>
+
+      <!--Driver form interface -->
       <nexpaq-driver-interface language="[[language]]" resources="[[resources]]"></nexpaq-driver-interface>
+
+      <!--Driver form footer with languager and links -->
       <footer>
         <a href="https://nexpaq.com/privacy-policy/">Privacy Policy</a>
         <a href="https://nexpaq.com/terms-of-use/">Terms of Use</a>
@@ -83,6 +89,8 @@
 
       connectedCallback() {
         super.connectedCallback();
+
+        //Loads localizedData file for language switch
         this.loadResources(this.resolveUrl('localizedData.json'));
       }
 
@@ -94,7 +102,7 @@
           }
         }
       }
-
+      //Changes language based on the selection
       toggleLanguage(e) {
         this.$.en.style.backgroundColor = "white";
         if(e.target.id == "en") {
