@@ -21,19 +21,19 @@
       <span class="close" on-click="triggerDeletedEvent">×</span>
 
       <!-- Data name -->
-  		<paper-input always-float-label id="name" label="{{localize('name')}}" value="{{data.name}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+  		<paper-input always-float-label id="name" label="{{localize('name')}}" value="{{data.name}}" required auto-validate error-message="This field is required!" maxlength="50" invalid="{{dataNameInvalid}}"></paper-input>
       <paper-tooltip for="name" offset="-7" position="bottom">ex : SensorValue</paper-tooltip>
 
       <!-- Data title -->
-      <paper-input always-float-label id="title" label="{{localize('title')}}" value="{{data.title}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+      <paper-input always-float-label id="title" label="{{localize('title')}}" value="{{data.title}}" required auto-validate error-message="This field is required!" maxlength="50" invalid="{{dataTitleInvalid}}"></paper-input>
       <paper-tooltip for="title" offset="-7" position="bottom">ex : Sensor value</paper-tooltip>
 
       <!-- Data description -->
-      <paper-input always-float-label id="description" label="{{localize('description')}}" value="{{data.description}}" required auto-validate error-message="This field is required!" maxlength="150" on-change="validateForm"></paper-input>
+      <paper-input always-float-label id="description" label="{{localize('description')}}" value="{{data.description}}" required auto-validate error-message="This field is required!" maxlength="150" invalid="{{dataDescriptionInvalid}}"></paper-input>
       <paper-tooltip for="description" offset="-7" position="bottom">ex : Value from Temperature and Humidity sensor</paper-tooltip>
 
       <!-- Data source -->
-      <paper-input always-float-label id="source" label="{{localize('source')}}" value="{{data.source}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+      <paper-input always-float-label id="source" label="{{localize('source')}}" value="{{data.source}}" required auto-validate error-message="This field is required!" maxlength="50" invalid="{{dataSourceInvalid}}"></paper-input>
       <paper-tooltip for="source" offset="-7" position="bottom">ex : 2800</paper-tooltip>
 
       <!-- Title for data variable -->
@@ -43,7 +43,7 @@
 
       <!-- Data variable element -->
       <template is="dom-repeat" items="{{data.variables}}" as="variable" index-as="variableIndex">
-        <nexpaq-driver-form-variables language="[[language]]" resources="[[resources]]" variable="{{variable}}" data-index$="[[variableIndex]]" on-user-variable-delete-request="removeVariable" valid={{valid}}></nexpaq-driver-form-variables>
+        <nexpaq-driver-form-variables language="[[language]]" resources="[[resources]]" variable="{{variable}}" data-index$="[[variableIndex]]" on-user-variable-delete-request="removeVariable" invalid="{{dataVariableInvalid}}"></nexpaq-driver-form-variables>
       </template>
 
       <!-- Button to add more variable -->
@@ -59,9 +59,9 @@
             type: Object,
             notify: true,
           },
-          valid: {
+          invalid: {
             type: Boolean,
-            notify: true,
+            computed: 'isAllArgumentsTrue(dataNameInvalid, dataTitleInvalid, dataDescriptionInvalid, dataSourceInvalid, dataVariableInvalid)'
           }
         }
       }
