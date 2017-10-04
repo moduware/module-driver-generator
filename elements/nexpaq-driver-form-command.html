@@ -24,19 +24,19 @@
       <span class="close" on-click="triggerDeletedEvent">×</span>
 
       <!-- Command name -->
-      <paper-input always-float-label id="name" label="{{localize('name')}}" value="{{command.name}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+      <paper-input always-float-label id="name" label="{{localize('name')}}" value="{{command.name}}" required auto-validate error-message="This field is required!" maxlength="50" invalid="{{commandNameInvalid}}"></paper-input>
       <paper-tooltip for="name" offset="-7" position="bottom">ex : SetRGB</paper-tooltip>
 
       <!-- Command title -->
-      <paper-input always-float-label id="title" label="{{localize('title')}}" value="{{command.title}}" required auto-validate error-message="This field is required!" maxlength="80" on-change="validateForm"></paper-input>
+      <paper-input always-float-label id="title" label="{{localize('title')}}" value="{{command.title}}" required auto-validate error-message="This field is required!" maxlength="80" invalid="{{commandTitleInvalid}}"></paper-input>
       <paper-tooltip for="title" offset="-7" position="bottom">ex : Set color in RGB</paper-tooltip>
 
       <!-- Command description  -->
-      <paper-input always-float-label id="description" label="{{localize('description')}}" value="{{command.description}}" required auto-validate error-message="This field is required!" maxlength="150" on-change="validateForm"></paper-input>
+      <paper-input always-float-label id="description" label="{{localize('description')}}" value="{{command.description}}" required auto-validate error-message="This field is required!" maxlength="150" invalid="{{commandDescriptionInvalid}}"></paper-input>
       <paper-tooltip for="description" offset="-7" position="bottom">ex : Changes color of module to specified RGB color</paper-tooltip>
 
       <!-- Command message type -->
-      <paper-input always-float-label id="command" label="{{localize('command')}}" value="{{command.command}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+      <paper-input always-float-label id="command" label="{{localize('command')}}" value="{{command.command}}" required auto-validate error-message="This field is required!" maxlength="50" invalid="{{commandMessageTypeInvalid}}"></paper-input>
       <paper-tooltip for="command" offset="-7" position="bottom">ex : 2702</paper-tooltip>
 
       <!-- Title of arguments field in our command  -->
@@ -46,7 +46,7 @@
 
       <!-- Arguments of our command -->
       <template is="dom-repeat" items="{{command.arguments}}" as="argument" index-as="argumentIndex">
-        <nexpaq-driver-form-argument language="[[language]]" resources="[[resources]]" argument="{{argument}}" data-index$="[[argumentIndex]]" on-user-argument-delete-request="removeArgument" valid={{valid}}></nexpaq-driver-form-argument>
+        <nexpaq-driver-form-argument language="[[language]]" resources="[[resources]]" argument="{{argument}}" data-index$="[[argumentIndex]]" on-user-argument-delete-request="removeArgument" invalid="{{commandArgumentInvalid[argumentIndex]}}"></nexpaq-driver-form-argument>
       </template>
 
       <!-- Button to add more argument field into command -->
@@ -59,7 +59,7 @@
 
       <!-- Data field of our command -->
       <template is="dom-repeat" items="{{command.data}}" as="data" index-as="dataIndex">
-        <nexpaq-driver-form-data language="[[language]]" resources="[[resources]]" data="{{data}}" data-index$="[[dataIndex]]" on-user-data-delete-request="removeData" valid={{valid}}></nexpaq-driver-form-data>
+        <nexpaq-driver-form-data language="[[language]]" resources="[[resources]]" data="{{data}}" data-index$="[[dataIndex]]" on-user-data-delete-request="removeData" invalid="{{commandDataFieldInvalid[argumentIndex]}}"></nexpaq-driver-form-data>
       </template>
 
       <!-- Button to add more data field into command -->
@@ -77,10 +77,7 @@
           },
           valid: {
             type: Boolean,
-            notify: true,
-            value: function() {
-              return true;
-            }
+            computed: 'isAllArgumentsTrue(commandNameInvalid, commandTitleInvalid, commandDescriptionInvalid, commandMessageTypeInvalid, commandArgumentInvalid, commandDataFieldInvalid)'
           }
         }
       }

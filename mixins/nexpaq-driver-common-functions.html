@@ -46,6 +46,21 @@
         }
         return true;
       }
+
+      /**
+       * Checks if all passed arguments are true
+       * @param {object}
+       */
+      isAllArgumentsTrue(args) {
+        var invalid = false;
+        for(var i in arguments) {
+          if(arguments[i] == true) {
+            invalid = true;
+            break;
+          }
+        }
+        return invalid;
+      }
     }
   }
   </script>
