@@ -1,0 +1,65 @@
+<dom-module id="nexpaq-driver-explanation">
+  <template>
+    <style>
+    :host {
+      font-size: 10px;
+      font-family: 'Roboto', sans-serif;
+      line-height: 140%;
+    }
+    .explanation {
+      padding: 0 15px;
+      /*border: dotted 1px rgba(132, 145, 156, 0.7);*/
+      border: dotted 1px #d12f3d;
+      border-radius: 5px;
+    }
+    .header {
+      text-align: center;
+      color: #0f2a37;
+    }
+    .centered {
+        /*text-align: center;*/
+        text-indent: 10px;
+    }
+    p {
+      text-indent: 10px;
+    }
+
+    </style>
+    <div class="explanation">
+      <a name="explanation">
+        <h2 class="header">What is Module Driver Generator?</h2>
+        <p class="centered">Every Moduware devices are capable of working with different types of modules, which makes them modular devices. To help you understand what Module Driver is, let’s explain you what are we calling as “module” first.</p>
+
+        <p class="centered">Module is a piece of hardware that we inserted into our Moduware devices to increase the hardware capability. This could be one of our own, such as LED, battery, USB etc. or one your own creation.
+          In both cases, they need a JSON file, to create the connection between the module and the Moduware app, what we call as Module Driver.</p>
+        <p class="centered">Module Driver is an object that has format definitions of the module commands that has been sent to the modules by the app and definitions of the encoded data that has been sent to the app by the modules.
+          It is like a pre defined format for the communication of app and the module.</p>
+
+        <p>If we investigate further down in this file, we will see that its structure has 2 major parts - <b>Module Commands</b> and <b>Received Data</b>.</p>
+
+        <p>In Module Commands, we define the commands that app is sending to the module and refer to it as “commands” in our object. Some of the properties of commands are;<br>
+          <ul>
+            <li><b>Argument - </b>which indicates name of the argument and validation of it.</li>
+            <li><b>Command- </b>command that is defined in firmware.</li>
+          </ul>
+        </p>
+
+        <p>In Received Data, we explain to the application what the sent data is and how to decode it and refer to it as “data” in our object.  Some of the properties of data are;<br>
+          <ul>
+            <li><b>Source - </b>command that is defined in firmware.</li>
+              <li><b>Variable - </b>information about the variables in the data that came.</li>
+          </ul>
+        </p>
+        <p class="centered">Module Driver is the essentials of each modules. Without this JSON file, neither app nor the modules would understand what are the intentions of each other.
+          The purpose of this Module Driver Generator is to make the generation of this JSON file easier for developers and to keep it in the certain format required by the app with certain validations and pre-defined fields.
+        </p>
+      </a>
+    </div>
+  </template>
+  <script>
+    class NexpaqDriverExplanation extends Polymer.Element {
+      static get is() { return 'nexpaq-driver-explanation' }
+    }
+    customElements.define(NexpaqDriverExplanation.is, NexpaqDriverExplanation);
+  </script>
+</dom-module>

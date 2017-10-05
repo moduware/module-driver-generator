@@ -4,6 +4,7 @@
 <link rel="import" href="nexpaq-driver-form.html">
 <link rel="import" href="nexpaq-driver-view.html">
 <link rel="import" href="nexpaq-driver-actions.html">
+<link rel="import" href="nexpaq-driver-explanation.html">
 <dom-module id="nexpaq-driver-interface">
   <template>
 
@@ -12,24 +13,36 @@
       :host {
         display: flex;
         flex-wrap: wrap;
-        width: 100%;
+        width: 98%;
+        padding: 1%;
       }
 
       nexpaq-driver-form {
         margin-top: 70px;
-        min-width: 320px;
+        min-width: 310px;
         flex-grow: 1;
-        width: 47%;
+        width: 32%;
         margin-bottom:60px;
-        margin-left: 3%;
+        margin-left: 2%;
       }
 
       .column-container {
         display: flex;
         flex-grow: 1;
         flex-direction: column;
-        width: 47%;
-        min-width: 320px;
+        width: 32%;
+        min-width: 310px;
+        margin-left: 1%;
+      }
+
+      nexpaq-driver-explanation {
+        margin-top: 45px;
+        min-width: 310px;
+        flex-grow: 1;
+        width: 32%;
+        margin-bottom:60px;
+        margin-left: 1%;
+        box-sizing: border-box;
       }
 
       nexpaq-driver-view{
@@ -60,6 +73,8 @@
       <!--Driver actions element-->
       <nexpaq-driver-actions sent-data="{{sentData}}"  received-data="{{receivedData}}" json="[[json]]" valid="[[valid]]" on-driver-uploaded="driverUploadedHandler" language="[[language]]" resources="[[resources]]"></nexpaq-driver-actions>
     </div>
+    <nexpaq-driver-explanation></nexpaq-driver-explanation>
+
   </template>
   <script>
     class NexpaqDriverInterface extends Polymer.Element {
