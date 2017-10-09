@@ -130,6 +130,17 @@
       triggerDeletedEvent(event) {
         this.dispatchEvent(new CustomEvent('user-command-delete-request', {}));
       }
+
+      validate() {
+        var requiredFields = [this.$.name, this.$.title, this.$.description, this.$.command];
+
+        for (var i in requiredFields) {
+          requiredFields[i].validate();
+        }
+        return !this.invalid;
+      }
+
+
     }
     customElements.define(NexpaqDriverFormCommand.is, NexpaqDriverFormCommand);
   </script>
