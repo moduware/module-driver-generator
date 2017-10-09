@@ -46,7 +46,7 @@
 
       <!-- Arguments of our command -->
       <template is="dom-repeat" items="{{command.arguments}}" as="argument" index-as="argumentIndex">
-        <nexpaq-driver-form-argument language="[[language]]" resources="[[resources]]" argument="{{argument}}" data-index$="[[argumentIndex]]" on-user-argument-delete-request="removeArgument" invalid="{{commandArgumentInvalid[argumentIndex]}}"></nexpaq-driver-form-argument>
+        <nexpaq-driver-form-argument language="[[language]]" resources="[[resources]]" argument="{{argument}}" data-index$="[[argumentIndex]]" on-user-argument-delete-request="removeArgument"></nexpaq-driver-form-argument>
       </template>
 
       <!-- Button to add more argument field into command -->
@@ -59,7 +59,7 @@
 
       <!-- Data field of our command -->
       <template is="dom-repeat" items="{{command.data}}" as="data" index-as="dataIndex">
-        <nexpaq-driver-form-data language="[[language]]" resources="[[resources]]" data="{{data}}" data-index$="[[dataIndex]]" on-user-data-delete-request="removeData" invalid="{{commandDataFieldInvalid[dataIndex]}}"></nexpaq-driver-form-data>
+        <nexpaq-driver-form-data language="[[language]]" resources="[[resources]]" data="{{data}}" data-index$="[[dataIndex]]" on-user-data-delete-request="removeData"></nexpaq-driver-form-data>
       </template>
 
       <!-- Button to add more data field into command -->
@@ -77,7 +77,7 @@
           },
           invalid: {
             type: Boolean,
-            computed: 'isAllArgumentsTrue(commandNameInvalid, commandTitleInvalid, commandDescriptionInvalid, commandMessageTypeInvalid, commandArgumentInvalid, commandDataFieldInvalid)'
+            computed: 'isAllArgumentsTrue(commandNameInvalid, commandTitleInvalid, commandDescriptionInvalid, commandMessageTypeInvalid)'
           }
         }
       }
@@ -125,6 +125,11 @@
           this.notifyPath('command.data', false);
         }
       }
+      validateCommandData(e) {
+        console.log(e.current.invalid);
+      }
+
+
 
       //Triggers delete command event on commands element.
       triggerDeletedEvent(event) {

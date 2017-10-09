@@ -12,11 +12,11 @@
         <span class="close argument" on-click="triggerDeletedEvent">×</span>
 
         <!-- Argument name -->
-        <paper-input class= "container" always-float-label id="name" label="{{localize('argumentName')}}" value="{{argument.name}}" auto-validate maxlength="50" invalid="{{argumentNameIsInvalid}}"></paper-input>
+        <paper-input class= "container" always-float-label id="name" label="{{localize('argumentName')}}" value="{{argument.name}}" auto-validate maxlength="50" ></paper-input>
         <paper-tooltip for="name" offset="-7" position="bottom">ex : Red</paper-tooltip>
 
         <!-- Argument validation -->
-        <paper-input class= "container" always-float-label id="validation" label="{{localize('validation')}}" value="{{argument.validation}}" auto-validate maxlength="50" invalid="{{argumentValidationIsInvalid}}" ></paper-input>
+        <paper-input class= "container" always-float-label id="validation" label="{{localize('validation')}}" value="{{argument.validation}}" auto-validate maxlength="50" ></paper-input>
         <paper-tooltip for="validation" offset="-7" position="bottom">ex : ({0} >= 0) and ({0} <= 255)</paper-tooltip>
       </div>
   </template>
@@ -31,10 +31,6 @@
           argument: {
             type: Object,
             notify: true
-          },
-          invalid: {
-            type: Boolean,
-            computed: 'isAllArgumentsTrue(argumentNameIsInvalid, argumentValidationIsInvalid)'
           }
         }
       }

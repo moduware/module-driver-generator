@@ -4,6 +4,7 @@
 <link rel="import" href="../styles/nexpaq-driver-form-common-styles.html">
 <link rel="import" href="nexpaq-driver-form-states.html">
 
+
 <dom-module id="nexpaq-driver-form-variables">
   <template>
   	<style include="nexpaq-driver-form-common-styles">
@@ -42,10 +43,10 @@
         </template>
 
         <!-- Variable state element -->
-        <nexpaq-driver-form-states language="[[language]]" resources="[[resources]]" states="{{variable.states}}" on-user-state-delete-request="removeState"  invalid="{{variableStateInvalid}}"></nexpaq-driver-form-states>
+        <nexpaq-driver-form-states language="[[language]]" resources="[[resources]]" states="{{variable.states}}" on-user-state-delete-request="removeState"></nexpaq-driver-form-states>
 
         <!-- Variable format -->
-        <paper-input always-float-label id="format" label="{{localize('format')}}" value="{{variable.format}}" auto-validate maxlength="150" invalid="{{variableFormatInvalid}}"></paper-input>
+        <paper-input always-float-label id="format" label="{{localize('format')}}" value="{{variable.format}}" auto-validate maxlength="150"></paper-input>
         <paper-tooltip for="format" offset="-7" position="bottom">ex : 175.75 * ({0} * 256 + {1} / 4 * 4) / 65536 - 46.85</paper-tooltip>
       </div>
   </template>
@@ -63,7 +64,7 @@
           },
           invalid: {
             type: Boolean,
-            computed:'isAllArgumentsTrue(variableNameInvalid, variableTitleInvalid, variableDescriptionInvalid, variableDataInvalid, variableStateInvalid, variableFormatInvalid)'
+            computed:'isAllArgumentsTrue(variableNameInvalid, variableTitleInvalid, variableDescriptionInvalid, variableDataInvalid)'
           }
         }
       }

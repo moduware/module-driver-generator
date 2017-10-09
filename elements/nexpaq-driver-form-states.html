@@ -14,11 +14,11 @@
         <span class="close argument" on-click="removeState" data-key$="[[state.stateKey]]">&times;</span>
 
         <!--State key -->
-        <paper-input class="container" always-float-label id="key" label="{{localize('key')}}" value="{{state.stateKey}}" auto-validate maxlength="50" on-focus="saveOldValue" on-change="updateKeyInStatesObject" invalid="{{stateKeyInvalid}}"></paper-input>
+        <paper-input class="container" always-float-label id="key" label="{{localize('key')}}" value="{{state.stateKey}}" auto-validate maxlength="50" on-focus="saveOldValue" on-change="updateKeyInStatesObject"></paper-input>
         <paper-tooltip for="key" offset="-7" position="bottom">ex : 00</paper-tooltip>
 
         <!--State key -->
-        <paper-input class="container" always-float-label id="value" label="{{localize('value')}}" value="{{state.value}}" data-key$="{{state.stateKey}}" auto-validate maxlength="50" on-change="passValueToStatesObject" invalid="{{stateValueInvalid}}"></paper-input>
+        <paper-input class="container" always-float-label id="value" label="{{localize('value')}}" value="{{state.value}}" data-key$="{{state.stateKey}}" auto-validate maxlength="50" on-change="passValueToStatesObject"></paper-input>
         <paper-tooltip for="value" offset="-7" position="bottom">ex : success</paper-tooltip>
       </div>
     </template>
@@ -37,10 +37,6 @@
           states: {
             type: Object,
             notify: true
-          },
-          invalid: {
-            type: Boolean,
-            computed:'isAllArgumentsTrue(stateKeyInvalid, stateValueInvalid)'
           }
         }
       }

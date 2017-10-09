@@ -18,17 +18,17 @@
       <span class="close" on-click = "triggerDeletedEvent">×</span>
 
       <!-- Data default value -->
-      <paper-input always-float-label id="defaultValue" label="{{localize('defaultValue')}}" value="{{data.defaultValue}}" auto-validate allowed-pattern="[0-9]" maxlength="20" invalid="{{commandDataDefaultInvalid}}"></paper-input>
+      <paper-input always-float-label id="defaultValue" label="{{localize('defaultValue')}}" value="{{data.defaultValue}}" auto-validate allowed-pattern="[0-9]" maxlength="20"></paper-input>
       <paper-tooltip for="defaultValue" offset="-7" position="bottom">ex : 0</paper-tooltip>
 
       <div class="inline-container data">
 
         <!-- Data convert -->
-        <paper-input class= "container" always-float-label id="convert" label="{{localize('convert')}}" value="{{data.convert}}" auto-validate maxlength="50" invalid="{{commandDataConvertInvalid}}" ></paper-input>
+        <paper-input class= "container" always-float-label id="convert" label="{{localize('convert')}}" value="{{data.convert}}" auto-validate maxlength="50"></paper-input>
         <paper-tooltip for="convert" offset="-7" position="bottom">ex : true</paper-tooltip>
 
         <!-- Data format -->
-        <paper-input class= "container" always-float-label id="format" label="{{localize('format')}}" value="{{data.format}}" auto-validate maxlength="50" invalid="{{commandDataFormatInvalid}}"></paper-input>
+        <paper-input class= "container" always-float-label id="format" label="{{localize('format')}}" value="{{data.format}}" auto-validate maxlength="50"></paper-input>
         <paper-tooltip for="format" offset="-7" position="bottom">ex : ({0} >> 8) & 0xFF</paper-tooltip>
       </div>
     </div>
@@ -44,10 +44,6 @@
           data: {
             type: Object,
             notify: true
-          },
-          invalid: {
-            type: Boolean,
-            computed: 'isAllArgumentsTrue(commandDataDefaultInvalid, commandDataConvertInvalid, commandDataFormatInvalid)'
           }
         }
       }
