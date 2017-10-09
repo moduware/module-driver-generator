@@ -65,14 +65,14 @@
     </style>
 
     <!--Driver form element-->
-    <nexpaq-driver-form id="userForm" module-type="{{moduleType}}" driver-version="{{driverVersion}}" module-commands="{{moduleCommands}}" module-data="{{moduleData}}" language="[[language]]" resources="[[resources]]"></nexpaq-driver-form>
+    <nexpaq-driver-form id="userForm" module-type="{{moduleType}}" driver-version="{{driverVersion}}" module-commands="{{moduleCommands}}" module-data="{{moduleData}}" language="[[language]]" resources="[[resources]]" invalid="{{formInvalid}}"></nexpaq-driver-form>
     <div class="column-container">
 
       <!--Driver view element-->
       <nexpaq-driver-view data="[[combineDriveObject(moduleType, driverVersion, moduleCommands.*, moduleData.*)]]" json="{{json}}" max-lines="30"></nexpaq-driver-view>
 
       <!--Driver actions element-->
-      <nexpaq-driver-actions sent-data="{{sentData}}"  received-data="{{receivedData}}" json="[[json]]" valid="[[valid]]" on-driver-uploaded="driverUploadedHandler" language="[[language]]" resources="[[resources]]"></nexpaq-driver-actions>
+      <nexpaq-driver-actions sent-data="{{sentData}}"  received-data="{{receivedData}}" json="[[json]]" on-driver-uploaded="driverUploadedHandler" language="[[language]]" resources="[[resources]]" invalid="[[formInvalid]]"></nexpaq-driver-actions>
     </div>
     <nexpaq-driver-explanation></nexpaq-driver-explanation>
 

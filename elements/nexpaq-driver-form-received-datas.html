@@ -29,7 +29,7 @@
 
     <!-- Received data field of our driver -->
 	  <template is="dom-repeat" items="{{moduleData}}" as="dataInReceived" index-as="dataInReceivedIndex">
-      <nexpaq-driver-form-received-data data="{{dataInReceived}}" language="[[language]]" resources="[[resources]]" data-index$="[[dataInReceivedIndex]]" on-user-received-data-delete-request="removeDataInReceived" valid="{{valid}}"></nexpaq-driver-form-received-data>
+      <nexpaq-driver-form-received-data data="{{dataInReceived}}" language="[[language]]" resources="[[resources]]" data-index$="[[dataInReceivedIndex]]" on-user-received-data-delete-request="removeDataInReceived" invalid="{{receivedDataInvalid[dataInReceivedIndex]}}"></nexpaq-driver-form-received-data>
     </template>
 
     <!-- Button to add more data field -->
@@ -46,10 +46,7 @@
           },
           valid: {
             type: Boolean,
-            notify: true,
-            value: function() {
-              return true;
-            }
+            computed:'isAllArgumentsTrue(receivedDataInvalid)'
           }
         }
       }

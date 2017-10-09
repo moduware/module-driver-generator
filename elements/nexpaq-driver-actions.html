@@ -73,7 +73,7 @@
             type: Object,
             notify: true,
           },
-          valid: {
+          invalid: {
             type: Boolean,
             notify: true
           },
@@ -109,7 +109,7 @@
        * @param {object}
        */
       downloadHandler(json) {
-        if(this.valid == true) {
+        if(this.invalid == false) {
           var a = document.createElement('a');
           var blob = new Blob([json], {'type':'application/octet-stream'});
           a.href = window.URL.createObjectURL(blob);

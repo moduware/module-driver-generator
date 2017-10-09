@@ -43,7 +43,7 @@
 
       <!-- Data variable element -->
       <template is="dom-repeat" items="{{data.variables}}" as="variable" index-as="variableIndex">
-        <nexpaq-driver-form-variables language="[[language]]" resources="[[resources]]" variable="{{variable}}" data-index$="[[variableIndex]]" on-user-variable-delete-request="removeVariable" invalid="{{dataVariableInvalid}}"></nexpaq-driver-form-variables>
+        <nexpaq-driver-form-variables language="[[language]]" resources="[[resources]]" variable="{{variable}}" data-index$="[[variableIndex]]" on-user-variable-delete-request="removeVariable" invalid="{{dataVariableInvalid[variableIndex]}}"></nexpaq-driver-form-variables>
       </template>
 
       <!-- Button to add more variable -->

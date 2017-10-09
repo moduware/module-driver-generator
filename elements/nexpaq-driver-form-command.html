@@ -59,7 +59,7 @@
 
       <!-- Data field of our command -->
       <template is="dom-repeat" items="{{command.data}}" as="data" index-as="dataIndex">
-        <nexpaq-driver-form-data language="[[language]]" resources="[[resources]]" data="{{data}}" data-index$="[[dataIndex]]" on-user-data-delete-request="removeData" invalid="{{commandDataFieldInvalid[argumentIndex]}}"></nexpaq-driver-form-data>
+        <nexpaq-driver-form-data language="[[language]]" resources="[[resources]]" data="{{data}}" data-index$="[[dataIndex]]" on-user-data-delete-request="removeData" invalid="{{commandDataFieldInvalid[dataIndex]}}"></nexpaq-driver-form-data>
       </template>
 
       <!-- Button to add more data field into command -->
