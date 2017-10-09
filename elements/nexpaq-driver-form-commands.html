@@ -27,7 +27,7 @@
 
     <!-- Command field of our driver -->
     <template is="dom-repeat" items="{{moduleCommands}}" as="command" index-as="commandIndex">
-      <nexpaq-driver-form-command command="{{command}}" language="[[language]]" resources="[[resources]]" data-index$="[[commandIndex]]" on-user-command-delete-request="removeCommand" invalid="{{commandInvalid[commandIndex]}}"></nexpaq-driver-form-command>
+      <nexpaq-driver-form-command command="{{command}}" language="[[language]]" resources="[[resources]]" data-index$="[[commandIndex]]" on-user-command-delete-request="removeCommand" invalid="{{commandInvalid}}" on-change="{{validateCommand(commandInvalid,commandIndex)}}"></nexpaq-driver-form-command>
     </template>
 
     <!-- Button to add more command field -->
@@ -46,7 +46,7 @@
           invalid: {
             type: Boolean,
             computed: 'isAllArgumentsTrue(commandInvalid)'
-          },
+          }
         }
       }
 
@@ -59,6 +59,10 @@
       removeCommand(e) {
         var index = e.currentTarget.dataset.index;
         this.splice('moduleCommands', index, 1);
+      }
+
+      validateCommand(invalid, index) {
+        console.log(invalid + index);
       }
 
     }
