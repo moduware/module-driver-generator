@@ -51,16 +51,14 @@
        * Checks if all passed arguments are true
        * @param {object}
        */
-      isAllArgumentsTrue(args) {
-        var allTrue = true;
-        for(var i = 0; i < arguments.length; i++) {
-          if(arguments[i] != true) {
-            allTrue = false;
-            break;
-          }
+      argumentsHaveTrue(args) {
+        console.log(arguments);
+        var haveTrue = false;
+        var args = Array.prototype.slice.call(arguments);
+        if (args.indexOf(true) != -1) {
+          haveTrue = true;
         }
-
-        return allTrue;
+        return haveTrue;
       }
     }
   }
