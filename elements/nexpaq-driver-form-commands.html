@@ -27,7 +27,7 @@
 
     <!-- Command field of our driver -->
     <template is="dom-repeat" items="{{moduleCommands}}" as="command" index-as="commandIndex">
-      <nexpaq-driver-form-command command="{{command}}" language="[[language]]" resources="[[resources]]" data-index$="[[commandIndex]]" on-user-command-delete-request="removeCommand" invalid="{{commandInvalid}}" on-change="{{validateCommand}}"></nexpaq-driver-form-command>
+      <nexpaq-driver-form-command command="{{command}}" language="[[language]]" resources="[[resources]]" data-index$="[[commandIndex]]" on-user-command-delete-request="removeCommand" on-invalid-change="invalidHandler"></nexpaq-driver-form-command>
     </template>
 
     <!-- Button to add more command field -->
@@ -43,11 +43,32 @@
             type: Array,
             notify: true
           },
+          commandsInvalid: {
+            type: Array,
+            value: function() {
+              return [];
+            }
+          },
           invalid: {
             type: Boolean,
-            computed: 'isAllArgumentsTrue(commandInvalid)'
+            computed: 'computeInvalid(commandsInvalid.*, commandsInvalid.splices)'
           }
         }
+      }
+
+      computeInvalid(commandsInvalidChanges) {
+        console.log(commandsInvalidChanges);
+        // If there are no commands, then we are not invalid (driver can be without commands)
+        if(this.computeInvalid.length == 0) return false;
+        var isInvalid = this.isAllArgumentsTrue.apply(this, this.commandsInvalid);
+        return isInvalid;
+      }
+
+      invalidHandler(event) {
+        var index = parseInt(event.currentTarget.dataset.index);
+        var value = event.detail.value;
+
+        this.set('commandsInvalid.' + index, value);
       }
 
       //Adds more command field

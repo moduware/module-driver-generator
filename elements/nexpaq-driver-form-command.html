@@ -77,9 +77,21 @@
           },
           invalid: {
             type: Boolean,
-            computed: 'isAllArgumentsTrue(commandNameInvalid, commandTitleInvalid, commandDescriptionInvalid, commandMessageTypeInvalid)'
+            computed: 'computeInvalid(commandNameInvalid, commandTitleInvalid, commandDescriptionInvalid, commandMessageTypeInvalid)'
           }
         }
+      }
+
+      computeInvalid() {
+        var isInvalid = this.isAllArgumentsTrue.apply(this, arguments);
+        if(this.invalid != isInvalid) {
+          this.dispatchEvent(new CustomEvent('invalid-change', {
+            detail: {
+              value: isInvalid
+            }
+          }));
+        }
+        return isInvalid;
       }
 
       //Adds more argument into command element

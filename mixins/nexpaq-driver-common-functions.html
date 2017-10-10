@@ -52,14 +52,15 @@
        * @param {object}
        */
       isAllArgumentsTrue(args) {
-        var invalid = false;
-        for(var i in arguments) {
-          if(arguments[i] == true) {
-            invalid = true;
+        var allTrue = true;
+        for(var i = 0; i < arguments.length; i++) {
+          if(arguments[i] != true) {
+            allTrue = false;
             break;
           }
         }
-        return invalid;
+
+        return allTrue;
       }
     }
   }
