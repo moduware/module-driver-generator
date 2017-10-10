@@ -57,10 +57,9 @@
       }
 
       computeInvalid(commandsInvalidChanges) {
-        console.log(commandsInvalidChanges);
         // If there are no commands, then we are not invalid (driver can be without commands)
-        if(this.computeInvalid.length == 0) return false;
-        var isInvalid = this.isAllArgumentsTrue.apply(this, this.commandsInvalid);
+        if(this.commandsInvalid.length == 0) return false;
+        var isInvalid = this.argumentsHaveTrue.apply(this, this.commandsInvalid);
         return isInvalid;
       }
 
