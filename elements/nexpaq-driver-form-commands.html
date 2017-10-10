@@ -61,8 +61,12 @@
         this.splice('moduleCommands', index, 1);
       }
 
-      validateCommand(invalid, index) {
-        console.log(this.invalid + this.dataset.index);
+      validate() {
+        var commandElements = Polymer.dom(this.root).querySelectorAll('nexpaq-driver-form-command');
+        for (var i=0; i<commandElements.length; i++ ) {
+          commandElements[i].validate();
+        }
+        return !this.invalid;
       }
 
     }
