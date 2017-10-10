@@ -92,6 +92,14 @@
           this.notifyPath('data.variables', false);
         }
       }
+
+      validate() {
+        var requiredFields = [this.$.name, this.$.title, this.$.description, this.$.source];
+        for (var i in requiredFields) {
+          requiredFields[i].validate();
+        }
+        return !this.invalid;
+      }
     }
     customElements.define(NexpaqDriverFormReceivedData.is, NexpaqDriverFormReceivedData);
   </script>
