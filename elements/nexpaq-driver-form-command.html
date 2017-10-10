@@ -83,7 +83,7 @@
       }
 
       computeInvalid() {
-        var isInvalid = this.isAllArgumentsTrue.apply(this, arguments);
+        var isInvalid = this.argumentsHaveTrue.apply(this, arguments);
         if(this.invalid != isInvalid) {
           this.dispatchEvent(new CustomEvent('invalid-change', {
             detail: {
