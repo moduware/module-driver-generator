@@ -124,6 +124,15 @@
         }
         //Checks if module data exist
         if(this.moduleData.length != 0) {
+          for (var j=0; j<this.moduleData.length; j++ ) {
+            if (this.moduleData[j].variables !== undefined) {
+              for (var i=0; i<this.moduleData[j].variables.length; i++ ) {
+                if(this.moduleData[j].variables[i].data !== undefined && !Array.isArray(this.moduleData[j].variables[i].data)) {
+                  this.moduleData[j].variables[i].data = this.moduleData[j].variables[i].data.split(",");
+                }
+              }
+            }
+          }
           driver.data = this.moduleData;
         }
 
