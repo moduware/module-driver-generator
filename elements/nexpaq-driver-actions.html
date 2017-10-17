@@ -109,16 +109,16 @@
        * @param {object}
        */
       downloadHandler(json) {
-        if(this.invalid == false) {
+        // if(this.invalid == false) {
           var a = document.createElement('a');
           var blob = new Blob([json], {'type':'application/octet-stream'});
           a.href = window.URL.createObjectURL(blob);
           a.download = 'driver.json';
           a.click();
-        } else {
-          this.requiredFields = "type, version";
-          this.$.modal.open();
-        }
+        // } else {
+        //   this.requiredFields = "type, version";
+        //   this.$.modal.open();
+        // }
       }
 
       /**
