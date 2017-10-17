@@ -79,6 +79,10 @@
       removeCommand(e) {
         var index = e.currentTarget.dataset.index;
         this.splice('moduleCommands', index, 1);
+        console.log("before " +this.commandsInvalid);
+
+        this.splice('commandsInvalid', index, 1);
+        console.log("after " + this.commandsInvalid);
       }
 
       validate() {

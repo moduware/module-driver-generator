@@ -146,7 +146,7 @@
       validate() {
         var requiredFields = [this.$.name, this.$.title, this.$.description, this.$.command];
 
-        for (var i in requiredFields) {
+        for (var i=0; i< requiredFields.length; i++) {
           requiredFields[i].validate();
         }
         return !this.invalid;
