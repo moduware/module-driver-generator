@@ -48,11 +48,10 @@
       }
 
       /**
-       * Checks if all passed arguments are true
+       * Checks if any passed arguments are true
        * @param {object}
        */
       argumentsHaveTrue(args) {
-        console.log(arguments);
         var haveTrue = false;
         var args = Array.prototype.slice.call(arguments);
         if (args.indexOf(true) != -1) {
