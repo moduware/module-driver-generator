@@ -65,12 +65,28 @@
 
       static get properties() {
         return {
-          receivedData: {
-            type: Object,
+          // receivedData: {
+          //   type: Object,
+          //   notify: true,
+          // },
+          // sentData: {
+          //   type: Object,
+          //   notify: true,
+          // },
+          moduleType: {
+            type: String,
             notify: true,
           },
-          sentData: {
-            type: Object,
+          driverVersion: {
+            type: String,
+            notify: true,
+          },
+          moduleCommands: {
+            type: Array,
+            notify: true,
+          },
+          moduleData: {
+            type: Array,
             notify: true,
           },
           invalid: {
@@ -84,12 +100,15 @@
           requiredFields: {
             type: String
           },
-          sentAllowedFields: {
-            type: String
-          },
-          receivedAllowedFields: {
+          allowedFields: {
             type: String
           }
+          // sentAllowedFields: {
+          //   type: String
+          // },
+          // receivedAllowedFields: {
+          //   type: String
+          // }
         }
       }
 
@@ -154,12 +173,13 @@
        */
       parseManifest (driverJSON) {
         this.driver = JSON.parse(driverJSON);
+        console.log(this.driver);
 
         this.setAllowedFields();
 
         //Checks if there is unfamiliar field in uploaded content.
         for (var key in this.driver) {
-          if (this.sentAllowedFields.indexOf(key) === -1 && this.receivedAllowedFields.indexOf(key) === -1 ) {
+          if (this.allowedFields.indexOf(key) === -1 ) {
             //Calls dismissDialog function
             this.$.confirm.open();
             return;
@@ -167,34 +187,65 @@
         }
 
         //If all familiar content, sets uploaded data to driver's sentData and receivedData.
-        var dataSent = {};
-        var dataReceived = {};
+        var moduleCommandsData = [];
+        var moduleReceivedData = [];
         for (var key in this.driver) {
           //creates the object for sentData
-          if (this.sentAllowedFields.indexOf(key) !== -1) {
-            dataSent[key] = this.driver[key];
-          }
-          // creates the object for receivedData
-          if (this.receivedAllowedFields.indexOf(key) !== -1) {
-            //Sets the key and the values of the state into stateKey anc Value fields on the form
-            if (this.driver[key].variables !== undefined) {
-              for ( var i=0; i < this.driver[key].variables.length; i++) {
-                if (this.driver[key].variables[i].state !== undefined) {
-                  for (var state in this.driver[key].variables[i].state) {
-                    dataReceived[key].variables[i].state.stateKey = state;
-                    dataReceived[key].variables[i].state.value = this.driver[key].variables[i].state[state];
+
+          if (this.allowedFields.indexOf(key) !== -1) {
+            if (key === "moduleType" ){
+              this.moduleType = this.driver[key];
+            }
+            if (key === "driverVersion" ){
+              this.driverVersion = this.driver[key];
+            }
+
+            if (key === "commands") {
+              moduleCommandsData = this.driver[key];
+              this.set("moduleCommands", moduleCommandsData);
+              this.notifyPath("moduleCommands");
+            }
+            if (key === "data") {
+              for (var j=0; j<this.driver[key].length; j++ ) {
+                if (this.driver[key][j].variables !== undefined) {
+                  for ( var i=0; i < this.driver[key][j].variables.length; i++) {
+                    if (this.driver[key][j].variables[i].state !== undefined) {
+                      for (var state in this.driver[key][j].variables[i].state) {
+                        moduleReceivedData[j].variables[i].state.stateKey = state;
+                        moduleReceivedData[j].variables[i].state.value = this.driver[key].variables[i].state[state];
+                      }
+                    }
                   }
                 }
               }
+
+              moduleReceivedData = this.driver[key];
+              this.set("moduleData", moduleReceivedData);
+              this.notifyPath("moduleData");
             }
-            dataReceived[key] = this.driver[key];
+
           }
+          // creates the object for receivedData
+          // if (this.receivedAllowedFields.indexOf(key) !== -1) {
+          //   //Sets the key and the values of the state into stateKey anc Value fields on the form
+          //   if (this.driver[key].variables !== undefined) {
+          //     for ( var i=0; i < this.driver[key].variables.length; i++) {
+          //       if (this.driver[key].variables[i].state !== undefined) {
+          //         for (var state in this.driver[key].variables[i].state) {
+          //           dataReceived[key].variables[i].state.stateKey = state;
+          //           dataReceived[key].variables[i].state.value = this.driver[key].variables[i].state[state];
+          //         }
+          //       }
+          //     }
+          //   }
+          //   dataReceived[key] = this.driver[key];
+          // }
         }
         //Sets created objects to properties.
-        this.set("sentData", dataSent);
-        this.notifyPath("sentData");
-        this.set("receivedData", dataReceived);
-        this.notifyPath("receivedData");
+        // this.set("sentData", dataSent);
+        // this.notifyPath("sentData");
+        // this.set("receivedData", dataReceived);
+        // this.notifyPath("receivedData");
       }
 
       /**
@@ -202,8 +253,9 @@
       * receivedData objects.
       */
       setAllowedFields() {
-        this.sentAllowedFields = ["type", "version","commands"];
-        this.receivedAllowedFields = ["data"];
+        this.allowedFields = ["type", "version","commands","data"];
+        // this.sentAllowedFields = ["type", "version","commands"];
+        // this.receivedAllowedFields = ["data"];
       }
 
       /**

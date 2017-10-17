@@ -72,7 +72,7 @@
       <nexpaq-driver-view data="[[combineDriveObject(moduleType, driverVersion, moduleCommands.*, moduleData.*)]]" json="{{json}}" max-lines="30"></nexpaq-driver-view>
 
       <!--Driver actions element-->
-      <nexpaq-driver-actions sent-data="{{sentData}}"  received-data="{{receivedData}}" json="[[json]]" on-driver-uploaded="driverUploadedHandler" language="[[language]]" resources="[[resources]]" invalid="[[formInvalid]]"></nexpaq-driver-actions>
+      <nexpaq-driver-actions module-type="{{moduleType}}" driver-version="{{driverVersion}}" module-commands="{{moduleCommands}}" module-data="{{moduleData}}" json="[[json]]" on-driver-uploaded="driverUploadedHandler" language="[[language]]" resources="[[resources]]" invalid="[[formInvalid]]"></nexpaq-driver-actions>
     </div>
     <nexpaq-driver-explanation></nexpaq-driver-explanation>
 
