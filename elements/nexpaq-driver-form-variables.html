@@ -1,4 +1,6 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../bower_components/app-localize-behavior/app-localize-behavior.html">
 <link rel="import" href="../mixins/nexpaq-driver-common-functions.html">
 <link rel="import" href="../styles/nexpaq-driver-form-common-styles.html">
@@ -13,6 +15,24 @@
         display: block;
         box-sizing: border-box;
         position: relative;
+      }
+      paper-item {
+        display: block;
+        height: 25px;
+        margin-bottom: 5px;
+      }
+
+      .listbox {
+        width: 200px;
+        text-align: center;
+        border: dotted 1px rgba(132, 145, 156, 0.7);
+        border-radius: 5px;
+      }
+
+      .dropdown {
+        width: 100%;
+        --secondary-text-color: #9b9b9b;
+        --paper-font-subhead_-_font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
       }
 
     </style>
@@ -48,6 +68,16 @@
         <!-- Variable format -->
         <paper-input always-float-label id="format" label="{{localize('format')}}" value="{{variable.format}}" auto-validate maxlength="150"></paper-input>
         <paper-tooltip for="format" offset="-7" position="bottom">ex : 175.75 * ({0} * 256 + {1} / 4 * 4) / 65536 - 46.85</paper-tooltip>
+
+        <paper-dropdown-menu always-float-label id="convert" class="dropdown" noink label="{{localize('convert')}}">
+          <paper-listbox slot="dropdown-content" class="listbox" attr-for-selected="value" selected="{{variable.convert}}">
+            <paper-item value="stringUtf8">stringUtf8</paper-item>
+            <paper-item value="twoBytesToInt">twoBytesToInt</paper-item>
+            <paper-item value="integer">integer</paper-item>
+            <paper-item value="double">double</paper-item>
+          </paper-listbox>
+        </paper-dropdown-menu>
+
       </div>
   </template>
   <script>
