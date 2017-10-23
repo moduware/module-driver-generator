@@ -12,27 +12,41 @@
 <dom-module id="nexpaq-driver-form-received-data">
   <template>
   	<style include="nexpaq-driver-form-common-styles">
-
-      :host {
-      }
-
+      :host {}
     </style>
+
     <div class="subfield-container">
+
+      <!-- Button to remove this data -->
       <span class="close" on-click="triggerDeletedEvent">×</span>
-  		<paper-input always-float-label id="name" label="{{localize('name')}}" value="{{data.name}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+
+      <!-- Data name -->
+  		<paper-input always-float-label id="name" label="{{localize('name')}}" value="{{data.name}}" required auto-validate error-message="This field is required!" maxlength="50" invalid="{{dataNameInvalid}}"></paper-input>
       <paper-tooltip for="name" offset="-7" position="bottom">ex : SensorValue</paper-tooltip>
-      <paper-input always-float-label id="title" label="{{localize('title')}}" value="{{data.title}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+
+      <!-- Data title -->
+      <paper-input always-float-label id="title" label="{{localize('title')}}" value="{{data.title}}" required auto-validate error-message="This field is required!" maxlength="50" invalid="{{dataTitleInvalid}}"></paper-input>
       <paper-tooltip for="title" offset="-7" position="bottom">ex : Sensor value</paper-tooltip>
-      <paper-input always-float-label id="description" label="{{localize('description')}}" value="{{data.description}}" required auto-validate error-message="This field is required!" maxlength="150" on-change="validateForm"></paper-input>
+
+      <!-- Data description -->
+      <paper-input always-float-label id="description" label="{{localize('description')}}" value="{{data.description}}" required auto-validate error-message="This field is required!" maxlength="150" invalid="{{dataDescriptionInvalid}}"></paper-input>
       <paper-tooltip for="description" offset="-7" position="bottom">ex : Value from Temperature and Humidity sensor</paper-tooltip>
-      <paper-input always-float-label id="source" label="{{localize('source')}}" value="{{data.source}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+
+      <!-- Data source -->
+      <paper-input always-float-label id="source" label="{{localize('source')}}" value="{{data.source}}" required auto-validate error-message="This field is required!" maxlength="50" invalid="{{dataSourceInvalid}}"></paper-input>
       <paper-tooltip for="source" offset="-7" position="bottom">ex : 2800</paper-tooltip>
+
+      <!-- Title for data variable -->
       <template is="dom-if" if="{{data.variables.length}}">
         <span class="field">{{localize('variable')}}</span>
       </template>
+
+      <!-- Data variable element -->
       <template is="dom-repeat" items="{{data.variables}}" as="variable" index-as="variableIndex">
-        <nexpaq-driver-form-variables language="[[language]]" resources="[[resources]]" variable="{{variable}}" data-index$="[[variableIndex]]" on-user-variable-delete-request="removeVariable" valid={{valid}}></nexpaq-driver-form-variables>
+        <nexpaq-driver-form-variables language="[[language]]" resources="[[resources]]" variable="{{variable}}" data-index$="[[variableIndex]]" on-user-variable-delete-request="removeVariable" invalid="{{dataVariableInvalid[variableIndex]}}"></nexpaq-driver-form-variables>
       </template>
+
+      <!-- Button to add more variable -->
       <paper-button raised class="indigo mid" on-click="addMoreVariable"> + Add Variable</paper-button>
     </div>
   </template>
@@ -45,14 +59,14 @@
             type: Object,
             notify: true,
           },
-          valid: {
+          invalid: {
             type: Boolean,
-            notify: true,
+            computed: 'isAllArgumentsTrue(dataNameInvalid, dataTitleInvalid, dataDescriptionInvalid, dataSourceInvalid, dataVariableInvalid)'
           }
         }
       }
 
-    
+      //Adds more variable element into received data element.
       addMoreVariable(e) {
         if(this.data.variables == null) {
           this.set('data.variables', []);
@@ -61,10 +75,12 @@
         this.push(item,{});
       }
 
+      //Triggers delete received data event on received data element.
       triggerDeletedEvent(event) {
         this.dispatchEvent(new CustomEvent('user-received-data-delete-request', {}));
       }
 
+      //Removes clicked variable item from variables array
       removeVariable(e) {
         // if there are no more items in array, then removing array
         var index = e.currentTarget.dataset.index;
@@ -75,6 +91,14 @@
           delete this.data.variables;
           this.notifyPath('data.variables', false);
         }
+      }
+
+      validate() {
+        var requiredFields = [this.$.name, this.$.title, this.$.description, this.$.source];
+        for (var i in requiredFields) {
+          requiredFields[i].validate();
+        }
+        return !this.invalid;
       }
     }
     customElements.define(NexpaqDriverFormReceivedData.is, NexpaqDriverFormReceivedData);

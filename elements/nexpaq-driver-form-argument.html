@@ -6,11 +6,25 @@
 <dom-module id="nexpaq-driver-form-argument">
   <template>
   	<style include="nexpaq-driver-form-common-styles"></style>
-      <div class="inline-container">
-        <span class="close argument" on-click="triggerDeletedEvent">×</span>
-        <paper-input class= "container" always-float-label id="name" label="{{localize('argumentName')}}" value="{{argument.name}}" auto-validate maxlength="50" on-change="validateForm"></paper-input>
+    <div class="subfield-container">
+
+        <!-- Button to remove this argument -->
+        <span class="close" on-click="triggerDeletedEvent">×</span>
+
+        <!-- Argument name -->
+        <paper-input always-float-label id="name" label="{{localize('argumentName')}}" value="{{argument.name}}" auto-validate maxlength="50" ></paper-input>
         <paper-tooltip for="name" offset="-7" position="bottom">ex : Red</paper-tooltip>
-        <paper-input class= "container" always-float-label id="validation" label="{{localize('validation')}}" value="{{argument.validation}}" auto-validate maxlength="50" on-change="validateForm" ></paper-input>
+
+        <!-- Argument title -->
+        <paper-input always-float-label id="title" label="{{localize('title')}}" value="{{argument.title}}"  auto-validate maxlength="80"></paper-input>
+        <paper-tooltip for="title" offset="-7" position="bottom">ex : Set LED to red</paper-tooltip>
+
+        <!-- Argument description  -->
+        <paper-input  always-float-label id="description" label="{{localize('description')}}" value="{{argument.description}}" auto-validate maxlength="150" ></paper-input>
+        <paper-tooltip for="description" offset="-7" position="bottom">ex : Integer made of byte</paper-tooltip>
+
+        <!-- Argument validation -->
+        <paper-input  always-float-label id="validation" label="{{localize('validation')}}" value="{{argument.validation}}" auto-validate maxlength="50" ></paper-input>
         <paper-tooltip for="validation" offset="-7" position="bottom">ex : ({0} >= 0) and ({0} <= 255)</paper-tooltip>
       </div>
   </template>
@@ -25,14 +39,11 @@
           argument: {
             type: Object,
             notify: true
-          },
-          valid: {
-            type: Boolean,
-            notify: true
           }
         }
       }
 
+      //Triggers delete argument event on command element.
       triggerDeletedEvent(event) {
         this.dispatchEvent(new CustomEvent('user-argument-delete-request', {}));
       }

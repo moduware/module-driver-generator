@@ -6,15 +6,24 @@
 <dom-module id="nexpaq-driver-form-states">
   <template>
   	<style include="nexpaq-driver-form-common-styles"></style>
-    <template is="dom-repeat" items="{{statesObjectRenderer(states.*)}}" as="state" index-as="stateIndex">
+    <!--State element of variable -->
+    <template is="dom-repeat" items="{{statesObjectRenderer(state.*)}}" as="state" index-as="stateIndex">
       <div class="inline-container">
+
+        <!-- Button to remove this state -->
         <span class="close argument" on-click="removeState" data-key$="[[state.stateKey]]">&times;</span>
+
+        <!--State key -->
         <paper-input class="container" always-float-label id="key" label="{{localize('key')}}" value="{{state.stateKey}}" auto-validate maxlength="50" on-focus="saveOldValue" on-change="updateKeyInStatesObject"></paper-input>
         <paper-tooltip for="key" offset="-7" position="bottom">ex : 00</paper-tooltip>
+
+        <!--State key -->
         <paper-input class="container" always-float-label id="value" label="{{localize('value')}}" value="{{state.value}}" data-key$="{{state.stateKey}}" auto-validate maxlength="50" on-change="passValueToStatesObject"></paper-input>
         <paper-tooltip for="value" offset="-7" position="bottom">ex : success</paper-tooltip>
       </div>
     </template>
+
+    <!-- Button to add more state -->
     <paper-button raised class="indigo clicked" on-click="addMoreState"> + {{localize('add')}} {{localize('state')}}</paper-button>
   </template>
   <script>
@@ -25,34 +34,30 @@
 
       static get properties() {
         return {
-          states: {
+          state: {
             type: Object,
-            notify: true
-          },
-          valid: {
-            type: Boolean,
             notify: true
           }
         }
       }
 
       /**
-      * Renders our states object ot array on every key change
+      * Renders our state object ot array on every key change
       */
-      statesObjectRenderer(statesChanges) {
-        if(this.states == null) return [];
-        return this.toArray(this.states);
+      statesObjectRenderer(stateChanges) {
+        if(this.state == null) return [];
+        return this.toArray(this.state);
       }
 
       /**
       * Adds additional key to our states object
       */
       addMoreState() {
-        if (this.states == null) {
-          this.set('states', {'key1':''})
+        if (this.state == null) {
+          this.set('state', {'key1':''})
         } else {
-          var newKeyName = 'key' + (Object.keys(this.states).length + 1);
-          this.set('states.' + newKeyName, '');
+          var newKeyName = 'key' + (Object.keys(this.state).length + 1);
+          this.set('state.' + newKeyName, '');
         }
       }
 
@@ -62,8 +67,8 @@
       removeState(e) {
         // if there are no more items in array, then removing array
         var key = e.currentTarget.dataset.key;
-        delete this.states[key];
-        this.notifyPath('states.' + key, false);
+        delete this.state[key];
+        this.notifyPath('state.' + key, false);
       }
 
       /**
@@ -74,7 +79,7 @@
         var key = event.currentTarget.dataset.key;
         var value = event.currentTarget.value;
         // passing to object
-        this.set('states.' + key, value);
+        this.set('state.' + key, value);
       }
 
       /**
@@ -92,12 +97,12 @@
         // collecting required data
         var oldKey = event.currentTarget.defaultValue;
         var key = event.currentTarget.value;
-        var value = this.states[oldKey];
+        var value = this.state[oldKey];
 
         // removing old key
-        delete this.states[oldKey];
+        delete this.state[oldKey];
         // adding new key with same value
-        this.set('states.' + key, value);
+        this.set('state.' + key, value);
 
         // updates current default value so we can change key value
         // without moving focus out of field

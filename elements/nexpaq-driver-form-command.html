@@ -24,37 +24,45 @@
       <span class="close" on-click="triggerDeletedEvent">×</span>
 
       <!-- Command name -->
-      <paper-input always-float-label id="name" label="{{localize('name')}}" value="{{command.name}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+      <paper-input always-float-label id="name" label="{{localize('name')}}" value="{{command.name}}" required auto-validate error-message="This field is required!" maxlength="50" invalid="{{commandNameInvalid}}"></paper-input>
       <paper-tooltip for="name" offset="-7" position="bottom">ex : SetRGB</paper-tooltip>
 
       <!-- Command title -->
-      <paper-input always-float-label id="title" label="{{localize('title')}}" value="{{command.title}}" required auto-validate error-message="This field is required!" maxlength="80" on-change="validateForm"></paper-input>
+      <paper-input always-float-label id="title" label="{{localize('title')}}" value="{{command.title}}" required auto-validate error-message="This field is required!" maxlength="80" invalid="{{commandTitleInvalid}}"></paper-input>
       <paper-tooltip for="title" offset="-7" position="bottom">ex : Set color in RGB</paper-tooltip>
 
       <!-- Command description  -->
-      <paper-input always-float-label id="description" label="{{localize('description')}}" value="{{command.description}}" required auto-validate error-message="This field is required!" maxlength="150" on-change="validateForm"></paper-input>
+      <paper-input always-float-label id="description" label="{{localize('description')}}" value="{{command.description}}" required auto-validate error-message="This field is required!" maxlength="150" invalid="{{commandDescriptionInvalid}}"></paper-input>
       <paper-tooltip for="description" offset="-7" position="bottom">ex : Changes color of module to specified RGB color</paper-tooltip>
 
       <!-- Command message type -->
-      <paper-input always-float-label id="command" label="{{localize('command')}}" value="{{command.command}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+      <paper-input always-float-label id="command" label="{{localize('command')}}" value="{{command.command}}" required auto-validate error-message="This field is required!" maxlength="50" invalid="{{commandMessageTypeInvalid}}"></paper-input>
       <paper-tooltip for="command" offset="-7" position="bottom">ex : 2702</paper-tooltip>
 
-      <!-- Argument of our command -->
+      <!-- Title of arguments field in our command  -->
       <template is="dom-if" if="{{command.arguments.length}}">
         <span class="field">{{localize('argument')}}</span>
       </template>
+
+      <!-- Arguments of our command -->
       <template is="dom-repeat" items="{{command.arguments}}" as="argument" index-as="argumentIndex">
-        <nexpaq-driver-form-argument language="[[language]]" resources="[[resources]]" argument="{{argument}}" data-index$="[[argumentIndex]]" on-user-argument-delete-request="removeArgument" valid={{valid}}></nexpaq-driver-form-argument>
+        <nexpaq-driver-form-argument language="[[language]]" resources="[[resources]]" argument="{{argument}}" data-index$="[[argumentIndex]]" on-user-argument-delete-request="removeArgument"></nexpaq-driver-form-argument>
       </template>
+
+      <!-- Button to add more argument field into command -->
       <paper-button raised class="indigo mid" on-click="addMoreArgument"> + Add Argument</paper-button>
 
-      <!-- Data fields of our command -->
+      <!-- Title of data field in our command -->
       <template is="dom-if" if="{{command.data.length}}">
         <span class="field">{{localize('data')}}</span>
       </template>
+
+      <!-- Data field of our command -->
       <template is="dom-repeat" items="{{command.data}}" as="data" index-as="dataIndex">
-        <nexpaq-driver-form-data language="[[language]]" resources="[[resources]]" data="{{data}}" data-index$="[[dataIndex]]" on-user-data-delete-request="removeData" valid={{valid}}></nexpaq-driver-form-data>
+        <nexpaq-driver-form-data language="[[language]]" resources="[[resources]]" data="{{data}}" data-index$="[[dataIndex]]" on-user-data-delete-request="removeData"></nexpaq-driver-form-data>
       </template>
+
+      <!-- Button to add more data field into command -->
       <paper-button raised class="indigo mid" on-click="addMoreData"> + Add Data</paper-button>
     </div>
   </template>
@@ -67,16 +75,26 @@
             type: Object,
             notify: true
           },
-          valid: {
+          invalid: {
             type: Boolean,
-            notify: true,
-            value: function() {
-              return true;
-            }
+            computed: 'computeInvalid(commandNameInvalid, commandTitleInvalid, commandDescriptionInvalid, commandMessageTypeInvalid)'
           }
         }
       }
 
+      computeInvalid() {
+        var isInvalid = this.argumentsHaveTrue.apply(this, arguments);
+        if(this.invalid != isInvalid) {
+          this.dispatchEvent(new CustomEvent('invalid-change', {
+            detail: {
+              value: isInvalid
+            }
+          }));
+        }
+        return isInvalid;
+      }
+
+      //Adds more argument into command element
       addMoreArgument(e) {
         if(this.command.arguments == null) {
           this.set('command.arguments', []);
@@ -85,6 +103,7 @@
         this.push(item,{});
       }
 
+      // Removes argument item from commands array
       removeArgument(e) {
         // if there are no more items in array, then removing array
         var index = e.currentTarget.dataset.index;
@@ -97,6 +116,7 @@
         }
       }
 
+      //Adds more data into command element
       addMoreData(e) {
         if(this.command.data == null) {
           this.set('command.data', []);
@@ -105,6 +125,7 @@
         this.push(item,{});
       }
 
+      // Removes data item from commands array
       removeData(e) {
         // if there are no more items in array, then removing array
         var index = e.currentTarget.dataset.index;
@@ -117,9 +138,21 @@
         }
       }
 
+      //Triggers delete command event on commands element.
       triggerDeletedEvent(event) {
         this.dispatchEvent(new CustomEvent('user-command-delete-request', {}));
       }
+
+      validate() {
+        var requiredFields = [this.$.name, this.$.title, this.$.description, this.$.command];
+
+        for (var i=0; i< requiredFields.length; i++) {
+          requiredFields[i].validate();
+        }
+        return !this.invalid;
+      }
+
+
     }
     customElements.define(NexpaqDriverFormCommand.is, NexpaqDriverFormCommand);
   </script>

@@ -12,22 +12,25 @@
 <dom-module id="nexpaq-driver-form-commands">
   <template>
   	<style include="nexpaq-driver-form-common-styles">
-
       :host {
         display: block;
         box-sizing: border-box;
         position: relative;
         overflow: auto;
       }
-
     </style>
 
+    <!-- Header for command -->
     <template is="dom-if" if="{{moduleCommands.length}}">
       <h4 class="header">{{localize('moduleCommands')}}</h4>
     </template>
+
+    <!-- Command field of our driver -->
     <template is="dom-repeat" items="{{moduleCommands}}" as="command" index-as="commandIndex">
-      <nexpaq-driver-form-command command="{{command}}" language="[[language]]" resources="[[resources]]" data-index$="[[commandIndex]]" on-user-command-delete-request="removeCommand" valid="{{valid}}"></nexpaq-driver-form-command>
+      <nexpaq-driver-form-command command="{{command}}" language="[[language]]" resources="[[resources]]" data-index$="[[commandIndex]]" on-user-command-delete-request="removeCommand" on-invalid-change="invalidHandler"></nexpaq-driver-form-command>
     </template>
+
+    <!-- Button to add more command field -->
     <paper-button raised class="indigo main outer" on-click="addMoreCommands"> + {{localize('add')}} {{localize('command')}}</paper-button>
 
   </template>
@@ -40,24 +43,54 @@
             type: Array,
             notify: true
           },
-          valid: {
-            type: Boolean,
-            notify: true,
+          commandsInvalid: {
+            type: Array,
             value: function() {
-              return true;
+              return [];
             }
           },
+          invalid: {
+            type: Boolean,
+            computed: 'computeInvalid(commandsInvalid.*, commandsInvalid.splices)'
+          }
         }
       }
 
+      computeInvalid(commandsInvalidChanges) {
+        // If there are no commands, then we are not invalid (driver can be without commands)
+        if(this.commandsInvalid.length == 0) return false;
+        var isInvalid = this.argumentsHaveTrue.apply(this, this.commandsInvalid);
+        return isInvalid;
+      }
+
+      invalidHandler(event) {
+        var index = parseInt(event.currentTarget.dataset.index);
+        var value = event.detail.value;
+
+        this.set('commandsInvalid.' + index, value);
+      }
+
+      //Adds more command field
       addMoreCommands(e) {
         this.push('moduleCommands', {});
       }
 
+      //Removes current command item from commands array
       removeCommand(e) {
-        // Removing current item from array
         var index = e.currentTarget.dataset.index;
         this.splice('moduleCommands', index, 1);
+        console.log("before " +this.commandsInvalid);
+
+        this.splice('commandsInvalid', index, 1);
+        console.log("after " + this.commandsInvalid);
+      }
+
+      validate() {
+        var commandElements = Polymer.dom(this.root).querySelectorAll('nexpaq-driver-form-command');
+        for (var i=0; i<commandElements.length; i++ ) {
+          commandElements[i].validate();
+        }
+        return !this.invalid;
       }
 
     }

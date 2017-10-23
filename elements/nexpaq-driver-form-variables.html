@@ -1,8 +1,11 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../bower_components/app-localize-behavior/app-localize-behavior.html">
 <link rel="import" href="../mixins/nexpaq-driver-common-functions.html">
 <link rel="import" href="../styles/nexpaq-driver-form-common-styles.html">
 <link rel="import" href="nexpaq-driver-form-states.html">
+
 
 <dom-module id="nexpaq-driver-form-variables">
   <template>
@@ -13,26 +16,68 @@
         box-sizing: border-box;
         position: relative;
       }
+      paper-item {
+        display: block;
+        height: 25px;
+        margin-bottom: 5px;
+      }
+
+      .listbox {
+        width: 200px;
+        text-align: center;
+        border: dotted 1px rgba(132, 145, 156, 0.7);
+        border-radius: 5px;
+      }
+
+      .dropdown {
+        width: 100%;
+        --secondary-text-color: #9b9b9b;
+        --paper-font-subhead_-_font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      }
 
     </style>
       <div class="subfield-container">
+
+        <!-- Button to remove this variable -->
         <span class="close" on-click="triggerDeletedEvent">×</span>
-        <paper-input always-float-label id="name" label="{{localize('name')}}" value="{{variable.name}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+
+        <!-- Variable name -->
+        <paper-input always-float-label id="name" label="{{localize('name')}}" value="{{variable.name}}" required auto-validate error-message="This field is required!" maxlength="50" invalid="{{variableNameInvalid}}"></paper-input>
         <paper-tooltip for="name" offset="-7" position="bottom">ex : humidity</paper-tooltip>
-        <paper-input always-float-label id="title" label="{{localize('title')}}" value="{{variable.title}}" required auto-validate error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+
+        <!-- Variable title -->
+        <paper-input always-float-label id="title" label="{{localize('title')}}" value="{{variable.title}}" required auto-validate error-message="This field is required!" maxlength="50" invalid="{{variableTitleInvalid}}"></paper-input>
         <paper-tooltip for="title" offset="-7" position="bottom">ex : Humidity</paper-tooltip>
-        <paper-input always-float-label id="description" label="{{localize('description')}}" value="{{variable.description}}" required auto-validate error-message="This field is required!" maxlength="150" on-change="validateForm"></paper-input>
+
+        <!-- Variable description -->
+        <paper-input always-float-label id="description" label="{{localize('description')}}" value="{{variable.description}}" required auto-validate error-message="This field is required!" maxlength="150" invalid="{{variableDescriptionInvalid}}"></paper-input>
         <paper-tooltip for="description" offset="-7" position="bottom">ex : Ambient humidity detected by module</paper-tooltip>
-        <paper-input always-float-label id="data" label="{{localize('data')}}" value="{{variable.data}}" required auto-validate allowed-pattern="[0-9_\,]" error-message="This field is required!" maxlength="50" on-change="validateForm"></paper-input>
+
+        <!-- Variable data -->
+        <paper-input always-float-label id="data" label="{{localize('data')}}" value="{{variable.data}}" required auto-validate allowed-pattern="[0-9_\,]" error-message="This field is required!" maxlength="50" invalid="{{variableDataInvalid}}"></paper-input>
         <paper-tooltip for="data" offset="-7" position="bottom">ex : 0, 1</paper-tooltip>
 
+        <!-- Title for variable state element -->
         <template is="dom-if" if="{{variable.states}}">
           <span class="field">{{localize('state')}}</span>
         </template>
-        <nexpaq-driver-form-states language="[[language]]" resources="[[resources]]" states="{{variable.states}}" on-user-state-delete-request="removeState" valid="{{valid}}"></nexpaq-driver-form-states>
 
-        <paper-input always-float-label id="format" label="{{localize('format')}}" value="{{variable.format}}" auto-validate maxlength="150" on-change="validateForm"></paper-input>
+        <!-- Variable state element -->
+        <nexpaq-driver-form-states language="[[language]]" resources="[[resources]]" state="{{variable.state}}" on-user-state-delete-request="removeState"></nexpaq-driver-form-states>
+
+        <!-- Variable format -->
+        <paper-input always-float-label id="format" label="{{localize('format')}}" value="{{variable.format}}" auto-validate maxlength="150"></paper-input>
         <paper-tooltip for="format" offset="-7" position="bottom">ex : 175.75 * ({0} * 256 + {1} / 4 * 4) / 65536 - 46.85</paper-tooltip>
+
+        <paper-dropdown-menu always-float-label id="convert" class="dropdown" noink label="{{localize('convert')}}">
+          <paper-listbox slot="dropdown-content" class="listbox" attr-for-selected="value" selected="{{variable.convert}}">
+            <paper-item value="stringUtf8">stringUtf8</paper-item>
+            <paper-item value="twoBytesToInt">twoBytesToInt</paper-item>
+            <paper-item value="integer">integer</paper-item>
+            <paper-item value="double">double</paper-item>
+          </paper-listbox>
+        </paper-dropdown-menu>
+
       </div>
   </template>
   <script>
@@ -47,35 +92,41 @@
             type: Object,
             notify: true
           },
-          valid: {
+          invalid: {
             type: Boolean,
-            notify: true
+            computed:'isAllArgumentsTrue(variableNameInvalid, variableTitleInvalid, variableDescriptionInvalid, variableDataInvalid)'
           }
         }
       }
 
       static get observers() {
         return [
-          'stateObserver(variable.states.*)'
+          'stateObserver(variable.state.*)',
+          'dataObserver(variable.data)'
         ];
       }
 
+      //Sets variable state to null if there is no key.
       stateObserver(stateChanges) {
-        console.log(this.variable);
-        if(this.variable.states == null) return;
+        if(this.variable.state == null) return;
 
-        var keys = Object.keys(this.variable.states);
+        var keys = Object.keys(this.variable.state);
         if(keys.length == 0) {
           // delete this.variable.states;
-          this.set('variable.states', null);
+          this.set('variable.state', null);
         }
       }
-
+      //Triggers delete variable event on received data element.
       triggerDeletedEvent(event) {
-        console.log(this.variable.states);
         this.dispatchEvent(new CustomEvent('user-variable-delete-request', {}));
       }
 
+      // Converts variable's data string into an Array
+      dataObserver(data){
+        if(data != undefined && !Array.isArray(data) ) {
+          this.variable.data = data.split(",");
+        }
+      }
     }
 
     // Register custom element definition using standard platform API

@@ -35,6 +35,8 @@
 
     <div>
       <h4> driver.json </h4>
+
+      <!--View component of rendered json -->
       <div class="resultOutput" style$="max-height: [[calculatePixelsInLines(maxLines)]]px;">
 [[renderData(data.*)]]
       </div>
@@ -49,12 +51,6 @@
 
       static get is() { return 'nexpaq-driver-view' }
 
-      static get observers() {
-        return [
-          'driverDataObserver(data)'
-        ]
-      }
-
       static get properties() {
         return {
           data: {
@@ -63,18 +59,6 @@
               return {};
             }
           },
-          // receivedData: {
-          //   type: Object,
-          //   value: function() {
-          //     return {};
-          //   }
-          // },
-          // sentData: {
-          //   type: Object,
-          //   value: function() {
-          //     return {};
-          //   }
-          // },
           json: {
             type: String,
             notify: true
@@ -83,17 +67,13 @@
         }
       }
 
-      driverDataObserver(data) {
-        console.log('Data updated', data);
-      }
+
       /**
        * Renders the input data
        * @param {object}
        */
       renderData(data1,data2) {
         //Stringifies the data
-
-        //var combinedData = Object.assign(this.sentData, this.receivedData);
         var json = JSON.stringify(this.data, function(key, value) {
           if (value === null) return undefined;
           return value;
@@ -102,6 +82,7 @@
         return json;
       }
 
+      //Calculates the max lines for the view box.
       calculatePixelsInLines (maxLines) {
         return maxLines * 18;
       }

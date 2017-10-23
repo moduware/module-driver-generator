@@ -2,6 +2,11 @@
   <script>
   NexpaqDriverCommonFunctions = function(superClass) {
     return class extends superClass {
+
+      /**
+       * Converts object into array.
+       * @param {object}
+       */
       toArray(obj) {
         return Object.keys(obj).map(function(key) {
           return {
@@ -14,7 +19,6 @@
       /**
        * Validates the form by checking each
        * paper input field.
-       * @param {object}
        */
       validateForm() {
         var paperInputs = Polymer.dom(this.root).querySelectorAll("paper-input");
@@ -41,6 +45,19 @@
           if (field.value == null || field.value == "") return false;
         }
         return true;
+      }
+
+      /**
+       * Checks if any passed arguments are true
+       * @param {object}
+       */
+      argumentsHaveTrue(args) {
+        var haveTrue = false;
+        var args = Array.prototype.slice.call(arguments);
+        if (args.indexOf(true) != -1) {
+          haveTrue = true;
+        }
+        return haveTrue;
       }
     }
   }
