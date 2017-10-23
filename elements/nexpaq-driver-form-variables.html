@@ -63,7 +63,7 @@
         </template>
 
         <!-- Variable state element -->
-        <nexpaq-driver-form-states language="[[language]]" resources="[[resources]]" states="{{variable.states}}" on-user-state-delete-request="removeState"></nexpaq-driver-form-states>
+        <nexpaq-driver-form-states language="[[language]]" resources="[[resources]]" state="{{variable.state}}" on-user-state-delete-request="removeState"></nexpaq-driver-form-states>
 
         <!-- Variable format -->
         <paper-input always-float-label id="format" label="{{localize('format')}}" value="{{variable.format}}" auto-validate maxlength="150"></paper-input>
@@ -101,18 +101,18 @@
 
       static get observers() {
         return [
-          'stateObserver(variable.states.*)'
+          'stateObserver(variable.state.*)'
         ];
       }
 
       //Sets variable state to null if there is no key.
       stateObserver(stateChanges) {
-        if(this.variable.states == null) return;
+        if(this.variable.state == null) return;
 
-        var keys = Object.keys(this.variable.states);
+        var keys = Object.keys(this.variable.state);
         if(keys.length == 0) {
           // delete this.variable.states;
-          this.set('variable.states', null);
+          this.set('variable.state', null);
         }
       }
       //Triggers delete variable event on received data element.

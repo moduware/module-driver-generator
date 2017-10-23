@@ -7,7 +7,7 @@
   <template>
   	<style include="nexpaq-driver-form-common-styles"></style>
     <!--State element of variable -->
-    <template is="dom-repeat" items="{{statesObjectRenderer(states.*)}}" as="state" index-as="stateIndex">
+    <template is="dom-repeat" items="{{statesObjectRenderer(state.*)}}" as="state" index-as="stateIndex">
       <div class="inline-container">
 
         <!-- Button to remove this state -->
@@ -34,7 +34,7 @@
 
       static get properties() {
         return {
-          states: {
+          state: {
             type: Object,
             notify: true
           }
@@ -42,22 +42,22 @@
       }
 
       /**
-      * Renders our states object ot array on every key change
+      * Renders our state object ot array on every key change
       */
-      statesObjectRenderer(statesChanges) {
-        if(this.states == null) return [];
-        return this.toArray(this.states);
+      statesObjectRenderer(stateChanges) {
+        if(this.state == null) return [];
+        return this.toArray(this.state);
       }
 
       /**
       * Adds additional key to our states object
       */
       addMoreState() {
-        if (this.states == null) {
-          this.set('states', {'key1':''})
+        if (this.state == null) {
+          this.set('state', {'key1':''})
         } else {
-          var newKeyName = 'key' + (Object.keys(this.states).length + 1);
-          this.set('states.' + newKeyName, '');
+          var newKeyName = 'key' + (Object.keys(this.state).length + 1);
+          this.set('state.' + newKeyName, '');
         }
       }
 
@@ -67,8 +67,8 @@
       removeState(e) {
         // if there are no more items in array, then removing array
         var key = e.currentTarget.dataset.key;
-        delete this.states[key];
-        this.notifyPath('states.' + key, false);
+        delete this.state[key];
+        this.notifyPath('state.' + key, false);
       }
 
       /**
@@ -79,7 +79,7 @@
         var key = event.currentTarget.dataset.key;
         var value = event.currentTarget.value;
         // passing to object
-        this.set('states.' + key, value);
+        this.set('state.' + key, value);
       }
 
       /**
@@ -97,12 +97,12 @@
         // collecting required data
         var oldKey = event.currentTarget.defaultValue;
         var key = event.currentTarget.value;
-        var value = this.states[oldKey];
+        var value = this.state[oldKey];
 
         // removing old key
-        delete this.states[oldKey];
+        delete this.state[oldKey];
         // adding new key with same value
-        this.set('states.' + key, value);
+        this.set('state.' + key, value);
 
         // updates current default value so we can change key value
         // without moving focus out of field

@@ -69,10 +69,10 @@
     <div class="column-container">
 
       <!--Driver view element-->
-      <nexpaq-driver-view data="[[combineDriveObject(moduleType, driverVersion, moduleCommands.*, moduleData.*)]]" json="{{json}}" max-lines="30"></nexpaq-driver-view>
+      <nexpaq-driver-view data="[[combineDriveObject(moduleType, driverVersion, moduleCommands.*, moduleData.*,unfamiliarData.*)]]" json="{{json}}" max-lines="30"></nexpaq-driver-view>
 
       <!--Driver actions element-->
-      <nexpaq-driver-actions module-type="{{moduleType}}" driver-version="{{driverVersion}}" module-commands="{{moduleCommands}}" module-data="{{moduleData}}" json="[[json]]" on-driver-uploaded="driverUploadedHandler" language="[[language]]" resources="[[resources]]" invalid="[[formInvalid]]"></nexpaq-driver-actions>
+      <nexpaq-driver-actions module-type="{{moduleType}}" driver-version="{{driverVersion}}" module-commands="{{moduleCommands}}" module-data="{{moduleData}}" unfamiliar-data="{{unfamiliarData}}" json="[[json]]" on-driver-uploaded="driverUploadedHandler" language="[[language]]" resources="[[resources]]" invalid="[[formInvalid]]"></nexpaq-driver-actions>
     </div>
     <nexpaq-driver-explanation></nexpaq-driver-explanation>
 
@@ -106,6 +106,13 @@
             value: function() {
               return [];
             }
+          },
+          unfamiliarData: {
+            type: Array,
+            notify: true,
+            value: function() {
+              return [];
+            }
           }
         }
       }
@@ -113,7 +120,7 @@
       /**
       * Combines Driver object with Commands and Data
       */
-      combineDriveObject(moduleType, driverVersion, moduleCommands, moduleData) {
+      combineDriveObject(moduleType, driverVersion, moduleCommands, moduleData, unfamiliarData) {
         var driver = {
           type: this.moduleType,
           version: this.driverVersion
@@ -135,6 +142,9 @@
           }
           driver.data = this.moduleData;
         }
+        if(this.unfamiliarData.length != 0) {
+          driver.unfamiliarData = this.unfamiliarData;
+        }
 
         return driver;
       }
@@ -144,7 +154,7 @@
      *after successful upload.
      */
       driverUploadedHandler() {
-        this.$.userForm.validateForm();
+        // this.$.userForm.validateForm();
       }
     }
     // Register custom element definition using standard platform API

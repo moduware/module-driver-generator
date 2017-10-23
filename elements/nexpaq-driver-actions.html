@@ -65,14 +65,6 @@
 
       static get properties() {
         return {
-          // receivedData: {
-          //   type: Object,
-          //   notify: true,
-          // },
-          // sentData: {
-          //   type: Object,
-          //   notify: true,
-          // },
           moduleType: {
             type: String,
             notify: true,
@@ -86,6 +78,10 @@
             notify: true,
           },
           moduleData: {
+            type: Array,
+            notify: true,
+          },
+          unfamiliarData: {
             type: Array,
             notify: true,
           },
@@ -103,12 +99,6 @@
           allowedFields: {
             type: String
           }
-          // sentAllowedFields: {
-          //   type: String
-          // },
-          // receivedAllowedFields: {
-          //   type: String
-          // }
         }
       }
 
@@ -173,7 +163,6 @@
        */
       parseManifest (driverJSON) {
         this.driver = JSON.parse(driverJSON);
-        console.log(this.driver);
 
         this.setAllowedFields();
 
@@ -185,18 +174,22 @@
             return;
           }
         }
+        this.fillFormFields();
+      }
 
-        //If all familiar content, sets uploaded data to driver's sentData and receivedData.
+      /**
+      *fills the allowedFields in the form.
+      */
+      fillFormFields () {
         var moduleCommandsData = [];
         var moduleReceivedData = [];
         for (var key in this.driver) {
           //creates the object for sentData
-
           if (this.allowedFields.indexOf(key) !== -1) {
-            if (key === "moduleType" ){
+            if (key === "type" ){
               this.moduleType = this.driver[key];
             }
-            if (key === "driverVersion" ){
+            if (key === "version" ){
               this.driverVersion = this.driver[key];
             }
 
@@ -206,47 +199,17 @@
               this.notifyPath("moduleCommands");
             }
             if (key === "data") {
-              for (var j=0; j<this.driver[key].length; j++ ) {
-                if (this.driver[key][j].variables !== undefined) {
-                  for ( var i=0; i < this.driver[key][j].variables.length; i++) {
-                    if (this.driver[key][j].variables[i].state !== undefined) {
-                      for (var state in this.driver[key][j].variables[i].state) {
-                        moduleReceivedData[j].variables[i].state.stateKey = state;
-                        moduleReceivedData[j].variables[i].state.value = this.driver[key].variables[i].state[state];
-                      }
-                    }
-                  }
-                }
-              }
-
               moduleReceivedData = this.driver[key];
               this.set("moduleData", moduleReceivedData);
               this.notifyPath("moduleData");
             }
-
           }
-          // creates the object for receivedData
-          // if (this.receivedAllowedFields.indexOf(key) !== -1) {
-          //   //Sets the key and the values of the state into stateKey anc Value fields on the form
-          //   if (this.driver[key].variables !== undefined) {
-          //     for ( var i=0; i < this.driver[key].variables.length; i++) {
-          //       if (this.driver[key].variables[i].state !== undefined) {
-          //         for (var state in this.driver[key].variables[i].state) {
-          //           dataReceived[key].variables[i].state.stateKey = state;
-          //           dataReceived[key].variables[i].state.value = this.driver[key].variables[i].state[state];
-          //         }
-          //       }
-          //     }
-          //   }
-          //   dataReceived[key] = this.driver[key];
-          // }
         }
-        //Sets created objects to properties.
-        // this.set("sentData", dataSent);
-        // this.notifyPath("sentData");
-        // this.set("receivedData", dataReceived);
-        // this.notifyPath("receivedData");
       }
+        //If all familiar content, sets uploaded data to driver's sentData and receivedData.
+
+
+
 
       /**
       * Specifies the allowed fields for sentData and
@@ -254,8 +217,6 @@
       */
       setAllowedFields() {
         this.allowedFields = ["type", "version","commands","data"];
-        // this.sentAllowedFields = ["type", "version","commands"];
-        // this.receivedAllowedFields = ["data"];
       }
 
       /**
@@ -263,20 +224,14 @@
       * keep unfamiliar data or not
       */
       dismissDialog() {
-        var renderedData = {};
         if (this.$.confirm.closingReason.confirmed) {
-          this.set("data", this.driver);
+
         } else {
-        //Filters driver object based on allowed
-        //fields in the form.
-          for (var key in this.driver) {
-            if (this.allowedFields.indexOf(key) !== -1) {
-              renderedData[key] = this.driver[key]
-            }
-          }
-          this.set("data", renderedData);
+          //Filters driver object based on allowed
+          //fields in the form.
+          this.fillFormFields();
         }
-        this.notifyPath("data");
+
       }
     }
     // Register custom element definition using standard platform API
