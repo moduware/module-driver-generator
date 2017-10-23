@@ -101,7 +101,8 @@
 
       static get observers() {
         return [
-          'stateObserver(variable.state.*)'
+          'stateObserver(variable.state.*)',
+          'dataObserver(variable.data)'
         ];
       }
 
@@ -120,6 +121,12 @@
         this.dispatchEvent(new CustomEvent('user-variable-delete-request', {}));
       }
 
+      // Converts variable's data string into an Array
+      dataObserver(data){
+        if(data != undefined && !Array.isArray(data) ) {
+          this.variable.data = data.split(",");
+        }
+      }
     }
 
     // Register custom element definition using standard platform API
