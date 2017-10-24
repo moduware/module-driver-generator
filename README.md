@@ -1,7 +1,7 @@
 # Module Driver Generator
 Developer tool for fast module driver generation.
 
-Available for use here - https://nexpaq.github.io/module-driver-generator/
+Available for use here - https://moduware.github.io/module-driver-generator/
 
 ## What is Module Driver Generator?
 
