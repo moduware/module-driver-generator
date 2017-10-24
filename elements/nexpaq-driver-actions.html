@@ -81,10 +81,6 @@
             type: Array,
             notify: true,
           },
-          unfamiliarData: {
-            type: Array,
-            notify: true,
-          },
           invalid: {
             type: Boolean,
             notify: true
@@ -167,13 +163,13 @@
         this.setAllowedFields();
 
         //Checks if there is unfamiliar field in uploaded content.
-        for (var key in this.driver) {
-          if (this.allowedFields.indexOf(key) === -1 ) {
-            //Calls dismissDialog function
-            this.$.confirm.open();
-            return;
-          }
-        }
+        // for (var key in this.driver) {
+        //   if (this.allowedFields.indexOf(key) === -1 ) {
+        //     //Calls dismissDialog function
+        //     this.$.confirm.open();
+        //     return;
+        //   }
+        // }
         this.fillFormFields();
       }
 
@@ -225,7 +221,7 @@
       */
       dismissDialog() {
         if (this.$.confirm.closingReason.confirmed) {
-
+          
         } else {
           //Filters driver object based on allowed
           //fields in the form.

@@ -69,7 +69,7 @@
     <div class="column-container">
 
       <!--Driver view element-->
-      <nexpaq-driver-view data="[[combineDriveObject(moduleType, driverVersion, moduleCommands.*, moduleData.*,unfamiliarData.*)]]" json="{{json}}" max-lines="30"></nexpaq-driver-view>
+      <nexpaq-driver-view data="[[combineDriveObject(moduleType, driverVersion, moduleCommands.*, moduleData.*)]]" json="{{json}}" max-lines="30"></nexpaq-driver-view>
 
       <!--Driver actions element-->
       <nexpaq-driver-actions module-type="{{moduleType}}" driver-version="{{driverVersion}}" module-commands="{{moduleCommands}}" module-data="{{moduleData}}" unfamiliar-data="{{unfamiliarData}}" json="[[json]]" on-driver-uploaded="driverUploadedHandler" language="[[language]]" resources="[[resources]]" invalid="[[formInvalid]]"></nexpaq-driver-actions>
@@ -106,13 +106,6 @@
             value: function() {
               return [];
             }
-          },
-          unfamiliarData: {
-            type: Array,
-            notify: true,
-            value: function() {
-              return [];
-            }
           }
         }
       }
@@ -120,7 +113,7 @@
       /**
       * Combines Driver object with Commands and Data
       */
-      combineDriveObject(moduleType, driverVersion, moduleCommands, moduleData, unfamiliarData) {
+      combineDriveObject(moduleType, driverVersion, moduleCommands, moduleData) {
         var driver = {
           type: this.moduleType,
           version: this.driverVersion
@@ -132,9 +125,6 @@
         //Checks if module data exist
         if(this.moduleData.length != 0) {
           driver.data = this.moduleData;
-        }
-        if(this.unfamiliarData.length != 0) {
-          driver.unfamiliarData = this.unfamiliarData;
         }
 
         return driver;
